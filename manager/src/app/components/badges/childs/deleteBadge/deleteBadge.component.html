@@ -1,0 +1,29 @@
+<div *ngIf="isDataReady" class="modal-header">
+        <h3>Delete Badge</h3>
+</div>
+<div *ngIf="isDataReady" class="modal-body">
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        Do you want to delete badge?
+    </div>
+    <div class="row mt-2 d-flex justify-content-center">
+        <span class="badge badge-pill {{badge.color}}" dir="rtl">{{badge.text}}</span>
+    </div>
+</div>
+</div>
+<div *ngIf="isDataReady" class="modal-footer">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-6 d-flex justify-content-center">
+                                        <button class="btn btn-sm btn-outline-danger" (click)="clickOk()">
+                                        Ok
+                                        </button>
+                                </div>
+                                <div class="col-6 d-flex justify-content-center">
+                                        <button class="btn btn-sm btn-outline-info" (click)="clickCancel()">
+                                        Cancel
+                                        </button>
+                                </div>
+                        </div>
+                </div>
+</div>

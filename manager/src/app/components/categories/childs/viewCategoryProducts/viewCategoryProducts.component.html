@@ -1,0 +1,67 @@
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Manage Panel</a>
+        <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+                <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+                <li class="breadcrumb-item"><a href="/categories">Categories</a></li>
+                <li class="breadcrumb-item active">Products</li>
+        </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+                <div class="row">
+                    <h3 class="mb-3">Category: {{category.name}}</h3>
+                </div>
+                <div class="row">
+                                <button class="btn btn-sm btn-success" (click)="saveChanges()">Save Changes</button>
+                </div>   
+                <div class="row">
+                        <table class="table table-hover mt-3">
+                            <thead>
+                                <tr>
+                                        <th>Order</th>
+                                        <th>Product</th>
+                                        <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of category.items | orderBy: 'order'; let i = index">
+                                        <th scope="row">
+                                                <a href="#" *ngIf="!isFirst(item._id)" (click)="moveUp($event, item._id)"><span class="fa fa-arrow-up"></span></a>
+                                                {{i+1}}
+                                                <a href="#" *ngIf="!isLast(item._id)" (click)="moveDown($event, item._id)"><span class="fa fa-arrow-down"></span></a>
+                                        </th>
+                                        <td>
+                                                <a href="#" (click)="productPreview($event, item.product._id)">
+                                                        <img src="/images/{{item.product.frontImage.thumb}}"
+                                                        style = "
+                                                        max-width:32px;
+                                                        max-height: 32px;
+                                                        width: auto;
+                                                        height: auto;
+                                                       ">
+                                                        <strong dir="rtl">{{item.product.title}}</strong>
+                                                </a>
+                                        </td>
+                                        <td>
+                                                <div class="row">
+                                                        <div class="input-group col-7">
+                                                                <select [(ngModel)] = "newCategory" class="form-control form-control-sm" id="newCategory">
+                                                                        <option *ngFor="let category of existedCategories | orderBy: 'name'" value="{{category._id}}" dir="rtl">{{category.name}}</option>
+                                                                </select>
+                                                                <span class="input-group-btn">
+                                                                        <button class="btn btn-sm btn-outline-primary" (click)="moveTo(item.product._id, newCategory)">Move</button>
+                                                                </span>
+                                                        </div>
+                                                        <div class="col-5">
+                                                                <button class="btn btn-sm btn-outline-danger" (click)="deleteProduct(item.product._id)">Delete</button>
+                                                        </div>
+                                                </div>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                </div>
+                <div class="row">
+                        <button class="btn btn-sm btn-success" (click)="saveChanges()">Save Changes</button>
+                </div>      
+            </div>

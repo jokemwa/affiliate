@@ -1,0 +1,294 @@
+<div class="modal-header" [ngSwitch]="Step">
+    <h4 *ngSwitchCase="'addLink'" class="modal-title">Step 1 - Add Link</h4>
+    <h4 *ngSwitchCase="'processLink'" class="modal-title">Please wait...</h4>
+    <h4 *ngSwitchCase="'selectImages'" class="modal-title">Step 2 - Select Front Image</h4>
+    <h4 *ngSwitchCase="'editDetails'" class="modal-title">Step 3 - Edit Details</h4>
+    <h4 *ngSwitchCase="'preview'" class="modal-title">Step 4 - Preview</h4>
+</div>
+
+<div class="modal-body">
+      <div class="container" [ngSwitch]="Step">
+          <div class="col-12">
+
+            <div *ngSwitchCase="'addLink'">
+              <div class="row">
+                  <h3>Pastle link to new product here:</h3>
+              </div>
+              <div class="row">
+                  <input [(ngModel)] = "link" type="text" class="form-control" id="link" name="link"
+                  placeholder="Link">
+              </div>     
+            </div>
+
+            <div *ngSwitchCase="'processLink'">
+                <div class="row">
+                  <div class="col-12">
+                      <h3>Processing...</h3>
+                  </div>  
+                </div>
+            </div>
+
+            <div *ngSwitchCase="'selectImages'">
+                <div class="row">
+                  <div class="col-12">
+                      <div class="row d-flex justify-content-center">
+                              <img *ngFor="let image of product.images" class="mx-2"
+                               src="./images/{{image.thumb}}" alt="{{image.thumb}}"
+                               (click)="selectImage(image._id)" 
+                               style = "
+                                display: block;
+                                max-width:64px;
+                                max-height: 64px;
+                                width: auto;
+                                height: auto;
+                               ">
+                      </div>
+                      <div class="row d-flex justify-content-center">
+                            <h4 class="my-2">Front image of the product will be:</h4>                            
+                      </div>
+                      <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                                <img class="img-fluid" src="./images/{{selectedImage.hiRes}}" 
+                                alt="{{selectedImage.hiRes}}" 
+                                style = "
+                                 display: block;
+                                 max-width:400px;
+                                 max-height: 400px;
+                                 width: auto;
+                                 height: auto;
+                                ">
+                        </div>
+                      </div>
+                  </div>  
+                </div>
+            </div>
+
+            <div *ngSwitchCase="'editDetails'">
+                <div class="row">
+                    <div class="col-12">
+                      
+                    <div class="form-group row">
+                        <label for="marketplace" class="col-sm-2 col-form-label">Marketplace</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                                <strong id="marketplace">{{marketplace.name}}</strong>
+                        </div>
+                    </div>
+
+                    <div *ngIf="marketplace.hasShops" class="form-group row">
+                            <label for="productShop" class="col-sm-2 col-form-label">Shop</label>
+                            <div class="col-sm-8">
+                                    <select [(ngModel)] = "productShop._id" class="form-control form-control-sm" id="productShop">
+                                        <option value="">None</option>   
+                                        <option *ngFor="let shop of marketplace.shops | orderBy: 'name'" value="{{shop._id}}">{{shop.name}}</option>
+                                    </select>
+                            </div>
+                            <div class="col-sm-2 d-flex align-items-center justify-content-start">
+                                    <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                              New
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                    <div class="input-group">
+                                                            <input [(ngModel)] = "newShop" type="text" class="form-control form-control-sm" id="newShop" placeholder="Shop Name" dir="rtl">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-sm btn-outline-success" (click)="addMarketplaceShop()">Add</button>
+                                                            </span>
+                                                    </div>
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="title" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                            <input [(ngModel)] = "product.title" dir="rtl" type="text" class="form-control form-control-sm" id="title">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                            <label for="category" class="col-sm-2 col-form-label">Category</label>
+                            <div class="col-sm-8">
+                                    <select [(ngModel)] = "productCategory._id" class="form-control form-control-sm" id="category">
+                                        <option *ngFor="let category of existedCategories | orderBy: 'name'" value="{{category._id}}">{{category.name}}</option>
+                                    </select>
+                            </div>
+                            <div class="col-sm-2 d-flex align-items-center justify-content-start">
+                                    <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                              New
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                    <div class="input-group">
+                                                            <input [(ngModel)] = "newCategory" type="text" class="form-control form-control-sm" id="newCategory" placeholder="Category Name" dir="rtl">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-sm btn-outline-success" (click)="addCategory()">Add</button>
+                                                            </span>
+                                                    </div>
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+
+                    <div class="form-group row">
+                            <label for="brand" class="col-sm-2 col-form-label">Brand</label>
+                            <div class="col-sm-8">
+                                    <select [(ngModel)] = "productBrand._id" class="form-control form-control-sm" id="brand">
+                                            <option value="">None</option>
+                                            <option *ngFor="let brand of existedBrands | orderBy: 'name'" value="{{brand._id}}">{{brand.name}}</option>
+                                    </select>
+                            </div>
+                            <div class="col-sm-2 d-flex align-items-center justify-content-start">
+                                    <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                              New
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                    <div class="input-group">
+                                                            <input [(ngModel)] = "newBrand" type="text" class="form-control form-control-sm" id="newBrand" placeholder="Brand Name" dir="rtl">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-sm btn-outline-success" (click)="addBrand()">Add</button>
+                                                            </span>
+                                                    </div>
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+
+                    <div class="form-group row">
+                            <label for="tag" class="col-sm-2 col-form-label">Tags</label>
+                            <div class="col-sm-4">
+                                <button *ngFor="let tag of productTags | orderBy: 'name'" class="btn btn-sm btn-outline-success" (click)="removeTagForProduct(tag._id)">{{tag.name}}</button>
+                            </div>
+                            <div class="col-sm-4 d-flex align-items-center justify-content-start">
+                                <div class="input-group">
+                                        <select [(ngModel)] = "addedTag" class="form-control form-control-sm" id="tag">
+                                            <option value="">None</option>
+                                            <option *ngFor="let tag of existedTags | orderBy: 'name'" value="{{tag._id}}">{{tag.name}}</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-sm btn-outline-success" (click)="addTagToProduct()">Add</button>
+                                        </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 d-flex align-items-center justify-content-start">
+                                    <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                              New
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                    <div class="input-group">
+                                                            <input [(ngModel)] = "newTag" type="text" class="form-control form-control-sm" id="newTag" placeholder="Tag Name" dir="rtl">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-sm btn-outline-success" (click)="addTag()">Add</button>
+                                                            </span>
+                                                    </div>
+                                            </div>
+                                    </div>
+                            </div>
+                           
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea [(ngModel)] = "product.description" dir="rtl" class="form-control form-control-sm" id="description" rows="6"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Badges</label>
+                            <div class="col-sm-10 d-flex align-items-center justify-content-start">
+                                    <div *ngFor="let badge of existedBadges | orderBy: 'text'" class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                  <input class="form-check-input" type="checkbox" (change)="selectBadge($event, badge._id)"> <span class="badge badge-pill {{badge.color}}" dir="rtl">{{badge.text}}</span>
+                                            </label>
+                                    </div>
+                            </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngSwitchCase="'preview'">
+                <div class="row d-flex justify-content-center">
+                    <p><u>http://.../{{product.promoLink}}</u></p>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                            <div class="row">
+                                <div class="col">
+                                    <img class="img-fluid" src="./images/{{selectedImage.hiRes}}" 
+                                    alt="{{selectedImage.hiRes}}">
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center">
+                                    <img *ngFor="let image of product.images" 
+                                    class="mx-1 my-1" src="./images/{{image.thumb}}" alt="{{image.thumb}}"
+                                    style = "
+                                    max-width:64px;
+                                    max-height: 64px;
+                                    width: auto;
+                                    height: auto;
+                                   ">
+                            </div>
+                    </div>
+                    <div class="col-8">
+                            <div class="row d-flex justify-content-end">
+                                    <span *ngFor="let badge of productBadges"
+                                     class="badge badge-pill {{badge.color}}" dir="rtl">{{badge.text}}</span>
+                            </div>
+                            <div class="row mt-2 d-flex justify-content-end">
+                                    <h4 dir="rtl">{{product.title}}</h4>
+                            </div>
+                            <div class="row mt-2 d-flex justify-content-end">
+                                    <button *ngFor="let tag of productTags | orderBy: 'name'" 
+                                        class="btn btn-sm btn-outline-success mx-1">
+                                        {{tag.name}}
+                                    </button>
+                            </div>
+                            <div class="row mt-2 d-flex justify-content-end">
+                                    <h6>Marketplace: {{marketplace.name}}</h6>
+                            </div>
+                            <div *ngIf="marketplace.hasShops" class="row mt-2 d-flex justify-content-end">
+                                    <h6>Shop: {{productShop.name}}</h6>
+                            </div>
+                            <div class="row mt-2 d-flex justify-content-end">
+                                    <h6>Category: <span class="mr-1" dir="rtl">
+                                        {{productCategory.name}}</span></h6>
+                            </div>
+                            <div class="row mt-2 d-flex justify-content-end">
+                                    <h6>Brand: {{productBrand.name}}</h6>
+                            </div>
+                            <div class="row mt-2 d-flex justify-content-end">
+                                    <h5 dir="rtl">{{product.description}}</h5>
+                            </div>
+                            <div class="row mt-3 d-flex justify-content-center">
+                                <button class="btn btn-danger"
+                                 (click)="clickBuyButton()">
+                                    Buy
+                                </button>
+                                    
+                            </div>
+                    </div>
+                </div>
+                                                   
+            </div>
+      </div>
+</div>
+  
+<div class="modal-footer" [ngSwitch]="Step">
+    
+    <button *ngSwitchCase="'addLink'" class="btn btn-outline-dark" (click)="sendLink()">Next</button>
+
+    <button *ngSwitchCase="'selectImages'" class="btn btn-outline-dark" (click)="backToSendLink()">Back</button>
+    <button *ngSwitchCase="'selectImages'" class="btn btn-outline-dark" (click)="toEditDetails()">Next</button>
+
+    <button *ngSwitchCase="'editDetails'" class="btn btn-outline-dark" (click)="backToSelectImages()">Back</button>
+    <button *ngSwitchCase="'editDetails'" class="btn btn-outline-dark" (click)="toPreview(slectedShop, title, category, brand, description)">Next</button>
+
+    <button *ngSwitchCase="'preview'" class="btn btn-outline-dark" (click)="backToEditDetails()">Back</button>
+    <button *ngSwitchCase="'preview'" class="btn btn-outline-dark" (click)="saveProduct()">Finish</button>
+
+    <button class="btn btn-outline-dark" (click)="cancel()">Cancel</button>
+</div>

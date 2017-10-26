@@ -1,0 +1,28 @@
+<div *ngIf="isDataReady" class="modal-header">
+        <h3>Edit Category</h3>
+</div>
+<div *ngIf="isDataReady" class="modal-body">
+        <div class="container">
+                <div class="form-group row">
+                        <label for="name" class="col-2 col-form-label">Name</label>
+                        <div class="col-10">
+                                <input [(ngModel)]="category.name" dir="rtl" type="text" class="form-control form-control-sm" id="name">
+                        </div>
+                </div>
+                <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                                <textarea [(ngModel)]="category.description" dir="rtl" class="form-control form-control-sm" id="description" rows="6">
+                                </textarea>
+                        </div>
+                </div>
+        </div>
+</div>
+<div *ngIf="isDataReady" class="modal-footer">
+        <button class="btn btn-sm btn-outline-success" (click)="clickSave()">
+        Save
+        </button>
+        <button class="btn btn-sm btn-outline-info" (click)="clickCancel()">
+        Cancel
+        </button>
+</div>

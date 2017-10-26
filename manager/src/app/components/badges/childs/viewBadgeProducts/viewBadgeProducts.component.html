@@ -1,0 +1,50 @@
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Manage Panel</a>
+        <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+                <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+                <li class="breadcrumb-item"><a href="/badges">Badges</a></li>
+                <li class="breadcrumb-item active">Products</li>
+        </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+                <div class="row">
+                    <h3 class="mb-3">Badge: <span class="badge badge-pill {{badge.color}}" dir="rtl">{{badge.text}}</span></h3>
+                </div>
+                <div class="row">
+                        <button class="btn btn-sm btn-success" (click)="selectProduct($event)">Add Product</button>
+                </div>   
+                <div class="row">
+                        <table class="table table-hover mt-3">
+                            <thead>
+                                <tr>
+                                        <th>#</th>
+                                        <th>Product</th>
+                                        <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let product of badge.products | orderBy: 'title'; let i = index">
+                                        <th scope="row">
+                                                {{i+1}}
+                                        </th>
+                                        <td>
+                                                <a href="#" (click)="productPreview($event, product._id)">
+                                                                <img src="/images/{{product.frontImage.thumb}}"
+                                                                style = "
+                                                                max-width:32px;
+                                                                max-height: 32px;
+                                                                width: auto;
+                                                                height: auto;
+                                                               ">
+                                                        <strong dir="rtl">{{product.title}}</strong>
+                                                </a>
+                                        </td>
+                                        <td>
+                                                <button class="btn btn-sm btn-outline-danger" (click)="removeProduct(product._id)">Remove</button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                </div>
+</div>

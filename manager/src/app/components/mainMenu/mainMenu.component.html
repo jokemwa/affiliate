@@ -1,0 +1,74 @@
+<nav class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Manage Panel</a>
+        <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+                <li class="breadcrumb-item active">Main Menu</li>
+        </ol>
+</nav>
+<div class="container mt-5">
+<div class="row">
+    <div class="col-6">
+        <div class="row">
+            <h3>Content Management</h3>
+        </div>
+        <div class="row">
+            <a href="#" (click)="addProduct($event)"><h4>Add product</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/products"><h4>Products</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/marketplaces"><h4>Marketplaces</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/categories"><h4>Categories</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/brands"><h4>Brands</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/shops"><h4>Shops</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/tags"><h4>Tags</h4></a>
+        </div>
+        <div class="row">
+                <a routerLink="/badges"><h4>Badges</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/suggestions"><h4>Suggestions</h4></a>
+        </div>                                       
+    </div>
+    <div class="col-6">
+        <div class="row">
+            <h3>Layout Configuration</h3>
+        </div>                
+        <div class="row">
+            <a routerLink="/translation"><h4>Translation</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/topnavigationmenus"><h4>Top Navigation Menus</h4></a>
+        </div>        
+        <div class="row">
+            <a routerLink="/mainpage"><h4>Main Page</h4></a>
+        </div>
+        <div class="row">
+            <h3 class="mt-2">Monitoring</h3>
+        </div>                
+        <div class="row">
+            <a routerLink="/stats"><h4>Statistics</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/tracking"><h4>Activity Tracking</h4></a>
+        </div>
+        <div class="row">
+            <a routerLink="/brokenlinks"><h4>Broken Links {{BrokenLinks}}</h4></a>
+        </div>
+        <div class="row">
+                <h3 class="mt-2">Security</h3>
+        </div>
+        <div class="row">
+                <a routerLink="/changepassword"><h4>Change password</h4></a>
+        </div>                   
+    </div>
+</div>
+</div>

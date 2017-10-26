@@ -1,0 +1,45 @@
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Manage Panel</a>
+    <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+            <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+            <li class="breadcrumb-item active">Badges</li>
+    </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+<div class="row">
+    <a href="#" (click)="newBadge($event)"><h5>New Badge</h5></a>
+</div>  
+<div class="row">
+        <table class="table table-hover mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Badge</th>
+                    <th>Items</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let badge of badges | orderBy: 'name'; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>
+                        <span class="badge badge-pill {{badge.color}}" dir="rtl">{{badge.text}}</span>
+                    </td>
+                    <td>
+                            <button class="btn btn-sm btn-outline-info" (click)="viewBadgeProducts(badge._id)">
+                                    Products: {{badge.products.length}}
+                            </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-warning" (click)="editBadge(badge._id)">
+                            Edit
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="deleteBadge(badge._id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>      
+</div>

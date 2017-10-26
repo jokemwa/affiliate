@@ -1,0 +1,36 @@
+<div *ngIf="isDataLoaded" class="mt-4">
+    <div class="row d-flex justify-content-center">
+        <h1>{{translation.startPage.header}}</h1>
+    </div>
+
+    <div class="row d-flex justify-content-end">
+        <h1 class="text-right">{{translation.startPage.topRated}}</h1>
+    </div>
+
+    <div *ngFor="let category of topCategories; let i = index">
+        <div class="row">{{category.name}}</div>
+            <div class="row">
+                    <div class="col-1">
+                        <button class="btn btn-sm" (click)="moveRightTopCategories(i)">R</button>
+                    </div>
+                    <div class="col-10 card-deck">
+                        <div *ngFor="let product of category.products" class="card mx-1 my-3 text-right {{product.viewClassLg}}">
+                                <div class="card-header text-left" style="padding: 0.2rem 0.2rem">
+                                        <h4>
+                                            <span class="badge badge-pill badge-dark">NEW</span>
+                                        </h4>
+                                </div>
+                                <img class="card-img-top" src="" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{product._id}}</h5>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-sm" (click)="moveLeftTopCategories(i)">L</button>
+                    </div>
+                </div>
+    </div>
+    
+
+</div>
