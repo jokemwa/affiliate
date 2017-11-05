@@ -1,0 +1,43 @@
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Manage Panel</a>
+        <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+                <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+                <li class="breadcrumb-item active">Shop Groups</li>
+        </ol>
+    </nav>
+    <div *ngIf="isDataReady" class="container mt-5">
+    <div class="row">
+        <a href="#" (click)="newShopGroup($event)"><h5>New Shop Group</h5></a>
+    </div>  
+    <div class="row">
+            <table class="table table-hover mt-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Shop Group</th>
+                        <th>Items</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let shopGroup of shopGroups | orderBy: 'name'; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td dir="rtl">{{shopGroup.name}}</td>
+                        <td>
+                                <button class="btn btn-sm btn-outline-info" (click)="viewShopGroupShops(shopGroup._id)">
+                                        Shops: {{shopGroup.items.length}}
+                                </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-warning" (click)="editShopGroup(shopGroup._id)">
+                                Edit
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" (click)="deleteShopGroup(shopGroup._id)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>      
+    </div>

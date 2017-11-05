@@ -36,17 +36,19 @@ router.post('/login', function (req, res, next) {
 });
 
 router.post('/changepassword', function (req, res, next) {
+
     User.findByUsername('admin')
     .then(function(user){
         if (user){
-            user.changePassword(req.body.old, req.body.old, function(err){
+            user.changePassword(req.body.old, req.body.new, function(err){
                 if(err){
-                    let err = new Error('Old password is incorrect');
+                    console.log(err);
                     err.status = 500;
                     return next(err);
                 }
-                user.save();
+                console.log('ok');
                 res.json({message: 'Password changed'});
+                
             });
         } else {
             let err = new Error('This user does not exist');

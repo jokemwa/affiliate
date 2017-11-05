@@ -43,16 +43,23 @@
                                         </td>
                                         <td>
                                                 <div class="row">
-                                                        <div class="input-group col-7">
-                                                                <select [(ngModel)] = "newCategory" class="form-control form-control-sm" id="newCategory">
+                                                        <div class="input-group col-5">
+                                                                <select [(ngModel)] = "item.newCategory" class="form-control form-control-sm" id="newCategory">
                                                                         <option *ngFor="let category of existedCategories | orderBy: 'name'" value="{{category._id}}" dir="rtl">{{category.name}}</option>
                                                                 </select>
                                                                 <span class="input-group-btn">
-                                                                        <button class="btn btn-sm btn-outline-primary" (click)="moveTo(item.product._id, newCategory)">Move</button>
+                                                                        <button class="btn btn-sm btn-outline-primary" (click)="moveTo(item.product._id, item.newCategory)">Move</button>
                                                                 </span>
                                                         </div>
-                                                        <div class="col-5">
-                                                                <button class="btn btn-sm btn-outline-danger" (click)="deleteProduct(item.product._id)">Delete</button>
+                                                        <div class="col-7 d-flex justify-content-start">
+                                                                <button class="btn btn-sm btn-outline-warning mx-1"
+                                                                (click)="editProduct(item.product._id)">
+                                                                Edit
+                                                                </button>
+                                                                <button class="btn btn-sm btn-outline-danger"
+                                                                (click)="deleteProduct(item.product._id)">
+                                                                Delete
+                                                                </button>
                                                         </div>
                                                 </div>
                                         </td>

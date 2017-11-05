@@ -32,8 +32,8 @@ export class SelectProductComponent implements OnInit {
   search () {
     this.searchResults = [];
     for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].title.indexOf(this.searchText) >= 0) {
-        console.log(this.products[i].title);
+      const element = this.products[i].title.toLowerCase();
+      if (element.indexOf(this.searchText.toLowerCase()) >= 0) {
         this.searchResults.push(this.products[i]);
       }
     }

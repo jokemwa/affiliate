@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NgSwitch } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
@@ -18,7 +21,9 @@ import { RESTService } from '../../../../services/rest.service';
 export class AddProductComponent implements OnInit {
 
 
-  Step: String = 'addLink'; // next: processLink, selectImages, editDetails, saveGoods
+  Step: String = 'addLink'; // next: processLink, selectImages, editDetails, preview
+
+  isDataReady = false;
 
   link: String = '';
 
@@ -30,6 +35,7 @@ export class AddProductComponent implements OnInit {
   newBrand: String = '';
   newTag: String = '';
 
+  marketplaces = [];
   existedCategories = [];
   existedTags = [];
   existedBrands = [];
@@ -54,16 +60,35 @@ export class AddProductComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private restService: RESTService) {
+    private restService: RESTService,
+    private router: Router) {}
 
-  }
 
   ngOnInit(): void {
       this.getCategries();
       this.getTags();
       this.getBrands();
       this.getBadges();
+      this.getMarketplaces();
 
+  }
+
+  getMarketplaces() {
+    this.restService.getMarketplaces().subscribe(
+      response => {
+        this.marketplaces = response;
+        this.isDataReady = true;
+      },
+      err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+        }
+      }
+    );
   }
 
   selectImage(image) {
@@ -81,9 +106,15 @@ export class AddProductComponent implements OnInit {
         this.existedCategories = response;
       },
       err => {
-        window.alert('Server error: ' + JSON.stringify(err));
-        console.log(JSON.stringify(err));
-      });
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+        }
+      }
+    );
   }
 
   getTags() {
@@ -92,9 +123,15 @@ export class AddProductComponent implements OnInit {
       this.existedTags = response;
     },
     err => {
-      window.alert('Server error: ' + JSON.stringify(err));
-      console.log(JSON.stringify(err));
-    });
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+      }
+    }
+  );
   }
 
   getBrands () {
@@ -103,9 +140,15 @@ export class AddProductComponent implements OnInit {
       this.existedBrands = response;
     },
     err => {
-      window.alert('Server error: ' + JSON.stringify(err));
-      console.log(JSON.stringify(err));
-    });
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+      }
+    }
+  );
   }
 
   getBadges () {
@@ -114,34 +157,68 @@ export class AddProductComponent implements OnInit {
       this.existedBadges = response;
     },
     err => {
-      window.alert('Server error: ' + JSON.stringify(err));
-      console.log(JSON.stringify(err));
-    });
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+      }
+    }
+  );
   }
 
   getMarketplace () {
-    this.restService.getMarketplace(this.product.marketplace).subscribe(
+    this.restService.getMarketplaceShops(this.product.marketplace).subscribe(
       response => {
       this.marketplace = response;
+      if (response.hasShops === false) {
+        this.productShop._id = response.shops[0]._id;
+      }
       this.Step = 'editDetails';
     },
     err => {
-      window.alert('Server error: ' + JSON.stringify(err));
-      console.log(JSON.stringify(err));
-    });
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+      }
+    }
+  );
   }
 
 
   addMarketplaceShop () {
     const shop = {name: this.newShop};
-    this.restService.addMarketplaceShop(this.marketplace._id, shop).subscribe(
+    this.restService.createShop(shop).subscribe(
       response => {
-      this.getMarketplace();
+        this.restService.addShopToMarketplace(this.marketplace._id, response._id).subscribe(
+          resp => {
+            this.getMarketplace();
+          },
+          err => {
+            if (err.status === 401 || err.status === 403) {
+              this.restService.logout();
+              this.router.navigate(['/login']);
+            } else {
+              window.alert(JSON.stringify(err));
+              console.log(JSON.stringify(err));
+            }
+          }
+        );
     },
     err => {
-      window.alert('Server error: ' + JSON.stringify(err));
-      console.log(JSON.stringify(err));
-    });
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+      }
+    }
+  );
   }
 
   addCategory () {
@@ -151,9 +228,15 @@ export class AddProductComponent implements OnInit {
       this.getCategries();
     },
     err => {
-      window.alert('Server error: ' + JSON.stringify(err));
-      console.log(JSON.stringify(err));
-    });
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+      }
+    }
+  );
   }
 
   addTag () {
@@ -163,9 +246,15 @@ export class AddProductComponent implements OnInit {
       this.getTags();
     },
     err => {
-      window.alert('Server error: ' + JSON.stringify(err));
-      console.log(JSON.stringify(err));
-    });
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+      }
+    }
+  );
   }
 
   addTagToProduct () {
@@ -207,9 +296,15 @@ export class AddProductComponent implements OnInit {
       this.getBrands();
     },
     err => {
-      window.alert('Server error: ' + JSON.stringify(err));
-      console.log(JSON.stringify(err));
-    });
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+      }
+    }
+  );
   }
 
   selectBadge (e, _id) {
@@ -235,7 +330,6 @@ export class AddProductComponent implements OnInit {
   }
 
   clickBuyButton () {
-    console.log(this.product.buyLink);
     window.open(this.product.buyLink, '_blank');
   }
 
@@ -248,9 +342,15 @@ export class AddProductComponent implements OnInit {
           this.Step = 'selectImages';
       },
       err => {
-        window.alert('Server error: ' + JSON.stringify(err));
-        console.log(JSON.stringify(err));
-    });
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+        }
+      }
+    );
   }
 
   backToSendLink() {
@@ -261,9 +361,15 @@ export class AddProductComponent implements OnInit {
           this.link = '';
         },
         err => {
-          window.alert('Server error: ' + JSON.stringify(err));
-          console.log(JSON.stringify(err));
-      });
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
+            window.alert(JSON.stringify(err));
+            console.log(JSON.stringify(err));
+          }
+        }
+      );
     }
   }
 
@@ -281,9 +387,15 @@ export class AddProductComponent implements OnInit {
         this.getMarketplace();
       },
       err => {
-        window.alert('Server error: ' + JSON.stringify(err));
-        console.log(JSON.stringify(err));
-    });
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+        }
+      }
+    );
   }
 
   toPreview() {
@@ -356,8 +468,13 @@ export class AddProductComponent implements OnInit {
         this.activeModal.close('Saved');
       },
       err => {
-        window.alert('Server error: ' + JSON.stringify(err));
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
+        window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
+        }
     });
 
   }
@@ -369,9 +486,13 @@ export class AddProductComponent implements OnInit {
           this.activeModal.dismiss();
         },
         err => {
-          this.activeModal.dismiss();
-          window.alert('Server error: ' + JSON.stringify(err));
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
+          window.alert(JSON.stringify(err));
           console.log(JSON.stringify(err));
+          }
       });
     } else {
       this.activeModal.dismiss();

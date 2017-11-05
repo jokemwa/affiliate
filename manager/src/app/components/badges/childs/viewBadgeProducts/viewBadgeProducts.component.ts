@@ -7,8 +7,9 @@ import 'rxjs/add/operator/switchMap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { RESTService } from '../../../../services/rest.service';
-import { ProductPreviewComponent } from '../../../productPreview/productPreview.component';
+import { ProductPreviewComponent } from '../../../products/childs/productPreview/productPreview.component';
 import { SelectProductComponent } from '../../../products/childs/selectProduct/selectProduct.component';
+import { EditProductComponent } from '../../../products/childs/editProduct/editProduct.component';
 
 @Component({
   selector: 'app-view-badge-products',
@@ -38,8 +39,13 @@ export class ViewBadgeProductsComponent implements OnInit {
       this.isDataReady = true;
     },
     err => {
-      window.alert('Server error: ' + err);
-      console.log(err);
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+      window.alert(JSON.stringify(err));
+      console.log(JSON.stringify(err));
+      }
   });
   }
 
@@ -50,8 +56,13 @@ export class ViewBadgeProductsComponent implements OnInit {
           this.isDataReady = true;
       },
       err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
         window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
+        }
     });
   }
 
@@ -61,52 +72,68 @@ export class ViewBadgeProductsComponent implements OnInit {
         this.getBadgeData();
       },
       err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
         window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
+        }
+    });
+  }
+
+  checkProducts (productsList) {
+    return new Promise ((resolve, rejet) => {
+      const checkedList = [];
+      for (let i = 0; i < productsList.length; i++) {
+        let isFound = false;
+        for (let j = 0; j < this.badge.items.length; j++) {
+          if (this.badge.items[j]._id === productsList[i]._id) {
+              isFound = true;
+          }
+        }
+        if (isFound === false) {
+          checkedList.push(productsList[i]);
+        }
+      }
+      resolve(checkedList);
     });
   }
 
   selectProduct(e) {
     e.stopPropagation();
     e.preventDefault();
-    const __this = this;
     this.restService.getProducts().subscribe(
       response => {
-        const modalRef = this.modalService.open(SelectProductComponent, {size: 'lg'});
-        response.forEach(function(element, i){
-          for (let j = 0; j < __this.badge.products.length; j++) {
-            if (__this.badge.products[j]._id === element._id) {
-              response.splice(i, 1);
-              break;
-            }
-          }
-        });
-        modalRef.componentInstance.products = response;
-        modalRef.result.then(function(product_id){
-          __this.restService.addBadgeToProduct(product_id, __this.badge._id).subscribe(
-            resp => {
-              __this.getBadgeData();
+        this.checkProducts(response).then((productsList) => {
+          const modalRef = this.modalService.open(SelectProductComponent, {size: 'lg'});
+          modalRef.componentInstance.products = productsList;
+          modalRef.result.then((product_id) => {
+            this.restService.addBadgeToProduct(product_id, this.badge._id).subscribe(
+              resp => {
+                this.getBadgeData();
+              },
+              err => {
+                if (err.status === 401 || err.status === 403) {
+                  this.restService.logout();
+                  this.router.navigate(['/login']);
+                } else {
+                window.alert(JSON.stringify(err));
+                console.log(JSON.stringify(err));
+                }
+              });
             },
-            err => {
-              window.alert(JSON.stringify(err));
-              console.log(JSON.stringify(err));
-          });
-          }, function(){});
+            () => {});
+        });
       },
       err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
         window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
-    });
-  }
-
-  addProduct(product_id) {
-    this.restService.removeBadgeFromProduct(product_id, this.badge._id).subscribe(
-      response => {
-        this.getBadgeData();
-      },
-      err => {
-        window.alert(JSON.stringify(err));
-        console.log(JSON.stringify(err));
+        }
     });
   }
 
@@ -115,6 +142,17 @@ export class ViewBadgeProductsComponent implements OnInit {
     e.preventDefault();
     const modalRef = this.modalService.open(ProductPreviewComponent, {size: 'lg'});
     modalRef.componentInstance._id = product_id;
+  }
+
+  editProduct(_id: string) {
+    const modalRef = this.modalService.open(EditProductComponent, {size: 'lg'});
+    modalRef.componentInstance._id = _id;
+    modalRef.result.then(
+      () => {
+        this.getBadgeData();
+      },
+      () => {}
+    );
   }
 
 }

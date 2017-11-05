@@ -41,19 +41,26 @@ export class CategoriesComponent implements OnInit {
           this.isDataReady = true;
       },
       err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
         window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
+        }
     });
   }
 
   newCategory(e) {
     e.stopPropagation();
     e.preventDefault();
-    const _this = this;
     const modalRef = this.modalService.open(NewCategoryComponent, {size: 'lg'});
-    modalRef.result.then(function(){
-      _this.getCategories();
-    }, function(){});
+    modalRef.result.then(
+      () => {
+        this.getCategories();
+      },
+      () => {}
+    );
   }
 
   viewCategoryProducts (_id) {
@@ -61,29 +68,33 @@ export class CategoriesComponent implements OnInit {
   }
 
   editCategory (_id) {
-    const _this = this;
     for (let i = 0; i < this.categories.length; i++) {
       if (this.categories[i]._id === _id) {
           const modalRef = this.modalService.open(EditCategoryComponent, {size: 'lg'});
           modalRef.componentInstance._id = _id;
-          modalRef.result.then(function(){
-            _this.getCategories();
-          }, function(){});
+          modalRef.result.then(
+            () => {
+              this.getCategories();
+            },
+            () => {}
+          );
         }
         break;
       }
   }
 
   deleteCategory (_id: String) {
-    const _this = this;
     for (let i = 0; i < this.categories.length; i++) {
       if (this.categories[i]._id === _id) {
         if (this.categories[i].items.length === 0) {
           const modalRef = this.modalService.open(DeleteCategoryComponent, {size: 'sm'});
           modalRef.componentInstance._id = _id;
-          modalRef.result.then(function(){
-            _this.getCategories();
-          }, function(){});
+          modalRef.result.then(
+            () => {
+              this.getCategories();
+            },
+            () => {}
+          );
         } else {
           window.alert('Category is not empty!');
         }

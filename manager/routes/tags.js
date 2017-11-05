@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var Verify = require('./verify');
 
 var Tags = require('../models/tags');
 
@@ -11,44 +12,62 @@ tagsRouter.use(bodyParser.json());
 
 tagsRouter.route('/')
 // Get all tags
-    .get(function (req, res, next) {
-        Tags.find({}, function (err, results) {
+    .get(Verify.verifyUser, function (req, res, next) {
+        Tags.find({}, function (err, result) {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-        res.json(results);
+            console.log(result);
+            res.json(result);
     });
     })
 // Create new tag
-    .post(function (req, res, next) {
+    .post(Verify.verifyUser, function (req, res, next) {
         Tags.create(req.body, function (err, result) {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-        res.json(result);
+            console.log(result);
+            res.json(result);
         });
     });
 
+tagsRouter.route('/products/:id')
+// Delete product from all tags
+.delete(Verify.verifyUser, function (req, res, next) {
+    tags.removeFromTags(req.params.id, function (err, result) {
+        if(err){
+            console.log(err);
+            err.status = 500;
+            return next(err);
+        }
+        console.log(result);
+        res.json(result);
+    });
+});
+
+
 tagsRouter.route('/:id')
 // Get products by tag
-    .get(function (req, res, next) {
+    .get(Verify.verifyUser, function (req, res, next) {
         Tags.findById(req.params.id)
-        .populate('items.product')
+        .populate('items')
         .exec(function (err, result) {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
+            console.log(result);
             res.json(result);
         });
     })
 // Update tag
-    .put(function (req, res, next) {
+    .put(Verify.verifyUser, function (req, res, next) {
         Tags.findByIdAndUpdate(req.params.id,
             { $set: req.body },
             { new: true },
@@ -63,19 +82,19 @@ tagsRouter.route('/:id')
             });
     })
 // Delete tag
-    .delete(function (req, res, next) {
-        Tags.findByIdAndRemove(req.params.id, function (err, response) {
+    .delete(Verify.verifyUser, function (req, res, next) {
+        Tags.findByIdAndRemove(req.params.id, function (err, result) {
             if(err){
                     console.log(err);
                     err.status = 500;
                     return next(err);
                 }
-                console.log(response);
-                res.json(response);
+                console.log(result);
+                res.json(result);
         })
     })
 // Add product to tag
-    .post(function (req, res, next) {
+    .post(Verify.verifyUser, function (req, res, next) {
         tags.addToTag(req.body.product_id, req.params.id,
             function(err, result) {
             if(err){
@@ -88,10 +107,11 @@ tagsRouter.route('/:id')
         });
     });
 
-// Delete product from tags
+
 tagsRouter.route('/:id/:product_id')
-.delete(function (req, res, next) {
-    tags.removeFromTags(req.params.product_id, function (err, result) {
+// Delete product from tag
+.delete(Verify.verifyUser, function (req, res, next) {
+    tags.removeFromTag(req.params.id, req.params.product_id, function (err, result) {
         if(err){
             console.log(err);
             err.status = 500;

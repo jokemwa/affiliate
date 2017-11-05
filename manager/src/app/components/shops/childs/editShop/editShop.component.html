@@ -1,0 +1,110 @@
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Manage Panel</a>
+        <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+                <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+                <li class="breadcrumb-item"><a href="/shops">Shops</a></li>
+                <li class="breadcrumb-item active">Edit Shop</li>
+        </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+        <div class="row">
+                <div class="col-8">
+                        <div class="form-group row">
+                                <label for="name" class="col-4 col-form-label">Name</label>
+                                <div class="col-8">
+                                        <input [(ngModel)]="shop.name" type="text" class="form-control form-control-sm" id="name">
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                                <label for="link" class="col-4 col-form-label">Link</label>
+                                <div class="col-8">
+                                        <input [(ngModel)]="shop.link" type="text" class="form-control form-control-sm" id="link">
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                                <label for="description" class="col-4 col-form-label">Description</label>
+                                <div class="col-8">
+                                        <textarea [(ngModel)] = "shop.description" dir="rtl" class="form-control form-control-sm" id="description" rows="4"></textarea>
+                                </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                                <label for="shopGroup" class="col-4 col-form-label">Groups</label>
+                                <div class="col-3">
+                                        <button *ngFor="let shopGroup of selectedShopGroups | orderBy: 'name'"
+                                        class="btn btn-sm btn-outline-success"
+                                        (click)="removeShopFromShopGroup(shopGroup._id)">{{shopGroup.name}}</button>
+                                </div>
+                                <div class="col-3 d-flex align-items-center justify-content-start">
+                                        <div class="input-group">
+                                                <select [(ngModel)] = "selectedShopGroup"
+                                                 class="form-control form-control-sm">
+                                                        <option value="">None</option>
+                                                        <option *ngFor="let shopGroup of existedShopGroups | orderBy: 'name'"
+                                                        value="{{shopGroup._id}}">{{shopGroup.name}}</option>
+                                                </select>
+                                                <span class="input-group-btn">
+                                                        <button class="btn btn-sm btn-outline-success"
+                                                        (click)="addShopToShopGroup()">Add</button>
+                                                </span>
+                                        </div>
+                                </div>
+                                <div class="col-2 d-flex align-items-center justify-content-start">
+                                        <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-primary dropdown-toggle"
+                                                type="button" data-toggle="dropdown">
+                                                New
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                        <div class="input-group">
+                                                                <input [(ngModel)] = "newShopGroup.name" type="text" class="form-control form-control-sm" id="newShopGroup" placeholder="Shop Group Name" dir="rtl">
+                                                                <span class="input-group-btn">
+                                                                        <button class="btn btn-sm btn-outline-success"
+                                                                        (click)="addShopGroup()">Add</button>
+                                                                </span>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                        <div *ngIf="!marketplace.hasShops" class="form-group row">
+                                <label for="searchTag" class="col-4 col-form-label">Search Tag</label>
+                                <div class="col-8">
+                                        <input [(ngModel)]="marketplace.searchTag" type="text" class="form-control form-control-sm" id="searchTag">
+                                </div>
+                        </div>
+                        <div *ngIf="!marketplace.hasShops" class="form-group row">
+                                <label for="parser" class="col-4 col-form-label">Path to parser</label>
+                                <div class="col-8">
+                                        <input [(ngModel)]="marketplace.parser" type="text" class="form-control form-control-sm" id="parser">
+                                </div>
+                        </div>
+                </div>
+                <div class="col-4">
+                        <div class="row d-flex justify-content-center">
+                                <strong class="mb-2">Logo:</strong>                            
+                        </div>
+                        <div class="row">
+                                <div class="col-12 d-flex justify-content-center">
+                                        <img class="img-fluid" src="./images/{{shop.logo}}" 
+                                        alt="{{shop.logo}}">
+                                </div> 
+                        </div>
+                        <div class="row d-flex justify-content-center mt-2">
+                                <input type="file" id="fileInput" (change)="openUploader($event)"
+                                accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff"
+                                style="display: none;" #fileInput/> 
+                                <button class="btn btn-sm btn-outline-warning mr-1" (click)="fileInput.click()">Change</button>    
+                                <button class="btn btn-sm btn-outline-danger" (click)="removeLogo()">Remove</button>
+                        </div>
+                </div>
+        </div>
+        <div class="row d-flex justify-content-end">
+                <button class="btn btn-sm btn-outline-success mx-1" (click)="clickSave()">
+                Save
+                </button>
+                <button class="btn btn-sm btn-outline-info mx-1" (click)="clickCancel()">
+                Cancel
+                </button>
+        </div>
+</div>

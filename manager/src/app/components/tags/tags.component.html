@@ -1,5 +1,43 @@
-<li *ngFor="let marketplace of marketplaces | orderBy: 'searchTag'">
-    <span>{{marketplace.name}}</span>
-    <span>{{marketplace.menuVisible}}</span>
-    <span>{{marketplace.menuOrder}}</span> 
-</li>
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Manage Panel</a>
+        <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+                <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+                <li class="breadcrumb-item active">Tags</li>
+        </ol>
+    </nav>
+    <div *ngIf="isDataReady" class="container mt-5">
+    <div class="row">
+        <a href="#" (click)="newTag($event)"><h5>New Tag</h5></a>
+    </div>  
+    <div class="row">
+            <table class="table table-hover mt-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Tag</th>
+                        <th>Items</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tag of tags | orderBy: 'name'; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td dir="rtl">{{tag.name}}</td>
+                        <td>
+                                <button class="btn btn-sm btn-outline-info" (click)="viewTagProducts(tag._id)">
+                                        Products: {{tag.items.length}}
+                                </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-warning" (click)="editTag(tag._id)">
+                                Edit
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" (click)="deleteTag(tag._id)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>      
+    </div>

@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var mongodb = require('mongodb');
+var Verify = require('./verify');
 
 
 var saver = require('./misc/saver');
@@ -10,6 +11,7 @@ var categories = require('./misc/categories');
 var shops = require('./misc/shops');
 var brands = require('./misc/brands');
 var tags = require('./misc/tags');
+var products = require('./misc/products');
 
 var Products = require('../models/products');
 var Marketplaces = require('../models/marketplaces');
@@ -19,15 +21,74 @@ var productsRouter = express.Router();
 productsRouter.use(bodyParser.json());
 
 productsRouter.route('/')
-    .get(function (req, res, next) {
-        Products.find({}, function (err, results) {
-        if (err) throw err;
-        console.log(results);
-        res.json(results);
+// Get all products with category, brand, shop, tags and badges
+    .get(Verify.verifyUser, function (req, res, next) {
+        Products.find({})
+        .populate('badges')
+        .lean()
+        .exec(function (err, result) {
+            if (err) {
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            let promises = [];
+            result.forEach((element) => {
+
+                promises.push(products.getProductBrand(element._id)
+                .then(
+                (brand) => {
+                    if (brand == null) {
+                        brand = {name: '', _id: ''};
+                    }
+                    element.brand = brand;
+                },
+                (err) => {
+                    return Promise.reject(err);
+                }));
+
+                promises.push(products.getProductCategory(element._id)
+                .then(
+                (category) => {
+                    element.category = category;
+                },
+                (err) => {
+                    return Promise.reject(err);
+                }));
+
+                promises.push(products.getProductShop(element._id)
+                .then(
+                (shop) => {
+                    element.shop = shop;
+                },
+                (err) => {
+                    return Promise.reject(err);
+                }));
+
+                promises.push(products.getProductTags(element._id)
+                .then(
+                (tags) => {
+                    element.tags = tags;
+                },
+                (err) => {
+                    return Promise.reject(err);
+                }));
+            });
+            
+            Promise.all(promises)
+            .then(() => {
+                console.log(result);
+                res.json(result);
+            },
+            (err) => {
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            });
     });
 })
-
-    .post(function (req, res, next) {
+// Create new product
+    .post(Verify.verifyUser, function (req, res, next) {
         
         let product = {
             images: [],
@@ -145,9 +206,10 @@ productsRouter.route('/')
         });
     });
 
+
 productsRouter.route('/:id/badges/:badge_id')
 // Add badge to product
-    .post(function (req, res, next) {
+    .post(Verify.verifyUser, function (req, res, next) {
         Products.findByIdAndUpdate(req.params.id, 
         { $push: {"badges": req.params.badge_id } },
         { new: true },
@@ -162,7 +224,7 @@ productsRouter.route('/:id/badges/:badge_id')
         });
     })
 // Remove badge from product
-    .delete(function (req, res, next) {
+    .delete(Verify.verifyUser, function (req, res, next) {
         Products.findByIdAndUpdate(req.params.id, 
         { $pull: {"badges": req.params.badge_id } },
         { new: true },
@@ -179,19 +241,72 @@ productsRouter.route('/:id/badges/:badge_id')
 
 
 productsRouter.route('/:id')
-    .get(function (req, res, next) {
-        Products.findById(req.params.id, function (err, result) {
+// Get selected product
+    .get(Verify.verifyUser, function (req, res, next) {
+        Products.findById(req.params.id)
+        .populate('badges')
+        .lean()
+        .exec(function (err, result) {
             if (err) {
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-            console.log(result);
-            res.json(result);
-        });
+            let promises = [];
+            promises.push(products.getProductBrand(result._id)
+                .then(
+                (brand) => {
+                    if (brand == null) {
+                        brand = {name: '', _id: ''};
+                    }
+                    result.brand = brand;
+                },
+                (err) => {
+                    return Promise.reject(err);
+                }));
+
+            promises.push(products.getProductCategory(result._id)
+                .then(
+                (category) => {
+                    result.category = category;
+                },
+                (err) => {
+                    return Promise.reject(err);
+                }));
+
+            promises.push(products.getProductShop(result._id)
+                .then(
+                (shop) => {
+                    result.shop = shop;
+                },
+                (err) => {
+                    return Promise.reject(err);
+                }));
+
+            promises.push(products.getProductTags(result._id)
+                .then(
+                (tags) => {
+                    result.tags = tags;
+                },
+                (err) => {
+                    return Promise.reject(err);
+                }));
+            
+            
+            Promise.all(promises)
+            .then(() => {
+                console.log(result);
+                res.json(result);
+            },
+            (err) => {
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            });
+    });
     })
 
-    .put(function (req, res, next) {
+    .put(Verify.verifyUser, function (req, res, next) {
         Products.findByIdAndUpdate(req.params.id, {
             $set: req.body
         }, {
@@ -208,7 +323,7 @@ productsRouter.route('/:id')
     })
     
 // Delete product
-    .delete(function (req, res, next) {
+    .delete(Verify.verifyUser, function (req, res, next) {
         Products.findById(req.params.id, function (err, result) {
             if(err){
                 console.log(err);

@@ -1,5 +1,43 @@
-<li *ngFor="let marketplace of marketplaces | orderBy: 'searchTag'">
-    <span>{{marketplace.name}}</span>
-    <span>{{marketplace.menuVisible}}</span>
-    <span>{{marketplace.menuOrder}}</span> 
-</li>
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Manage Panel</a>
+    <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+            <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+            <li class="breadcrumb-item active">Brands</li>
+    </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+<div class="row">
+    <a href="#" (click)="newBrand($event)"><h5>New Brand</h5></a>
+</div>  
+<div class="row">
+        <table class="table table-hover mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Brand</th>
+                    <th>Items</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let brand of brands | orderBy: 'name'; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td dir="rtl">{{brand.name}}</td>
+                    <td>
+                            <button class="btn btn-sm btn-outline-info" (click)="viewBrandProducts(brand._id)">
+                                    Products: {{brand.items.length}}
+                            </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-warning" (click)="editBrand(brand._id)">
+                            Edit
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="deleteBrand(brand._id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>      
+</div>

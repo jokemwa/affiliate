@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var Verify = require('./verify');
 
 
 var startPageCategories = require('../models/startPage/startPageCategories');
@@ -11,7 +12,7 @@ startPageRouter.use(bodyParser.urlencoded({extended: true}));
 
 
 startPageRouter.route('/categories')
-    .get(function (req, res, next) {
+    .get(Verify.verifyUser, function (req, res, next) {
         startPageCategories.find({})
         .populate("product")
         .exec(function(err, results){
@@ -25,7 +26,7 @@ startPageRouter.route('/categories')
         });
     })
 
-    .post(function (req, res, next) {
+    .post(Verify.verifyUser, function (req, res, next) {
         startPageCategories.create(req.body, function (err, result) {
             if(err){
                 console.log(err);
@@ -38,7 +39,7 @@ startPageRouter.route('/categories')
     });
 
 startPageRouter.route('/categories/:id')
-    .get(function (req, res, next) {
+    .get(Verify.verifyUser, function (req, res, next) {
         Categories.findById(req.params.id)
         .populate('product')
         .exec(function (err, result) {
@@ -51,7 +52,7 @@ startPageRouter.route('/categories/:id')
         });
     })
 
-    .post(function (req, res, next) {
+    .post(Verify.verifyUser, function (req, res, next) {
         startPageCategories.findById(req.params.id, 'items')
         .sort('order')
         .exec(function (err, items) {
@@ -75,7 +76,7 @@ startPageRouter.route('/categories/:id')
         })
     })
 
-    .delete(function (req, res, next) {
+    .delete(Verify.verifyUser, function (req, res, next) {
         startPageCategories.findByIdAndUpdate(req.params.id, {
             $pull: { "items": { "product": req.body.product_id } }
         }, {
@@ -114,7 +115,7 @@ startPageRouter.route('/categories/:id')
         });
     })
 
-    .put(function (req, res, next) {
+    .put(Verify.verifyUser, function (req, res, next) {
         startPageCategories.findByIdAndUpdate(req.params.id, {
             $set: { "items": req.body }
         }, {
@@ -130,7 +131,7 @@ startPageRouter.route('/categories/:id')
     })
 
 startPageRouter.route('/tops')
-    .get(function (req, res, next) {
+    .get(Verify.verifyUser, function (req, res, next) {
         startPageTops.find({'ref': req.body.ref}, 'items', function(err, items){
             if(err){
                 console.log(err);
@@ -142,7 +143,7 @@ startPageRouter.route('/tops')
         });
     })
 
-    .post(function (req, res, next) {
+    .post(Verify.verifyUser, function (req, res, next) {
         startPageTops.create(req.body, function(err, results){
             if(err){
                 console.log(err);
@@ -154,7 +155,7 @@ startPageRouter.route('/tops')
         });
     })
 
-    .delete(function (req, res, next) {
+    .delete(Verify.verifyUser, function (req, res, next) {
         startPageTops.remove({'ref': req.body.ref}, function(err, results){
             if(err){
                 console.log(err);
@@ -166,7 +167,7 @@ startPageRouter.route('/tops')
         });
     })
 
-    .put(function (req, res, next) {
+    .put(Verify.verifyUser, function (req, res, next) {
         startPageTops.update({'ref': req.body.ref},
         {
             $set: { "items": req.body.items }
@@ -185,7 +186,7 @@ startPageRouter.route('/tops')
     })
 
 startPageRouter.route('/tops/:id')
-    .post(function (req, res, next) {
+    .post(Verify.verifyUser, function (req, res, next) {
         startPageTops.find({'ref': req.body.ref}, 'items')
         .sort('order')
         .exec(function(err, items){
@@ -213,7 +214,7 @@ startPageRouter.route('/tops/:id')
             });
         });
     })
-    .delete(function (req, res, next) {
+    .delete(Verify.verifyUser, function (req, res, next) {
         startPageTops.update({'ref': req.body.ref},
         {
         $pull: { "items": {"product": req.body.product} }

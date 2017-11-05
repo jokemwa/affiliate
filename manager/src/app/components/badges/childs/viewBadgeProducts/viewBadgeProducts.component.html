@@ -40,7 +40,17 @@
                                                 </a>
                                         </td>
                                         <td>
-                                                <button class="btn btn-sm btn-outline-danger" (click)="removeProduct(product._id)">Remove</button>
+                                                <div class="row"> 
+                                                <button class="btn btn-sm btn-outline-warning mr-1"
+                                                 (click)="editProduct(product._id)">
+                                                 Edit
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger"
+                                                (click)="removeProduct(product._id)">
+                                                Remove
+                                                </button>
+                                            </div>
+                                                
                                         </td>
                                 </tr>
                             </tbody>

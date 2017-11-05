@@ -1,0 +1,33 @@
+<div class="modal-header">
+        <h3>Select Shop</h3>
+</div>
+<div class="modal-body">
+        <div class="container">
+                <div class="form-group row">
+                        <label for="searchText" class="col-2 col-form-label">Search:</label>
+                        <div class="col-10">
+                                <input [(ngModel)]="searchText" (input)="search()" type="text" class="form-control form-control-sm" id="searchText">
+                        </div>
+                </div>
+                <div class="row">
+                        <div class="col-12" style="max-height: 360px; overflow-y: auto;">
+                                <table class="table table-hover mt-3">
+                                        <tbody>
+                                                <tr *ngFor="let shop of searchResults | orderBy: 'name'">
+                                                        <td (click)="selectShop($event, shop._id)">
+                                                                <a (click)="selectShop($event, shop._id)">
+                                                                        <strong dir="rtl">{{shop.name}}</strong>
+                                                                </a>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                        </div>
+                </div>
+        </div>
+</div>
+<div class="modal-footer">
+        <button class="btn btn-sm btn-outline-info" (click)="clickCancel()">
+        Cancel
+        </button>
+</div>

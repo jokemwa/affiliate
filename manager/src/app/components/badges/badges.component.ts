@@ -38,38 +38,49 @@ export class BadgesComponent implements OnInit {
           this.isDataReady = true;
       },
       err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
         window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
+        }
     });
   }
 
   newBadge(e) {
     e.stopPropagation();
     e.preventDefault();
-    const _this = this;
     const modalRef = this.modalService.open(NewBadgeComponent, {size: 'lg'});
-    modalRef.result.then(function(){
-      _this.getBadges();
-    }, function(){});
+    modalRef.result.then(
+      () => {
+        this.getBadges();
+      },
+      () => {}
+    );
   }
 
   editBadge (_id) {
-    const _this = this;
     const modalRef = this.modalService.open(EditBadgeComponent, {size: 'lg'});
     modalRef.componentInstance._id = _id;
-    modalRef.result.then(function(){
-    _this.getBadges();
-    }, function(){});
+    modalRef.result.then(
+      () => {
+        this.getBadges();
+      },
+      () => {}
+    );
   }
 
 
   deleteBadge (_id) {
-    const _this = this;
     const modalRef = this.modalService.open(DeleteBadgeComponent, {size: 'sm'});
     modalRef.componentInstance._id = _id;
-    modalRef.result.then(function(){
-      _this.getBadges();
-      }, function(){});
+    modalRef.result.then(
+      () => {
+        this.getBadges();
+      },
+      () => {}
+    );
   }
 
   viewBadgeProducts(badge_id) {

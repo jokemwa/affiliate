@@ -1,0 +1,79 @@
+<div *ngIf="isDataReady" class="modal-header d-flex justify-content-end">
+        <button type="button" class="close" (click)="clickClose()">
+                <span>&times;</span>
+        </button>
+</div>
+<div *ngIf="isDataReady" class="modal-body">
+        <div class="container">
+
+                <div class="row d-flex justify-content-center">
+                    <p><u>http://www...il/{{product.promoLink}}</u></p>
+                </div>
+                <div class="row">
+                        <div class="col-6">
+                                <div class="row d-flex justify-content-end">
+                                        <span *ngFor="let badge of product.badges"
+                                        class="badge badge-pill {{badge.color}} mx-1" dir="rtl">{{badge.text}}</span>
+                                </div>
+                                <div class="row mt-3 d-flex justify-content-end">
+                                        <h4>
+                                                <button class="btn btn-danger"
+                                                (click)="clickBuyButton()">
+                                                Buy
+                                                </button>
+                                                <span dir="rtl">{{product.title}}</span>
+                                                
+                                        </h4>
+                                </div>
+                                <div class="row mt-3 d-flex justify-content-end">
+                                        <button *ngFor="let tag of product.tags | orderBy: 'name'" 
+                                                class="btn btn-sm btn-outline-success mx-1">
+                                                {{tag.name}}
+                                        </button>
+                                </div>
+                                <div class="row mt-2 d-flex justify-content-end">
+                                        <h6><u>Shop:</u></h6>
+                                </div>
+                                <div class="row d-flex justify-content-end">
+                                        <h6>{{product.shop.name}}</h6>
+                                </div>
+                                <div class="row mt-2 d-flex justify-content-end">
+                                        <h6><u>Category:</u></h6>                             
+                                </div>
+                                <div class="row d-flex justify-content-end">
+                                        <h6 dir="rtl">{{product.category.name}}</h6>                                    
+                                </div>
+                                <div class="row mt-2 d-flex justify-content-end">
+                                        <h6><u>Brand:</u></h6>
+                                </div>
+                                <div class="row d-flex justify-content-end">
+                                        <h6>{{product.brand.name}}</h6>
+                                </div>
+                                <div class="row mt-2 d-flex justify-content-end">
+                                        <h6><u>Description:</u></h6>
+                                </div>
+                                <div class="row d-flex justify-content-end">
+                                        <h6 dir="rtl">{{product.description}}</h6>
+                                </div>
+                        </div>
+                        <div class="col-6">
+                                <div class="row">
+                                    <div class="col">
+                                        <img class="img-fluid" src="./images/{{product.frontImage.hiRes}}" 
+                                        alt="{{product.frontImage.hiRes}}">
+                                    </div>
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                        <img *ngFor="let image of product.images" 
+                                        class="mx-1 my-1" src="./images/{{image.thumb}}" alt="{{image.thumb}}"
+                                        style = "
+                                        max-width:64px;
+                                        max-height: 64px;
+                                        width: auto;
+                                        height: auto;
+                                       ">
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>

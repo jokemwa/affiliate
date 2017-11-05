@@ -4,13 +4,14 @@ var config = require('../config');
 
 exports.getToken = function (user) {
     return jwt.sign(user, config.secretKey, {
-        expiresIn: 24 * 60 * 60
+        expiresIn: 4 * 60 * 60
     });
 };
 
 exports.verifyUser = function (req, res, next) {
     var token = req.headers['x-access-token'];
-
+    //console.log(req.headers);
+    //console.log(token);
     if (token) {
         jwt.verify(token, config.secretKey, function (err, decoded) {
             if (err) {

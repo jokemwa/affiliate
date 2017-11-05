@@ -2,7 +2,7 @@ var mongodb = require('mongodb');
 var ObjectId = require('mongodb').ObjectID;
 var config = require('../../config');
 
-var deleteImage = function(bucket, file) {
+var deleteGridFSFile = function(bucket, file) {
     return new Promise(function(resolve, reject){
         bucket.delete(new ObjectId(file), function(err) {
             if(err){
@@ -24,8 +24,8 @@ exports.deleteProductImages = function (images, callback) {
         });
         var promises = [];
         images.forEach(function(element){
-            promises.push(deleteImage(bucket, element.hiRes));
-            promises.push(deleteImage(bucket, element.thumb));
+            promises.push(deleteGridFSFile(bucket, element.hiRes));
+            promises.push(deleteGridFSFile(bucket, element.thumb));
         });
         Promise.all(promises)
             .then(
@@ -38,5 +38,25 @@ exports.deleteProductImages = function (images, callback) {
                     return;
                 }
             );
+    });
+}
+
+exports.deleteFile = function (file_Id, callback) {
+    mongodb.MongoClient.connect(config.mongoUrl, function(err, db) {
+        if(err){
+            callback(err, null);
+            return;
+        }
+        var bucket = new mongodb.GridFSBucket(db, {
+            bucketName: 'images'
+        });
+        bucket.delete(new ObjectId(file_Id), function(err) {
+            if(err){
+                callback(err, null);
+                return;
+            }
+            callback(null, 'Deleted.');
+            return;
+        });
     });
 }

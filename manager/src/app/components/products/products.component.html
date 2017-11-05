@@ -1,5 +1,113 @@
-<li *ngFor="let marketplace of marketplaces | orderBy: 'searchTag'">
-    <span>{{marketplace.name}}</span>
-    <span>{{marketplace.menuVisible}}</span>
-    <span>{{marketplace.menuOrder}}</span> 
-</li>
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Manage Panel</a>
+    <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+            <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+            <li class="breadcrumb-item active">Products</li>
+    </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+        <div class="row">
+                <a href="#" (click)="addProduct($event)"><h5>Add Product</h5></a>
+            </div>   
+            <div class="row">
+                    <table class="table table-hover mt-3">
+                        <thead>
+                            <tr>
+                                    <th>#</th>
+                                    <th>
+                                        <a href="#" (click)="sortBy($event, 'title')">
+                                            Title
+                                            <span *ngIf="order[0] === 'title' && direction[0] === 'desc'"
+                                             class="fa fa-caret-up"></span>
+                                            <span *ngIf="order[0] === 'title' && direction[0] ==='asc'"
+                                             class="fa fa-caret-down"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="#" (click)="sortBy($event, 'category')">
+                                            Category
+                                            <span *ngIf="order[0] === 'category.name' && direction[0] === 'desc'"
+                                             class="fa fa-caret-up"></span>
+                                            <span *ngIf="order[0] === 'category.name' && direction[0] === 'asc'"
+                                             class="fa fa-caret-down"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="#" (click)="sortBy($event, 'brand')">
+                                            Brand
+                                            <span *ngIf="order[0] === 'brand.name' && direction[0] === 'desc'"
+                                             class="fa fa-caret-up"></span>
+                                            <span *ngIf="order[0] === 'brand.name' && direction[0] === 'asc'"
+                                             class="fa fa-caret-down"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="#" (click)="sortBy($event, 'shop')">
+                                            Shop
+                                            <span *ngIf="order[0] === 'shop.name' && direction[0] === 'desc'"
+                                             class="fa fa-caret-up"></span>
+                                            <span *ngIf="order[0] === 'shop.name' && direction[0] === 'asc'"
+                                             class="fa fa-caret-down"></span>
+                                        </a>
+                                    </th>
+                                    <th>Tags</th>
+                                    <th>Badges</th>
+                                    <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of products | orderBy: order:direction; let i = index">
+                                    <th scope="row">
+                                        {{i+1}}
+                                    </th>
+                                    <td>
+                                            <a href="#" (click)="productPreview($event, product._id)">
+                                                    <img src="/images/{{product.frontImage.thumb}}"
+                                                    style = "
+                                                    max-width:32px;
+                                                    max-height: 32px;
+                                                    width: auto;
+                                                    height: auto;
+                                                   ">
+                                                    <strong dir="rtl">{{product.title}}</strong>
+                                            </a>
+                                    </td>
+                                    <td>
+                                        <span dir="rtl">{{product.category.name}}</span>
+                                    </td>
+                                    <td>
+                                            {{product.brand.name}}
+                                    </td>
+                                    <td>
+                                            {{product.shop.name}}
+                                    </td>
+                                    <td>
+                                        <button *ngFor="let tag of product.tags | orderBy: 'name'"
+                                            class="btn btn-sm btn-outline-success mx-1" dir="rtl">
+                                            {{tag.name}}
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <span *ngFor="let badge of product.badges | orderBy: 'text'" 
+                                            class="badge badge-pill {{badge.color}} mx-1" dir="rtl">
+                                            {{badge.text}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                            <div class="row"> 
+                                                <button class="btn btn-sm btn-outline-warning mr-1"
+                                                 (click)="editProduct(product._id)">
+                                                 Edit
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger"
+                                                 (click)="deleteProduct(product._id)">
+                                                 Delete
+                                                </button>
+                                            </div>
+                                    </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+            </div>
+        </div>

@@ -1,0 +1,30 @@
+<div class="modal-header">
+        <h4>New Tag</h4>
+</div>
+<div class="modal-body">
+        <div class="container">
+                <div class="form-group row">
+                        <label for="name" class="col-4 col-form-label">Name</label>
+                        <div class="col-8">
+                                <input [(ngModel)]="tag.name" dir="rtl" type="text"
+                                 class="form-control form-control-sm" id="name">
+                        </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                        <strong class="mb-2">Preview:</strong>                            
+                </div>
+                <div class="row d-flex justify-content-center mb-2">
+                        <button class="btn btn-sm btn-outline-success">
+                                {{tag.name}}
+                        </button>                            
+                </div>
+        </div>
+</div>
+<div class="modal-footer">
+        <button class="btn btn-sm btn-outline-success" (click)="clickSave()">
+        Save
+        </button>
+        <button class="btn btn-sm btn-outline-info" (click)="clickCancel()">
+        Cancel
+        </button>
+</div>

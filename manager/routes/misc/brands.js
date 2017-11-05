@@ -8,8 +8,8 @@ exports.removeFromBrands = function (product_id, callback) {
                 return;
             }
             if(result != null){
-            let category_id = result._id;
-            Brands.findByIdAndUpdate(category_id,
+            let brand_id = result._id;
+            Brands.findByIdAndUpdate(brand_id,
                 { $pull: { "items": { "product": product_id } } },
                 { new: true }, 
                 function (err, result) {
@@ -17,7 +17,7 @@ exports.removeFromBrands = function (product_id, callback) {
                         callback(err, null);
                         return;
                     }
-                    Brands.findById(category_id, 'items')
+                    Brands.findById(brand_id, 'items')
                     .sort('order')
                     .exec(function (err, result) {
                         if(err){
@@ -27,7 +27,7 @@ exports.removeFromBrands = function (product_id, callback) {
                         for(let i = 0; i < result.items.length; i++){
                             result.items[i].order = i;
                         }
-                        Brands.findByIdAndUpdate(category_id,
+                        Brands.findByIdAndUpdate(brand_id,
                             {
                                 $set: { "items": result.items }
                             }, {
@@ -46,7 +46,7 @@ exports.removeFromBrands = function (product_id, callback) {
         });
 };
 
-exports.addToBrand = function (product_id, brand_id, callback) {
+exports.addToBrand = function (brand_id, product_id, callback) {
     console.log(brand_id);
     Brands.findById(brand_id, 'items')
     .sort('order')
@@ -77,4 +77,40 @@ exports.addToBrand = function (product_id, brand_id, callback) {
             return;
         });
     });
+};
+
+exports.removeFromBrand = function (brand_id, product_id, callback) {
+    Brands.findByIdAndUpdate(brand_id,
+        { $pull: { "items": { "product": product_id } } },
+        { new: true },
+        function (err, result) {
+                if(err){
+                    callback(err, null);
+                    return;
+                }
+                Brands.findById(brand_id, 'items')
+                .sort('order')
+                .exec(function (err, result) {
+                    if(err){
+                        callback(err, null);
+                        return;
+                    }
+                    for(let i = 0; i < result.items.length; i++){
+                        result.items[i].order = i;
+                    }
+                    Brands.findByIdAndUpdate(brand_id,
+                        {
+                            $set: { "items": result.items }
+                        }, {
+                            new: true
+                        }, function (err, result) {
+                            if(err){
+                                callback(err, null);
+                                return;
+                            }
+                            callback(null, result);
+                            return;
+                        });
+                    });
+        });
 };

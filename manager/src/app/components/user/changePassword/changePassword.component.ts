@@ -28,7 +28,8 @@ export class ChangePasswordComponent {
       this.restService.changePassowrd(this.model.oldPw, this.model.newPw).subscribe(
         response => {
           window.alert ('Password changed.');
-          this.router.navigate(['/']);
+          this.restService.logout();
+          this.router.navigate(['/login']);
         },
         err => {
           this.error = 'Old password is incorrect';

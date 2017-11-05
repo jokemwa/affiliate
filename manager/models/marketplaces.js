@@ -15,9 +15,6 @@ var marketplaceSchema = new Schema({
     name: {
         type: String
     },
-    link: {
-        type: String
-    },
     logo: {
         type: String
     },
@@ -29,7 +26,6 @@ var marketplaceSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Shop'
     }]
-
 }, {
         timestamps: true
     });

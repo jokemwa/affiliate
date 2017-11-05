@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var Verify = require('./verify');
 
 var Translations = require('../models/translations');
 
@@ -9,7 +10,7 @@ translationsRouter.use(bodyParser.json());
 
 translationsRouter.route('/')
 
-    .post(function (req, res, next) {
+    .post(Verify.verifyUser, function (req, res, next) {
         Translations.create(req.body, function (err, result) {
         if(err){
             console.log(err);
@@ -21,7 +22,7 @@ translationsRouter.route('/')
     });
 
 translationsRouter.route('/:lang')
-    .get(function (req, res, next) {
+    .get(Verify.verifyUser, function (req, res, next) {
         Translations.findOne({lang: req.params.lang}, function (err, result) {
         if(err){
             console.log(err);
@@ -32,7 +33,7 @@ translationsRouter.route('/:lang')
         });
     })
 
-    .put(function (req, res, next) {
+    .put(Verify.verifyUser, function (req, res, next) {
         Translations.findOneAndUpdate({lang: req.params.lang}, {
             $set: req.body
         }, {

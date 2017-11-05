@@ -41,9 +41,6 @@ app.set('port', config.port);
 app.set('mode', 'development');
 
 // REST Routes
-var addLink = require('./routes/addLink');
-app.use('/addlink', addLink);
-
 var images = require('./routes/images');
 app.use('/images', images);
 
@@ -67,6 +64,10 @@ var translation = require('./routes/translation');
 app.use('/api/translation', translation);
 var user = require('./routes/user');
 app.use('/api/user', user);
+var file = require('./routes/file');
+app.use('/api/file', file);
+var shopGroups = require('./routes/shopGroups');
+app.use('/api/shopgroups', shopGroups);
 
 var createUser = require('./routes/createUser');
 app.use('/api/createuser', createUser);

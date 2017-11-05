@@ -1,0 +1,26 @@
+<div *ngIf="isDataReady" class="modal-header">
+        <h3>Delete Shop Group</h3>
+</div>
+<div *ngIf="isDataReady" class="modal-body">
+<div class="container">
+    <div class="row">
+        <div class="d-flex align-self-center">Do you want to delete shop group {{shopGroup.name}}?</div>
+    </div>
+</div>
+</div>
+<div *ngIf="isDataReady" class="modal-footer">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-6 d-flex justify-content-center">
+                                        <button class="btn btn-sm btn-outline-danger" (click)="clickOk()">
+                                        Ok
+                                        </button>
+                                </div>
+                                <div class="col-6 d-flex justify-content-center">
+                                        <button class="btn btn-sm btn-outline-info" (click)="clickCancel()">
+                                        Cancel
+                                        </button>
+                                </div>
+                        </div>
+                </div>
+</div>

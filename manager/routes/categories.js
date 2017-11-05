@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
 var Verify = require('./verify');
 
 var Categories = require('../models/categories');
@@ -48,7 +47,7 @@ categoriesRouter.route('/change')
             err.status = 500;
             return next(err);
         }
-        categories.addToCategory(req.body.product, req.body.new, function(err, result) {
+        categories.addToCategory(req.body.product, req.body.newCategory, function(err, result) {
             if(err){
                 console.log(err);
                 err.status = 500;

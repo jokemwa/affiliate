@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 import { RESTService } from '../../../../services/rest.service';
 
@@ -27,7 +28,8 @@ export class NewBadgeComponent {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private restService: RESTService) {}
+    private restService: RESTService,
+    private router: Router) {}
 
   setColor(color: string) {
     this.badge.color = color;
@@ -40,8 +42,13 @@ export class NewBadgeComponent {
           this.activeModal.close('Created');
         },
         err => {
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
           window.alert(JSON.stringify(err));
           console.log(JSON.stringify(err));
+          }
       });
     } else {
       window.alert('Badge Text is empty!');

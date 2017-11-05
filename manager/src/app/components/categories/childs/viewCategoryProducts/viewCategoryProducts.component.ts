@@ -7,8 +7,9 @@ import 'rxjs/add/operator/switchMap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { RESTService } from '../../../../services/rest.service';
-import { ProductPreviewComponent } from '../../../productPreview/productPreview.component';
+import { ProductPreviewComponent } from '../../../products/childs/productPreview/productPreview.component';
 import { DeleteProductComponent } from '../../../products/childs/deleteProduct/deleteProduct.component';
+import { EditProductComponent } from '../../../products/childs/editProduct/editProduct.component';
 
 @Component({
   selector: 'app-view-category-products',
@@ -40,8 +41,13 @@ export class ViewCategoryProductsComponent implements OnInit {
       this.getCategories();
     },
     err => {
-      window.alert('Server error: ' + err);
-      console.log(err);
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+      window.alert(JSON.stringify(err));
+      console.log(JSON.stringify(err));
+      }
   });
   }
 
@@ -51,8 +57,13 @@ export class ViewCategoryProductsComponent implements OnInit {
           this.category = response;
       },
       err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
         window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
+        }
     });
   }
 
@@ -63,16 +74,20 @@ export class ViewCategoryProductsComponent implements OnInit {
         this.isDataReady = true;
       },
       err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
         window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
-      });
+        }
+    });
   }
 
   moveUp (e, _id) {
     e.stopPropagation();
     e.preventDefault();
     if (this.isFirst(_id)) {
-      console.log('first');
       return;
     } else {
       let currentOrder;
@@ -80,16 +95,13 @@ export class ViewCategoryProductsComponent implements OnInit {
       for (let i = 0; i < this.category.items.length; i++) {
         if (this.category.items[i]._id === _id) {
           currentOrder = this.category.items[i].order;
-          console.log(currentOrder);
           for (let j = 0; j < this.category.items.length; j++) {
             if (this.category.items[j].order === (currentOrder - 1)) {
-              console.log(this.category.items[j].order);
               this.category.items[j].order = currentOrder;
               break;
             }
           }
           this.category.items[i].order--;
-          console.log(this.category.items[i].order);
           break;
         }
       }
@@ -102,7 +114,6 @@ export class ViewCategoryProductsComponent implements OnInit {
     e.stopPropagation();
     e.preventDefault();
     if (this.isLast(_id)) {
-      console.log('last');
       return;
     } else {
       let currentOrder;
@@ -110,16 +121,13 @@ export class ViewCategoryProductsComponent implements OnInit {
       for (let i = 0; i < this.category.items.length; i++) {
         if (this.category.items[i]._id === _id) {
           currentOrder = this.category.items[i].order;
-          console.log(currentOrder);
           for (let j = 0; j < this.category.items.length; j++) {
             if (this.category.items[j].order === (currentOrder + 1)) {
-              console.log(this.category.items[j].order);
               this.category.items[j].order = currentOrder;
               break;
             }
           }
           this.category.items[i].order++;
-          console.log(this.category.items[i].order);
           break;
         }
       }
@@ -166,9 +174,14 @@ export class ViewCategoryProductsComponent implements OnInit {
       this.getCategoryData();
     },
     err => {
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
       window.alert(JSON.stringify(err));
       console.log(JSON.stringify(err));
-    });
+      }
+  });
   }
 
   deleteProduct(product_id) {
@@ -187,14 +200,35 @@ export class ViewCategoryProductsComponent implements OnInit {
     modalRef.componentInstance._id = product_id;
   }
 
+  editProduct(_id: string) {
+    const modalRef = this.modalService.open(EditProductComponent, {size: 'lg'});
+    modalRef.componentInstance._id = _id;
+    modalRef.result.then(
+      () => {
+        this.getCategoryData();
+      },
+      () => {}
+    );
+  }
+
   saveChanges() {
+    this.category.items.forEach((element) => {
+      if (element.newCategory) {
+        delete element.newCategory;
+      }
+    });
     this.restService.updateCategory(this.category).subscribe(
       response => {
           this.router.navigate(['/categories']);
       },
       err => {
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
         window.alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
+        }
     });
   }
 

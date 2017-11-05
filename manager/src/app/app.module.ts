@@ -29,7 +29,7 @@ import { ViewCategoryProductsComponent } from './components/categories/childs/vi
 import { DeleteCategoryComponent } from './components/categories/childs/deleteCategory/deleteCategory.component';
 import { EditCategoryComponent } from './components/categories/childs/editCategory/editCategory.component';
 import { NewCategoryComponent } from './components/categories/childs/newCategory/newCategory.component';
-import { ProductPreviewComponent } from './components/productPreview/productPreview.component';
+import { ProductPreviewComponent } from './components/products/childs/productPreview/productPreview.component';
 import { DeleteProductComponent } from './components/products/childs/deleteProduct/deleteProduct.component';
 import { NewBadgeComponent } from './components/badges/childs//newBadge/newBadge.component';
 import { EditBadgeComponent } from './components/badges/childs/editBadge/editBadge.component';
@@ -38,6 +38,33 @@ import { SelectProductComponent } from './components/products/childs/selectProdu
 import { ViewBadgeProductsComponent } from './components/badges/childs/viewBadgeProducts/viewBadgeProducts.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { ChangePasswordComponent } from './components/user/changePassword/changePassword.component';
+import { AddMarketplaceComponent } from './components/marketplaces/childs/addMarketplace/addMarketplace.component';
+import { DeleteMarketplaceComponent } from './components/marketplaces/childs/deleteMarketplace/deleteMarketplace.component';
+import { EditMarketplaceComponent } from './components/marketplaces/childs/editMarketplace/editMarketplace.component';
+import { ImageLoaderComponent } from './components/imageLoader/imageLoader.component';
+import { VievMarketplaceProductsComponent } from './components/marketplaces/childs/viewMarketplaceProducts/viewMarketplaceProducts.component';
+import { DeleteShopComponent } from './components/shops/childs/deleteShop/deleteShop.component';
+import { VievMarketplaceShopsComponent } from './components/marketplaces/childs/viewMarketplaceShops/viewMarketplaceShops.component';
+import { AddShopToMarketplaceComponent } from './components/marketplaces/childs/viewMarketplaceShops/childs/addShopToMarketplace/addShopToMarketplace.component';
+import { DeleteBrandComponent } from './components/brands/childs/deleteBrand/deleteBrand.component';
+import { EditBrandComponent } from './components/brands/childs/editBrand/editBrand.component';
+import { NewBrandComponent } from './components/brands/childs/newBrand/newBrand.component';
+import { ViewBrandProductsComponent } from './components/brands/childs/viewBrandProducts/viewBrandProducts.component';
+import { EditProductComponent } from './components/products/childs/editProduct/editProduct.component';
+import { EditTagComponent } from './components/tags/childs/editTag/editTag.component';
+import { NewTagComponent } from './components/tags/childs/newTag/newTag.component';
+import { DeleteTagComponent } from './components/tags/childs/deleteTag/deleteTag.component';
+import { ViewTagProductsComponent } from './components/tags/childs/viewTagProducts/viewTagProducts.component';
+import { EditShopComponent } from './components/shops/childs/editShop/editShop.component';
+import { AddShopComponent } from './components/shops/childs/addShop/addShop.component';
+import { ViewShopProductsComponent } from './components/shops/childs/viewShopProducts/viewShopProducts.component';
+import { EditShopGroupComponent } from './components/shopGroups/childs/editShopGroup/editShopGroup.component';
+import { NewShopGroupComponent } from './components/shopGroups/childs/newShopGroup/newShopGroup.component';
+import { DeleteShopGroupComponent } from './components/shopGroups/childs/deleteShopGroup/deleteShopGroup.component';
+import { ViewShopGroupShopsComponent } from './components/shopGroups/childs/viewShopGroupShops/viewShopGroupShops.component';
+import { SelectShopComponent } from './components/shops/childs/selectShop/selectShop.component';
+import { ShopGroupsComponent } from './components/shopGroups/ShopGroups.component';
+
 
 import { OrderByPipe } from './pipes/orderBy.pipe';
 
@@ -134,6 +161,76 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'marketplaces/add',
+    component: AddMarketplaceComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'marketplaces/:_id/edit',
+    component: EditMarketplaceComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'marketplaces/:_id/products',
+    component: VievMarketplaceProductsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'marketplaces/:_id/shops',
+    component: VievMarketplaceShopsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'marketplaces/:_id/shops/add',
+    component: AddShopToMarketplaceComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'brands/add',
+    component: NewBrandComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'brands/:_id/edit',
+    component: EditBrandComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'brands/:_id/products',
+    component: ViewBrandProductsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'tags/:_id/products',
+    component: ViewTagProductsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'shops/:_id/products',
+    component: ViewShopProductsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'shops/add',
+    component: AddShopComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'shops/:_id/edit',
+    component: EditShopComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'shopgroups',
+    component: ShopGroupsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'shopgroups/:_id/shops',
+    component: ViewShopGroupShopsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     component: MainMenuComponent,
     canActivate: [AuthGuard]
@@ -173,6 +270,32 @@ const appRoutes: Routes = [
     ViewBadgeProductsComponent,
     LoginComponent,
     ChangePasswordComponent,
+    AddMarketplaceComponent,
+    ImageLoaderComponent,
+    DeleteMarketplaceComponent,
+    EditMarketplaceComponent,
+    VievMarketplaceProductsComponent,
+    DeleteShopComponent,
+    VievMarketplaceShopsComponent,
+    AddShopToMarketplaceComponent,
+    NewBrandComponent,
+    EditBrandComponent,
+    DeleteBrandComponent,
+    ViewBrandProductsComponent,
+    EditProductComponent,
+    NewTagComponent,
+    EditTagComponent,
+    DeleteTagComponent,
+    ViewTagProductsComponent,
+    EditShopComponent,
+    AddShopComponent,
+    ViewShopProductsComponent,
+    ShopGroupsComponent,
+    DeleteShopGroupComponent,
+    NewShopGroupComponent,
+    EditShopGroupComponent,
+    ViewShopGroupShopsComponent,
+    SelectShopComponent,
     OrderByPipe
   ],
   imports: [
@@ -194,7 +317,19 @@ const appRoutes: Routes = [
     NewBadgeComponent,
     DeleteBadgeComponent,
     EditBadgeComponent,
-    SelectProductComponent
+    SelectProductComponent,
+    ImageLoaderComponent,
+    DeleteMarketplaceComponent,
+    DeleteShopComponent,
+    DeleteBrandComponent,
+    EditProductComponent,
+    NewTagComponent,
+    EditTagComponent,
+    DeleteTagComponent,
+    DeleteShopGroupComponent,
+    NewShopGroupComponent,
+    EditShopGroupComponent,
+    SelectShopComponent
   ],
   providers: [
     RESTService,
