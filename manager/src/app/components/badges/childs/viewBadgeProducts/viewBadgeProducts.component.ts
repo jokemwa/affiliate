@@ -87,8 +87,8 @@ export class ViewBadgeProductsComponent implements OnInit {
       const checkedList = [];
       for (let i = 0; i < productsList.length; i++) {
         let isFound = false;
-        for (let j = 0; j < this.badge.items.length; j++) {
-          if (this.badge.items[j]._id === productsList[i]._id) {
+        for (let j = 0; j < this.badge.products.length; j++) {
+          if (this.badge.products[j]._id === productsList[i]._id) {
               isFound = true;
           }
         }
