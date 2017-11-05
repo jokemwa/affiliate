@@ -21,6 +21,8 @@ export class EditBrandComponent implements OnInit {
 
   brand: any;
 
+  uploadedLogo = null;
+
   constructor(
     private restService: RESTService,
     private route: ActivatedRoute,
@@ -53,8 +55,27 @@ export class EditBrandComponent implements OnInit {
       modalRef.componentInstance.imageURL = URL.createObjectURL(file);
       modalRef.result.then(
         (image) => {
-          this.brand.logo = image._id;
-          e.target.value = null;
+          if (this.uploadedLogo) {
+            this.restService.deleteImage(this.uploadedLogo).subscribe(
+              response => {
+                this.uploadedLogo = image._id;
+                this.brand.logo = this.uploadedLogo;
+                e.target.value = null;
+              },
+              err => {
+                if (err.status === 401 || err.status === 403) {
+                  this.restService.logout();
+                  this.router.navigate(['/login']);
+                } else {
+                window.alert(JSON.stringify(err));
+                console.log(JSON.stringify(err));
+                }
+            });
+          } else {
+            this.uploadedLogo = image._id;
+            this.brand.logo = this.uploadedLogo;
+            e.target.value = null;
+          }
         },
         () => {
           e.target.value = null;
@@ -64,7 +85,25 @@ export class EditBrandComponent implements OnInit {
   }
 
   removeLogo() {
-    this.brand.logo = '';
+    if (this.uploadedLogo) {
+      this.restService.deleteImage(this.uploadedLogo).subscribe(
+        response => {
+          this.uploadedLogo = null;
+          this.brand.logo = '';
+        },
+        err => {
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+          }
+      });
+    } else {
+      this.brand.logo = '';
+    }
+
   }
 
   clickSave() {
@@ -90,7 +129,23 @@ export class EditBrandComponent implements OnInit {
   }
 
   clickCancel() {
-    this.router.navigate(['/brands']);
+    if (this.uploadedLogo) {
+      this.restService.deleteImage(this.uploadedLogo).subscribe(
+        response => {
+          this.router.navigate(['/brands']);
+        },
+        err => {
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+          }
+        });
+    } else {
+      this.router.navigate(['/brands']);
+    }
   }
 
 }

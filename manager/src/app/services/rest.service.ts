@@ -16,11 +16,6 @@ export class RESTService {
             }
         }
 
-// public headers = ;
-    public json = new HttpHeaders().set('Content-Type', 'application/json');
-    public jsonHeaders = new HttpHeaders().set('x-access-token', this.token);
-// .append('Content-Type', 'application/json');
-
 /* Auth */
 
     public login(username: String, password: String): Promise<boolean> {
@@ -774,5 +769,17 @@ public sendFile(formData): Observable<any> {
             .set('x-access-token', this.token)
         });
 }
+
+/* Images */
+
+    public deleteImage(_id: string): Observable<any> {
+        const url = `/api/images/` + _id;
+        return this.http
+        .delete(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
 
 }

@@ -26,6 +26,8 @@ export class EditShopComponent implements OnInit {
 
   shop: any;
 
+  uploadedLogo: any;
+
   selectedShopGroups: any;
   selectedShopGroup: any;
 
@@ -148,7 +150,24 @@ export class EditShopComponent implements OnInit {
   }
 
   removeLogo() {
-    this.shop.logo = '';
+    if (this.uploadedLogo) {
+      this.restService.deleteImage(this.uploadedLogo).subscribe(
+        response => {
+          this.uploadedLogo = null;
+          this.shop.logo = '';
+        },
+        err => {
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+          }
+      });
+    } else {
+      this.shop.logo = '';
+    }
   }
 
   openUploader(e) {
@@ -158,8 +177,27 @@ export class EditShopComponent implements OnInit {
       modalRef.componentInstance.imageURL = URL.createObjectURL(file);
       modalRef.result.then(
         (image) => {
-          this.shop.logo = image._id;
-          e.target.value = null;
+          if (this.uploadedLogo) {
+            this.restService.deleteImage(this.uploadedLogo).subscribe(
+              response => {
+                this.uploadedLogo = image._id;
+                this.shop.logo = this.uploadedLogo;
+                e.target.value = null;
+              },
+              err => {
+                if (err.status === 401 || err.status === 403) {
+                  this.restService.logout();
+                  this.router.navigate(['/login']);
+                } else {
+                window.alert(JSON.stringify(err));
+                console.log(JSON.stringify(err));
+                }
+            });
+          } else {
+            this.uploadedLogo = image._id;
+            this.shop.logo = this.uploadedLogo;
+            e.target.value = null;
+          }
         },
         () => {
           e.target.value = null;
@@ -260,6 +298,22 @@ export class EditShopComponent implements OnInit {
   }
 
   clickCancel() {
-    this.router.navigate(['/shops']);
+    if (this.uploadedLogo) {
+      this.restService.deleteImage(this.uploadedLogo).subscribe(
+        response => {
+          this.router.navigate(['/shops']);
+        },
+        err => {
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+          }
+        });
+    } else {
+      this.router.navigate(['/shops']);
+    }
   }
 }

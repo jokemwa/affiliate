@@ -63,7 +63,7 @@ import { NewShopGroupComponent } from './components/shopGroups/childs/newShopGro
 import { DeleteShopGroupComponent } from './components/shopGroups/childs/deleteShopGroup/deleteShopGroup.component';
 import { ViewShopGroupShopsComponent } from './components/shopGroups/childs/viewShopGroupShops/viewShopGroupShops.component';
 import { SelectShopComponent } from './components/shops/childs/selectShop/selectShop.component';
-import { ShopGroupsComponent } from './components/shopGroups/ShopGroups.component';
+import { ShopGroupsComponent } from './components/shopGroups/shopGroups.component';
 
 
 import { OrderByPipe } from './pipes/orderBy.pipe';

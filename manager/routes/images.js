@@ -5,6 +5,10 @@ var ObjectId = require('mongodb').ObjectID;
 
 var config = require('../config');
 
+var images = require('./misc/images');
+
+var Verify = require('./verify');
+
 var imagesRouter = express.Router();
 imagesRouter.use(bodyParser.json());
 
@@ -31,6 +35,18 @@ imagesRouter.route('/:id')
             output.pipe(res);
             });
 
+    })
+// Delete image
+    .delete(Verify.verifyUser, function (req, res, next) {
+        images.deleteFile(req.params.id, function(err, result) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(req.params.id, ' ', result);
+            res.json(result);
     });
+});
 
 module.exports = imagesRouter;

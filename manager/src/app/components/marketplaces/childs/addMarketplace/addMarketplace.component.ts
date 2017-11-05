@@ -26,6 +26,8 @@ export class AddMarketplaceComponent implements OnInit {
     shops: []
   };
 
+  uploadedLogo = null;
+
   shop = {
     name: '',
     link: '',
@@ -120,7 +122,24 @@ export class AddMarketplaceComponent implements OnInit {
   }
 
   removeLogo() {
-    this.marketplace.logo = '';
+    if (this.uploadedLogo) {
+      this.restService.deleteImage(this.uploadedLogo).subscribe(
+        response => {
+          this.uploadedLogo = null;
+          this.marketplace.logo = '';
+        },
+        err => {
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+          }
+      });
+    } else {
+      this.marketplace.logo = '';
+    }
   }
 
   openUploader(e) {
@@ -130,8 +149,27 @@ export class AddMarketplaceComponent implements OnInit {
       modalRef.componentInstance.imageURL = URL.createObjectURL(file);
       modalRef.result.then(
         (image) => {
-          this.marketplace.logo = image._id;
-          e.target.value = null;
+          if (this.uploadedLogo) {
+            this.restService.deleteImage(this.uploadedLogo).subscribe(
+              response => {
+                this.uploadedLogo = image._id;
+                this.marketplace.logo = this.uploadedLogo;
+                e.target.value = null;
+              },
+              err => {
+                if (err.status === 401 || err.status === 403) {
+                  this.restService.logout();
+                  this.router.navigate(['/login']);
+                } else {
+                window.alert(JSON.stringify(err));
+                console.log(JSON.stringify(err));
+                }
+            });
+          } else {
+            this.uploadedLogo = image._id;
+            this.marketplace.logo = this.uploadedLogo;
+            e.target.value = null;
+          }
         },
         () => {
           e.target.value = null;
@@ -216,7 +254,23 @@ export class AddMarketplaceComponent implements OnInit {
   }
 
   clickCancel() {
-    this.router.navigate(['/marketplaces']);
+    if (this.uploadedLogo) {
+      this.restService.deleteImage(this.uploadedLogo).subscribe(
+        response => {
+          this.router.navigate(['/marketplaces']);
+        },
+        err => {
+          if (err.status === 401 || err.status === 403) {
+            this.restService.logout();
+            this.router.navigate(['/login']);
+          } else {
+          window.alert(JSON.stringify(err));
+          console.log(JSON.stringify(err));
+          }
+        });
+    } else {
+      this.router.navigate(['/marketplaces']);
+    }
   }
 
 }

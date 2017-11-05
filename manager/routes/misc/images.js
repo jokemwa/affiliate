@@ -50,13 +50,24 @@ exports.deleteFile = function (file_Id, callback) {
         var bucket = new mongodb.GridFSBucket(db, {
             bucketName: 'images'
         });
-        bucket.delete(new ObjectId(file_Id), function(err) {
+        bucket.find(new ObjectId(file_Id)).toArray((err, docs) => {
             if(err){
                 callback(err, null);
                 return;
             }
-            callback(null, 'Deleted.');
-            return;
+            if(docs.length == 0 ) {
+                callback(null, 'Not found.');
+                return;
+            } else {
+                bucket.delete(new ObjectId(file_Id), function(err) {
+                    if(err){
+                        callback(err, null);
+                        return;
+                    }
+                    callback(null, 'Deleted.');
+                    return;
+                });
+            }
         });
     });
 }

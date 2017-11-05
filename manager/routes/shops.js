@@ -101,12 +101,13 @@ shopsRouter.route('/:id')
                 return next(err);
             }
             if(result.logo != req.body.logo && result.logo != '') {
-                images.deleteFile(result.logo, function(err, result) {
+                images.deleteFile(result.logo, function(err, result_file) {
                     if(err){
                         console.log(err);
                         err.status = 500;
                         return next(err);
                     }
+                    console.log(result.logo, ' ', result_file);
                     Shops.findByIdAndUpdate(req.params.id, {
                         $set: req.body
                     }, {
@@ -141,60 +142,162 @@ shopsRouter.route('/:id')
 
 // Delete shop
     .delete(Verify.verifyUser, function (req, res, next) {
-        Shops.findById(req.params.id, 'items', function (err, result) {
+        Shops.findById(req.params.id, function (err, result) {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
             if (result.items.length == 0) {
-                Shops.findByIdAndRemove(req.params.id, function (err, result) {
-                    if(err){
-                        console.log(err);
-                        err.status = 500;
-                        return next(err);
-                    }
-                    shopGroups.removeShopFromShopGroups(req.params.id)
-                    .then((result) => {
-                        Marketplaces.findOne({'shops': req.params.id}, function (err, result) {
+                if (result.logo != ''){
+                    images.deleteFile(result.logo, function(err, result){
+                        if(err){
+                            console.log(err);
+                            err.status = 500;
+                            return next(err);
+                        }
+                        console.log('Logo ' + result);
+                        Shops.findByIdAndRemove(req.params.id, function (err, result) {
                             if(err){
                                 console.log(err);
                                 err.status = 500;
                                 return next(err);
                             }
-                            if (result.hasShops == false) {
-                                Marketplaces.findByIdAndRemove(result._id, function (err, result) {
+                            shopGroups.removeShopFromShopGroups(req.params.id)
+                            .then((result) => {
+                                Marketplaces.findOne({'shops': req.params.id}, function (err, result) {
                                     if(err){
                                         console.log(err);
                                         err.status = 500;
                                         return next(err);
                                     }
-                                    console.log(result);
-                                    res.json(result);
-                                });
-                            } else {
-                                Marketplaces.findByIdAndUpdate(result._id,
-                                    { $pull: { 'shops': req.params.id } },
-                                    { new: true }, 
-                                    function (err, result) {
-                                        if(err){
-                                            console.log(err);
-                                            err.status = 500;
-                                            return next(err);
+                                    if (result.hasShops == false) {
+                                        if (result.logo != '') {
+                                            images.deleteFile(result.logo, function(err, result){
+                                                if(err){
+                                                    console.log(err);
+                                                    err.status = 500;
+                                                    return next(err);
+                                                }
+                                                console.log('Logo ' + result);
+                                                Marketplaces.findByIdAndRemove(result._id, function (err, result) {
+                                                    if(err){
+                                                        console.log(err);
+                                                        err.status = 500;
+                                                        return next(err);
+                                                    }
+                                                    console.log(result);
+                                                    res.json(result);
+                                                });
+                                            });
+                                        } else {
+                                            Marketplaces.findByIdAndRemove(result._id, function (err, result) {
+                                                if(err){
+                                                    console.log(err);
+                                                    err.status = 500;
+                                                    return next(err);
+                                                }
+                                                console.log(result);
+                                                res.json(result);
+                                            });
                                         }
-                                        console.log(result);
-                                        res.json(result); 
-                                    });
+                                        
+                                    } else {
+                                        Marketplaces.findByIdAndUpdate(result._id,
+                                            { $pull: { 'shops': req.params.id } },
+                                            { new: true }, 
+                                            function (err, result) {
+                                                if(err){
+                                                    console.log(err);
+                                                    err.status = 500;
+                                                    return next(err);
+                                                }
+                                                console.log(result);
+                                                res.json(result); 
+                                            });
+                                    }
+                                });
+                            },
+                            (err) => {
+                                console.log(err);
+                                err.status = 500;
+                                return next(err); 
                             }
+                            );
                         });
-                    },
-                    (err) => {
-                        console.log(err);
-                        err.status = 500;
-                        return next(err); 
-                    }
-                    );
-                });
+                    });
+                   
+                } else {
+                    Shops.findByIdAndRemove(req.params.id, function (err, result) {
+                        if(err){
+                            console.log(err);
+                            err.status = 500;
+                            return next(err);
+                        }
+                        shopGroups.removeShopFromShopGroups(req.params.id)
+                        .then((result) => {
+                            Marketplaces.findOne({'shops': req.params.id}, function (err, result) {
+                                if(err){
+                                    console.log(err);
+                                    err.status = 500;
+                                    return next(err);
+                                }
+                                if (result.hasShops == false) {
+                                    if (result.logo != '') {
+                                        images.deleteFile(result.logo, function(err, result){
+                                            if(err){
+                                                console.log(err);
+                                                err.status = 500;
+                                                return next(err);
+                                            }
+                                            console.log('Logo' + result);
+                                            Marketplaces.findByIdAndRemove(result._id, function (err, result) {
+                                                if(err){
+                                                    console.log(err);
+                                                    err.status = 500;
+                                                    return next(err);
+                                                }
+                                                console.log(result);
+                                                res.json(result);
+                                            });
+                                        });
+                                    } else {
+                                        Marketplaces.findByIdAndRemove(result._id, function (err, result) {
+                                            if(err){
+                                                console.log(err);
+                                                err.status = 500;
+                                                return next(err);
+                                            }
+                                            console.log(result);
+                                            res.json(result);
+                                        });
+                                    }
+                                    
+                                } else {
+                                    Marketplaces.findByIdAndUpdate(result._id,
+                                        { $pull: { 'shops': req.params.id } },
+                                        { new: true }, 
+                                        function (err, result) {
+                                            if(err){
+                                                console.log(err);
+                                                err.status = 500;
+                                                return next(err);
+                                            }
+                                            console.log(result);
+                                            res.json(result); 
+                                        });
+                                }
+                            });
+                        },
+                        (err) => {
+                            console.log(err);
+                            err.status = 500;
+                            return next(err); 
+                        }
+                        );
+                    });
+                }
+                
             } else {
                 let err = new Error ('Shop is not empty.');
                 console.log(err);

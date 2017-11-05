@@ -161,12 +161,13 @@ marketplacesRouter.route('/:id')
                     return next(err);
                 }
                 if(result.logo != req.body.logo && result.logo != '') {
-                    images.deleteFile(result.logo, function(err, result) {
+                    images.deleteFile(result.logo, function(err, result_file) {
                         if(err){
                             console.log(err);
                             err.status = 500;
                             return next(err);
                         }
+                        console.log(result.logo, ' ', result_file);
                         Marketplaces.findByIdAndUpdate(req.params.id, {
                             $set: req.body
                         }, {
@@ -218,15 +219,35 @@ marketplacesRouter.route('/:id')
                             Promise.all(promises)
                             .then(
                                 () => {
-                                    Marketplaces.findByIdAndRemove(req.params.id, function (err, result) {
-                                        if(err){
-                                            console.log(err);
-                                            err.status = 500;
-                                            return next(err);
-                                        }
-                                        console.log(result);
-                                        res.json(result);
-                                    });
+                                    if (result.logo != '') {
+                                        images.deleteFile(result.logo, function(err, result){
+                                            if(err){
+                                                console.log(err);
+                                                err.status = 500;
+                                                return next(err);
+                                            }
+                                            console.log('Logo ' + result);
+                                            Marketplaces.findByIdAndRemove(req.params.id, function (err, result) {
+                                                if(err){
+                                                    console.log(err);
+                                                    err.status = 500;
+                                                    return next(err);
+                                                }
+                                                console.log(result);
+                                                res.json(result);
+                                            });
+                                        });
+                                    } else {
+                                        Marketplaces.findByIdAndRemove(req.params.id, function (err, result) {
+                                            if(err){
+                                                console.log(err);
+                                                err.status = 500;
+                                                return next(err);
+                                            }
+                                            console.log(result);
+                                            res.json(result);
+                                        });
+                                    }
                                 },
                                 (err) => {
                                     console.log(err);

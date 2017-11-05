@@ -15,10 +15,10 @@ var mongoose = require('mongoose');
 
 mongoose.connect(config.mongoUrl);
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function () {
     // we're connected!
-    console.log("Connected correctly to server");
+    console.log("Connected correctly to MongoDB");
 });
 
 var app = express();
@@ -43,6 +43,8 @@ app.set('mode', 'development');
 // REST Routes
 var images = require('./routes/images');
 app.use('/images', images);
+app.use('/api/images', images);
+
 
 var badges = require('./routes/badges');
 app.use('/api/badges', badges);
@@ -118,9 +120,9 @@ function onError(error) {
       throw error;
     }
   
-    var bind = typeof port === 'string'
-      ? 'Pipe ' + port
-      : 'Port ' + port;
+    var bind = typeof config.port === 'string'
+      ? 'Pipe ' + config.port
+      : 'Port ' + config.port;
   
     // handle specific listen errors with friendly messages
     switch (error.code) {

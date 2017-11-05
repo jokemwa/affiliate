@@ -61,12 +61,13 @@ brandsRouter.route('/:id')
                 return next(err);
             }
             if(result.logo != req.body.logo && result.logo != '') {
-                images.deleteFile(result.logo, function(err, result) {
+                images.deleteFile(result.logo, function(err, result_file) {
                     if(err){
                         console.log(err);
                         err.status = 500;
                         return next(err);
                     }
+                    console.log(result.logo, ' ', result_file);
                     Brands.findByIdAndUpdate(req.params.id, {
                         $set: req.body
                     }, {
@@ -100,22 +101,42 @@ brandsRouter.route('/:id')
     })
 // Delete brand
     .delete(Verify.verifyUser, function (req, res, next) {
-        Brands.findById(req.params.id, 'items', function (err, result) {
+        Brands.findById(req.params.id, function (err, result) {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
             if (result.items.length == 0) {
-                Brands.findByIdAndRemove(req.params.id, function (err, response) {
-                    if(err){
-                        console.log(err);
-                        err.status = 500;
-                        return next(err);
-                    }
-                    console.log(response);
-                    res.json(response);
-                });
+                if (result.logo != '') {
+                    images.deleteFile(result.logo, function(err, result){
+                        if(err){
+                            console.log(err);
+                            err.status = 500;
+                            return next(err);
+                        }
+                        console.log('Logo ' + result);
+                        Brands.findByIdAndRemove(req.params.id, function (err, response) {
+                            if(err){
+                                console.log(err);
+                                err.status = 500;
+                                return next(err);
+                            }
+                            console.log(response);
+                            res.json(response);
+                        });
+                    });
+                } else {
+                    Brands.findByIdAndRemove(req.params.id, function (err, response) {
+                        if(err){
+                            console.log(err);
+                            err.status = 500;
+                            return next(err);
+                        }
+                        console.log(response);
+                        res.json(response);
+                    });
+                }
             } else {
                 let err = new Error ('Shop is not empty.');
                 console.log(err);
