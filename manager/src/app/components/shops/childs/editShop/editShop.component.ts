@@ -301,7 +301,7 @@ export class EditShopComponent implements OnInit {
     if (this.uploadedLogo) {
       this.restService.deleteImage(this.uploadedLogo).subscribe(
         response => {
-          this.router.navigate(['/shops']);
+          this.location.back();
         },
         err => {
           if (err.status === 401 || err.status === 403) {
@@ -313,7 +313,7 @@ export class EditShopComponent implements OnInit {
           }
         });
     } else {
-      this.router.navigate(['/shops']);
+      this.location.back();
     }
   }
 }
