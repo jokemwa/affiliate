@@ -4,10 +4,12 @@ var Schema = mongoose.Schema;
 
 var productSchema = new Schema({
     title: {
-        type: String
+        type: String,
+        default: ''
     },
     frontImage: {
-        type: String
+        hiRes: { type: String, default: '' },
+        thumb: { type: String, default: '' }
     },   
     images: {
         type: [{
@@ -18,36 +20,24 @@ var productSchema = new Schema({
     buyLink: {
         type: String
     },
+    brokenLinkCheck: {
+        type: Date
+    },
     marketplace: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Marketplace'
     },        
     description: {
-        type: String
+        type: String,
+        default: ''
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
-    },
-    brand: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Brand'
-    },
-    shop: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Shop'
-    },
-    tags: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Tag'
-        }],
     badges: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Badge'
-        }],
+    }],
     promoLink: {
          type: String 
-        }     
+    }     
 
 }, {
         timestamps: true

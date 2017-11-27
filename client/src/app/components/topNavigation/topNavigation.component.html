@@ -1,9 +1,9 @@
 <div *ngIf="isDataLoaded">
 <nav dir="ltr" class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <div class="d-flex">
-            <a dir="rtl" (click)="clickLogoTitle(e)" class="navbar-brand" href="#">{{translation.topNavigation.logoTitle}}</a>
-            <a dir="rtl" (click)="clickFacebook(e)" class="btn btn-xs btn-social-icon btn-facebook" href="{{translation.topNavigation.facebookLink}}"><i class="fa fa-facebook"></i></a>
-            <a dir="rtl" (click)="clickYoutube(e)" class="btn btn-xs btn-social-icon btn-youtube" href="{{translation.topNavigation.youtubeLink}}"><i class="fa fa-youtube"></i></a>
+            <a dir="rtl" (click)="clickLogoTitle($event)" class="navbar-brand" href="#">{{translation.topNavigation.logoTitle}}</a>
+            <a dir="rtl" (click)="clickFacebook($event)" class="btn btn-xs btn-social-icon btn-facebook" href="{{translation.topNavigation.facebookLink}}"><i class="fa fa-facebook"></i></a>
+            <a dir="rtl" (click)="clickYoutube($event)" class="btn btn-xs btn-social-icon btn-youtube" href="{{translation.topNavigation.youtubeLink}}"><i class="fa fa-youtube"></i></a>
         </div>
 
         <button class="navbar-toggler align-self-end" type="button" data-toggle="collapse" data-target="#navbarToggler">
@@ -15,33 +15,30 @@
             <div class="col-5 col-sm-7 col-lg-2 col-xl-auto"></div>
             <div class="input-group col-7 col-sm-5 col-lg-10 col-xl-12">
                 <span class="input-group-btn">
-                  <button dir="rtl" (click)="clickSearch(e)" class="btn btn-outline-secondary btn-sm" type="button">{{translation.topNavigation.searchGoButtion}}</button>
+                  <button dir="rtl" (click)="clickSearch()" class="btn btn-outline-secondary btn-sm" type="button">{{translation.topNavigation.searchGoButtion}}</button>
                 </span>
                 <input dir="rtl" type="text" class="form-control form-control-sm" placeholder="{{translation.topNavigation.searchboxPlaceholder}}">
             </div>
         </div>
 
         <ul class="navbar-nav d-flex align-items-end">
-            <li class="nav-item mr-lg-2  order-7 order-lg-1">
-                <a dir="rtl" (click)="clickCoupons(e)" class="nav-link disabled" href="#">{{translation.topNavigation.couponsLink}}</a>
+            <li class="nav-item mr-lg-2  order-6 order-lg-1">
+                <a dir="rtl" (click)="clickCoupons($event)" class="nav-link disabled" href="#">{{translation.topNavigation.couponsLink}}</a>
             </li>                        
-            <li class="nav-item mr-lg-2 order-6 order-lg-2">
-                <a dir="rtl" (click)="clickMarketplaces(e)" class="nav-link" href="#">{{translation.topNavigation.marketplacesLink}}</a>
+            <li class="nav-item mr-lg-2 order-5 order-lg-2">
+                <a dir="rtl" (click)="clickShops($event)" class="nav-link" href="#">{{translation.topNavigation.shopsLink}}</a>
             </li>
-            <li class="nav-item mr-lg-2 order-5 order-lg-3">
-                <a dir="rtl" (click)="clickShops(e)" class="nav-link" href="#">{{translation.topNavigation.shopsLink}}</a>
+            <li class="nav-item mr-lg-2 order-4 order-lg-3">
+                <a dir="rtl" (click)="clickBrands($event)" class="nav-link" href="#">{{translation.topNavigation.brandsLink}}</a>
             </li>
-            <li class="nav-item mr-lg-2 order-4 order-lg-4">
-                <a dir="rtl" (click)="clickBrands(e)" class="nav-link" href="#">{{translation.topNavigation.brandsLink}}</a>
+            <li class="nav-item mr-lg-2 order-3 order-lg-4">
+                <a dir="rtl" (click)="clickSuggestions($event)" class="nav-link disabled" href="#">{{translation.topNavigation.suggestionsLink}}</a>
             </li>
-            <li class="nav-item mr-lg-2 order-3 order-lg-5">
-                <a dir="rtl" (click)="clickSuggestions(e)" class="nav-link disabled" href="#">{{translation.topNavigation.suggestionsLink}}</a>
+            <li class="nav-item mr-lg-2 order-2 order-lg-5">
+                <a dir="rtl" (click)="clickCategories($event)" class="nav-link" href="#">{{translation.topNavigation.categoriesLink}}</a>
             </li>
-            <li class="nav-item mr-lg-2 order-2 order-lg-6">
-                <a dir="rtl" (click)="clickCategories(e)" class="nav-link" href="#">{{translation.topNavigation.categoriesLink}}</a>
-            </li>
-            <li class="nav-item mr-lg-2 order-1 order-lg-7">
-                <a dir="rtl" (click)="clickHome(e)" class="nav-link active" href="#">{{translation.topNavigation.homeLink}}</a>
+            <li class="nav-item mr-lg-2 order-1 order-lg-6">
+                <a dir="rtl" (click)="clickHome($event)" class="nav-link active" href="#">{{translation.topNavigation.homeLink}}</a>
             </li>
         </ul>
     </div>

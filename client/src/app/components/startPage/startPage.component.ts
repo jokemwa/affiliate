@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { orderBy } from 'lodash';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 import { RESTService } from '../../services/rest.service';
 
-import { ProductPreviewComponent } from '../productPreview/productPreview.component';
+import { TrackingService } from '../../services/tracking.service';
+
+import { ProductPreviewComponent } from '../products/productPreview/productPreview.component';
 
 
 
@@ -15,12 +19,12 @@ import { ProductPreviewComponent } from '../productPreview/productPreview.compon
   templateUrl: './startPage.component.html',
   styleUrls: []
 })
-export class StartPageComponent implements OnInit {
+export class StartPageComponent implements OnInit, AfterViewInit {
 
-  isDataLoaded = false;
+  isDataReady = false;
   translation: any;
 
-  topRated: any;
+  tops: any;
   topCategories: any;
 
   viewedLg = 4;
@@ -28,92 +32,41 @@ export class StartPageComponent implements OnInit {
 
     constructor(
       private modalService: NgbModal,
-      private restService: RESTService
-
+      private restService: RESTService,
+      private trackingService: TrackingService,
+      private router: Router
     ) {}
 
     ngOnInit(): void {
-      this.getTranslation();
-      this.getTopRated();
-      this.getTopCategories();
-    }
-
-    getTranslation() {
-      this.restService.getTranslation().subscribe(
+      const observables = [];
+      observables.push(this.restService.getTranslation());
+      observables.push(this.restService.getTopCategories());
+      observables.push(this.restService.getTops());
+      Observable.forkJoin(observables).subscribe(
         response => {
-            this.translation = response;
-            this.isDataLoaded = true;
+          this.translation = response[0];
+          this.topCategories = response[1];
+          this.tops = response[2];
+          this.isDataReady = true;
         },
         err => {
           console.log(JSON.stringify(err));
-      });
+          }
+      );
     }
 
-    showProductDetail(id: String) {
+    ngAfterViewInit(): void {
+      this.trackingService.trackAction('startPage', 'Loaded', '');
+    }
+
+    showProductDetail(id: string) {
       const modalRef = this.modalService.open(ProductPreviewComponent, {size: 'lg'});
       modalRef.componentInstance.id = id;
     }
 
-    getTopRated() {
-      this.topRated = orderBy(this.restService.getTopRated(), 'order', 'desc');
-
-    }
-
-    getTopCategories() {
-      this.topCategories = orderBy(this.restService.getTopCategories(), 'order', 'asc');
-      for (let i = 0; i < this.topCategories.length; i++) {
-        this.topCategories[i].products = orderBy(this.topCategories[i].products, 'order', 'asc');
-        this.topCategories[i].viewIndexLg = -1;
-        this.moveLeftTopCategories(i);
-      }
-    }
-
-
-
-    moveLeftTopCategories(arrayId) {
-      console.log(arrayId);
-
-      if (this.topCategories[arrayId].viewIndexLg <= (this.topCategories[arrayId].products.length - this.viewedLg - 1) ) {
-        this.topCategories[arrayId].viewIndexLg++;
-      }
-
-        for (let j = 0; j < this.topCategories[arrayId].products.length; j++) {
-
-          if (j >= this.topCategories[arrayId].viewIndexLg &&
-             j < this.topCategories[arrayId].viewIndexLg + this.viewedLg) {
-
-            this.topCategories[arrayId].products[j].viewClassLg = 'd-sm-block';
-          } else {
-
-            this.topCategories[arrayId].products[j].viewClassLg = 'd-sm-none';
-          }
-          console.log(j, this.topCategories[arrayId].products[j].viewClassLg);
-
-        }
-
-    }
-
-    moveRightTopCategories(arrayId) {
-      console.log(arrayId);
-
-      if (this.topCategories[arrayId].viewIndexLg >= 1 ) {
-        this.topCategories[arrayId].viewIndexLg--;
-      }
-
-
-        for (let j = 0; j < this.topCategories[arrayId].products.length; j++) {
-
-          if (j >= this.topCategories[arrayId].viewIndexLg &&
-            j < this.topCategories[arrayId].viewIndexLg + this.viewedLg) {
-
-              this.topCategories[arrayId].products[j].viewClassLg = 'd-sm-block';
-            } else {
-
-              this.topCategories[arrayId].products[j].viewClassLg = 'd-sm-none';
-            }
-            console.log(j, this.topCategories[arrayId].products[j].viewClassLg);
-
-        }
+    browseAllCategory(e, category_id) {
+      e.stopPropagation();
+      e.preventDefault();
     }
 
 }

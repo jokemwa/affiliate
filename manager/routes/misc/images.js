@@ -1,45 +1,29 @@
 var mongodb = require('mongodb');
 var ObjectId = require('mongodb').ObjectID;
+var async = require('async');
 var config = require('../../config');
 
-var deleteGridFSFile = function(bucket, file) {
-    return new Promise(function(resolve, reject){
-        bucket.delete(new ObjectId(file), function(err) {
-            if(err){
-                reject(err);
+
+exports.deleteProductImages = function (images, callback) {
+    var tasks = [];
+    images.forEach(function(element){
+        tasks.push(
+            (callback) => {exports.deleteFile(element.hiRes, callback)
             }
-            resolve('Deleted');
-        });
+        );
+        tasks.push(
+            (callback) => {exports.deleteFile(element.thumb, callback)
+            }
+        );
+    });
+    async.parallel(tasks, (err, result) => {
+        if(err){
+            return callback(err, null);
+        }
+        callback(null, 'ok');
     });
 }
 
-exports.deleteProductImages = function (images, callback) {
-    mongodb.MongoClient.connect(config.mongoUrl, function(err, db) {
-        if(err){
-            callback(err, null);
-            return;
-        }
-        var bucket = new mongodb.GridFSBucket(db, {
-            bucketName: 'images'
-        });
-        var promises = [];
-        images.forEach(function(element){
-            promises.push(deleteGridFSFile(bucket, element.hiRes));
-            promises.push(deleteGridFSFile(bucket, element.thumb));
-        });
-        Promise.all(promises)
-            .then(
-                function(){
-                    callback(null, 'ok');
-                    return;
-                },
-                function(err){
-                    callback(err, null);
-                    return;
-                }
-            );
-    });
-}
 
 exports.deleteFile = function (file_Id, callback) {
     mongodb.MongoClient.connect(config.mongoUrl, function(err, db) {

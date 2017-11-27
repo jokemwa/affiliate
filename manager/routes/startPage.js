@@ -4,255 +4,199 @@ var mongoose = require('mongoose');
 var Verify = require('./verify');
 
 
-var startPageCategories = require('../models/startPage/startPageCategories');
-var startPageTops = require('../models/startPage/startPageTops');
+var StartPageCategoriesLists = require('../models/startPage/startPageCategoriesLists');
+var StartPageCategories = require('../models/startPage/startPageCategories');
+var StartPageTops = require('../models/startPage/startPageTops');
+
+var startPage = require('./misc/startPage');
 
 var startPageRouter = express.Router();
-startPageRouter.use(bodyParser.urlencoded({extended: true}));
+startPageRouter.use(bodyParser.json());
 
 
-startPageRouter.route('/categories')
+startPageRouter.route('/categories-list')
+// Get start page's categories list
     .get(Verify.verifyUser, function (req, res, next) {
-        startPageCategories.find({})
-        .populate("product")
-        .exec(function(err, results){
+        StartPageCategoriesLists.findOne({"version": 0})
+        .populate({
+            path:     'items.category',			
+            populate: { path:  'category'}
+          })
+        .populate({
+            path:     'items.category',			
+            populate: { path:  'items.product'}
+          })
+        .exec(function(err, result){
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-            console.log(results);
-            res.json(results);
+            if (result) {
+                console.log(result);
+                res.json(result);
+            } else {
+                // Create new list
+                StartPageCategoriesLists.create({"version": 0}, function (err, result) {
+                    if(err){
+                        console.log(err);
+                        err.status = 500;
+                        return next(err);
+                    }
+                    console.log(result);
+                    res.json(result);
+                });
+            }
+            
         });
     })
 
+startPageRouter.route('/categories-list/add')
+// Add category to list
     .post(Verify.verifyUser, function (req, res, next) {
-        startPageCategories.create(req.body, function (err, result) {
+        startPage.addCategoryToList(req.body.category_id,
+            (err, result) => {
+                if(err){
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                }
+                console.log(result);
+                res.json(result);
+        });
+});
+
+startPageRouter.route('/categories-list/categories/:category_id/:product_id')
+// Remove product from category
+    .delete(Verify.verifyUser, function (req, res, next) {
+        startPage.removeProductFromCategory(req.params.category_id, req.params.product_id,
+        (err, result) => {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-        res.json(result);
+            console.log(result);
+            res.json(result);
         });
-        
     });
 
-startPageRouter.route('/categories/:id')
-    .get(Verify.verifyUser, function (req, res, next) {
-        Categories.findById(req.params.id)
-        .populate('product')
-        .exec(function (err, result) {
-            if(err){
-                console.log(err);
-                err.status = 500;
-                return next(err);
-            }
-            res.json(result);
-        });
-    })
-
+startPageRouter.route('/categories-list/categories/:category_id')
+// Add product to category
     .post(Verify.verifyUser, function (req, res, next) {
-        startPageCategories.findById(req.params.id, 'items')
-        .sort('order')
-        .exec(function (err, items) {
-            let item = {
-                "product": req.body.product_id,
-                "order": (items[items.length-1].order + 1)
-            }
-            startPageCategories.findByIdAndUpdate(req.params.id,
-                {
-                $push: { "items": item }
-            }, {
-                new: true
-            }, function (err, result) {
-                if(err){
-                    console.log(err);
-                    err.status = 500;
-                    return next(err);
-                }
-            res.json(result);
-            });
-        })
-    })
-
-    .delete(Verify.verifyUser, function (req, res, next) {
-        startPageCategories.findByIdAndUpdate(req.params.id, {
-            $pull: { "items": { "product": req.body.product_id } }
-        }, {
-            new: true
-        }, function (err, result) {
+        startPage.addProductToCategory(req.params.category_id, req.body.product_id,
+        (err, result) => {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-            startPageCategories.findById(req.params.id, 'items')
-            .sort('order')
-            .exec(function (err, items) {
-                if(err){
-                    console.log(err);
-                    err.status = 500;
-                    return next(err);
-                }
-                for(let i = 0; i < items.length; i++){
-                    items.order = i;
-                }
-                startPageCategories.findByIdAndUpdate(req.params.id,
-                    {
-                        $set: { "items": items }
-                    }, {
-                        new: true
-                    }, function (err, result) {
-                        if(err){
-                            console.log(err);
-                            err.status = 500;
-                            return next(err);
-                        }
-                        res.json(result);
-                    });
-                });
+            console.log(result);
+            res.json(result);
         });
     })
-
+// Update products order in category
     .put(Verify.verifyUser, function (req, res, next) {
-        startPageCategories.findByIdAndUpdate(req.params.id, {
-            $set: { "items": req.body }
-        }, {
-                new: true
-            }, function (err, result) {
+        StartPageCategories.findByIdAndUpdate(req.params.category_id,
+        req.body,
+        { new: true },
+        (err, result) => {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(result);
+            res.json(result);
+        });
+    })
+// Delete category from list
+    .delete(Verify.verifyUser, function (req, res, next) {
+        startPage.removeCategoryFromList(req.params.category_id,
+            (err, result) => {
                 if(err){
                     console.log(err);
                     err.status = 500;
                     return next(err);
                 }
+                console.log(result);
                 res.json(result);
-            });
-    })
+        });
+});
 
 startPageRouter.route('/tops')
+// Get start page's top products list
     .get(Verify.verifyUser, function (req, res, next) {
-        startPageTops.find({'ref': req.body.ref}, 'items', function(err, items){
+        StartPageTops.findOne({"version": 0})
+        .populate("items.product")
+        .exec(function(err, result){
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-            console.log(items);
-            res.json(items);
-        });
-    })
-
-    .post(Verify.verifyUser, function (req, res, next) {
-        startPageTops.create(req.body, function(err, results){
-            if(err){
-                console.log(err);
-                err.status = 500;
-                return next(err);
-            }
-            console.log(results);
-            res.json(results);
-        });
-    })
-
-    .delete(Verify.verifyUser, function (req, res, next) {
-        startPageTops.remove({'ref': req.body.ref}, function(err, results){
-            if(err){
-                console.log(err);
-                err.status = 500;
-                return next(err);
-            }
-            console.log(results);
-            res.json(results);
-        });
-    })
-
-    .put(Verify.verifyUser, function (req, res, next) {
-        startPageTops.update({'ref': req.body.ref},
-        {
-            $set: { "items": req.body.items }
-        }, {
-            new: true
-        },
-        function(err, results){
-            if(err){
-                console.log(err);
-                err.status = 500;
-                return next(err);
-            }
-            console.log(results);
-            res.json(results);
-        });
-    })
-
-startPageRouter.route('/tops/:id')
-    .post(Verify.verifyUser, function (req, res, next) {
-        startPageTops.find({'ref': req.body.ref}, 'items')
-        .sort('order')
-        .exec(function(err, items){
-            if(err){
-                console.log(err);
-                err.status = 500;
-                return next(err);
-            }
-            let item = {
-                "product": req.body.product_id,
-                "order": (items[items.length-1].order + 1)
-            }
-            startPageTops.update({'ref': req.body.ref},
-                {
-                $push: { "items": item }
-            }, {
-                new: true
-            }, function (err, result) {
-                if(err){
-                    console.log(err);
-                    err.status = 500;
-                    return next(err);
-                }
-            res.json(result);
-            });
-        });
-    })
-    .delete(Verify.verifyUser, function (req, res, next) {
-        startPageTops.update({'ref': req.body.ref},
-        {
-        $pull: { "items": {"product": req.body.product} }
-        }, {
-        new: true
-        }, function (err, result) {
-            if(err){
-                console.log(err);
-                err.status = 500;
-                return next(err);
-            }
-            startPageTops.find({'ref': req.body.ref}, 'items')
-            .sort('order')
-            .exec(function (err, items) {
-                if(err){
-                    console.log(err);
-                    err.status = 500;
-                    return next(err);
-                }
-                for(let i = 0; i < items.length; i++){
-                    items.order = i;
-                }
-                startPageTops.update({'ref': req.body.ref},
-                    {
-                        $set: { "items": items }
-                    }, {
-                        new: true
-                    }, function (err, result) {
-                        if(err){
-                            console.log(err);
-                            err.status = 500;
-                            return next(err);
-                        }
-                        res.json(result);
-                    });
+            if (result) {
+                console.log(result);
+                res.json(result);
+            } else {
+                // Create new list
+                StartPageTops.create({"version": 0}, function (err, result) {
+                    if(err){
+                        console.log(err);
+                        err.status = 500;
+                        return next(err);
+                    }
+                    console.log(result);
+                    res.json(result);
                 });
+            }
         });
-    });
+    })
+    // Update list
+    .put(Verify.verifyUser, function (req, res, next) {
+        StartPageTops.findOneAndUpdate({"version": 0},
+        req.body,
+        { new: true }, 
+        function (err, result) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(result);
+            res.json(result);
+        });
+});
+
+startPageRouter.route('/tops/add')
+// Add product to tops
+    .post(Verify.verifyUser, function (req, res, next) {
+        startPage.addProductToTops(req.body.product_id,
+            (err, result) => {
+                if(err){
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                }
+                console.log(result);
+                res.json(result);
+        });
+});
+
+startPageRouter.route('/tops/:product_id')
+// Delete product from tops
+    .delete(Verify.verifyUser, function (req, res, next) {
+        startPage.removeProductFromTops(req.params.product_id,
+            (err, result) => {
+                if(err){
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                }
+                console.log(result);
+                res.json(result);
+        });
+});
 
 
 module.exports = startPageRouter;

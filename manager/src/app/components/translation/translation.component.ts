@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { RESTService } from '../../services/rest.service';
 
@@ -12,10 +14,13 @@ import { RESTService } from '../../services/rest.service';
 
 export class TranslationComponent implements OnInit {
 
+  isDataReady = false;
   translation: any;
 
   constructor(
-    private restService: RESTService) {}
+    private restService: RESTService,
+    private router: Router,
+    private location: Location) {}
 
   ngOnInit(): void {
       this.loadTranslation();
@@ -25,11 +30,18 @@ export class TranslationComponent implements OnInit {
     this.restService.loadTranslation().subscribe(
       response => {
           this.translation = response;
+          this.isDataReady = true;
       },
       err => {
-        window.alert('Server error: ' + JSON.stringify(err));
-        console.log(err);
-    });
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+        }
+      }
+    );
   }
 
   saveTranslation(logoTitle,
@@ -86,20 +98,6 @@ export class TranslationComponent implements OnInit {
       return;
     }
 
-    if (couponsLink !== undefined && couponsLink !== '') {
-      this.translation.topNavigation.couponsLink = couponsLink;
-    } else {
-      window.alert('Coupons Nav Link is empty!');
-      return;
-    }
-
-    if (marketplacesLink !== undefined && marketplacesLink !== '') {
-      this.translation.topNavigation.marketplacesLink = marketplacesLink;
-    } else {
-      window.alert('Marketplaces Nav Link is empty!');
-      return;
-    }
-
     if (shopsLink !== undefined && shopsLink !== '') {
       this.translation.topNavigation.shopsLink = shopsLink;
     } else {
@@ -114,13 +112,6 @@ export class TranslationComponent implements OnInit {
       return;
     }
 
-    if (suggestionsLink !== undefined && suggestionsLink !== '') {
-      this.translation.topNavigation.suggestionsLink = suggestionsLink;
-    } else {
-      window.alert('Suggestions Nav Link is empty!');
-      return;
-    }
-
     if (categoriesLink !== undefined && categoriesLink !== '') {
       this.translation.topNavigation.categoriesLink = categoriesLink;
     } else {
@@ -132,13 +123,6 @@ export class TranslationComponent implements OnInit {
       this.translation.topNavigation.homeLink = homeLink;
     } else {
       window.alert('Home Nav Link is empty!');
-      return;
-    }
-
-    if (header !== undefined && header !== '') {
-      this.translation.startPage.header = header;
-    } else {
-      window.alert('Header Label is empty!');
       return;
     }
 
@@ -170,15 +154,24 @@ export class TranslationComponent implements OnInit {
       return;
     }
 
-
     this.restService.saveTranslation(this.translation).subscribe(
       response => {
           window.alert('Translation saved.');
       },
       err => {
-        window.alert('Server error: ' + JSON.stringify(err));
-        console.log(err);
-    });
+        if (err.status === 401 || err.status === 403) {
+          this.restService.logout();
+          this.router.navigate(['/login']);
+        } else {
+        window.alert(JSON.stringify(err));
+        console.log(JSON.stringify(err));
+        }
+      }
+    );
+  }
+
+  clickCancel() {
+    this.location.back();
   }
 
 }

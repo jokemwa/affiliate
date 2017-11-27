@@ -12,6 +12,7 @@ var shops = require('./misc/shops');
 var brands = require('./misc/brands');
 var tags = require('./misc/tags');
 var products = require('./misc/products');
+var startPage = require('./misc/startPage');
 
 var Products = require('../models/products');
 var Marketplaces = require('../models/marketplaces');
@@ -305,7 +306,7 @@ productsRouter.route('/:id')
             });
     });
     })
-
+// Update product
     .put(Verify.verifyUser, function (req, res, next) {
         Products.findByIdAndUpdate(req.params.id, {
             $set: req.body
@@ -360,14 +361,16 @@ productsRouter.route('/:id')
                                     err.status = 500;
                                     return next(err);
                                 }
-                                Products.findByIdAndRemove(req.params.id, function (err, result) {
-                                    if(err){
-                                        console.log(err);
-                                        err.status = 500;
-                                        return next(err);
-                                    }
-                                    
-                                    res.json(result);
+                                startPage.removeFromStartPage(req.params.id, (err, result) => {
+                                    Products.findByIdAndRemove(req.params.id, function (err, result) {
+                                        if(err){
+                                            console.log(err);
+                                            err.status = 500;
+                                            return next(err);
+                                        }
+                                        console.log(result);
+                                        res.json(result);
+                                    });
                                 });
                             });
                         });

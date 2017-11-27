@@ -15,13 +15,15 @@ imagesRouter.use(bodyParser.json());
 
 imagesRouter.route('/:id')
     .get(function (req, res, next) {
-
-        mongodb.MongoClient.connect(config.mongoUrl, function(error, db) {
-
+        mongodb.MongoClient.connect(config.mongoUrl, function(err, db) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
             var bucket = new mongodb.GridFSBucket(db, {
                 bucketName: 'images'
               });
-            //console.log(req.params.id);
             var output = bucket.openDownloadStream(new ObjectId(req.params.id));
 
             output.on("error", function(err){
@@ -30,7 +32,9 @@ imagesRouter.route('/:id')
                 var error = new Error(err);
                 return next(error);
             });
-
+            output.on("end", () => {
+                db.close();
+            });
 
             output.pipe(res);
             });

@@ -739,7 +739,7 @@ export class RESTService {
 /* Translation */
 
 public loadTranslation(): Observable<any> {
-    const url = `/api/translation/hebrew`;
+    const url = `/api/translation`;
     return this.http
     .get(url,
         {
@@ -749,7 +749,7 @@ public loadTranslation(): Observable<any> {
 }
 
 public saveTranslation(translation): Observable<any> {
-    const url = `/api/translation/hebrew`;
+    const url = `/api/translation`;
     const body = translation;
     return this.http
     .post(url, body,
@@ -759,6 +759,8 @@ public saveTranslation(translation): Observable<any> {
             .append('x-access-token', this.token)
         });
 }
+
+/* Files */
 
 public sendFile(formData): Observable<any> {
     const url = `/api/file`;
@@ -779,6 +781,126 @@ public sendFile(formData): Observable<any> {
             {
                 headers: new HttpHeaders()
                 .set('x-access-token', this.token)
+            });
+    }
+
+/* Start Page - Top Categories */
+
+// Get start page's categories list
+    public getTopCategories(): Observable<any> {
+        const url = `/api/start-page/categories-list`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+// Add category to list
+    public addTopCategory(category_id: string): Observable<any> {
+        const url = `/api/start-page/categories-list/add`;
+        const body = {'category_id': category_id};
+        return this.http
+        .post(url, body,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .append('x-access-token', this.token)
+            });
+    }
+
+// Remove product from category
+    public removeProductFromTopCategory(category_id: string, product_id: string): Observable<any> {
+        const url = `/api/start-page/categories-list/categories/${category_id}/${product_id}`;
+        return this.http
+        .delete(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+// Add product to category
+    public addProductToTopCategory(category_id: string, product_id: string): Observable<any> {
+        const url = `/api/start-page/categories-list/categories/${category_id}`;
+        const body = {'product_id': product_id};
+        return this.http
+        .post(url, body,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .append('x-access-token', this.token)
+            });
+    }
+
+// Update category
+public updateTopCategory(category: any): Observable<any> {
+    const url = `/api/start-page/categories-list/categories/${category._id}`;
+    return this.http
+    .put(url, category,
+        {
+            headers: new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .append('x-access-token', this.token)
+        });
+}
+
+// Delete category from list
+    public removeTopCategory(category_id: string): Observable<any> {
+        const url = `/api/start-page/categories-list/categories/${category_id}`;
+        return this.http
+        .delete(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+// Get start page's products top
+    public getTops(): Observable<any> {
+        const url = `/api/start-page/tops`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+// Add product to top
+    public addProductToTops(product_id: string): Observable<any> {
+        const url = `/api/start-page/tops/add`;
+        const body = {'product_id': product_id};
+        return this.http
+        .post(url, body,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .append('x-access-token', this.token)
+            });
+    }
+
+// Remove product from top
+    public removeProductFromTops(product_id: string): Observable<any> {
+        const url = `/api/start-page/tops/${product_id}`;
+        return this.http
+        .delete(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+// Update product order in top
+    public updateTops(tops: any): Observable<any> {
+        const url = `/api/start-page/tops`;
+        return this.http
+        .put(url, tops,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .append('x-access-token', this.token)
             });
     }
 

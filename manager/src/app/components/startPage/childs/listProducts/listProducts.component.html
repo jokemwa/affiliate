@@ -1,0 +1,53 @@
+<div class="row">
+    <button class="btn btn-sm btn-primary mr-1" (click)="addProduct()">Add Product</button>
+    <button class="btn btn-sm btn-success" (click)="saveChanges()">Save Order</button>
+</div>
+<div class="row">
+        <table class="table table-hover mt-3">
+            <thead>
+                <tr>
+                        <th>Order</th>
+                        <th>Product</th>
+                        <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of items | orderBy: 'order'; let i = index">
+                        <th scope="row">
+                                <a href="#" *ngIf="!isFirst(item._id)" (click)="moveUp($event, item._id)"><span class="fa fa-arrow-up"></span></a>
+                                {{i+1}}
+                                <a href="#" *ngIf="!isLast(item._id)" (click)="moveDown($event, item._id)"><span class="fa fa-arrow-down"></span></a>
+                        </th>
+                        <td>
+                                <a href="#" (click)="productClick($event, item.product._id)">
+                                        <img src="/images/{{item.product.frontImage.thumb}}"
+                                        style = "
+                                        max-width:32px;
+                                        max-height: 32px;
+                                        width: auto;
+                                        height: auto;
+                                       ">
+                                        <strong dir="rtl">{{item.product.title}}</strong>
+                                </a>
+                        </td>
+                        <td>
+                                <div class="row">
+                                    <button class="btn btn-sm btn-outline-warning mr-1 my-1"
+                                        (click)="editProduct(item.product._id)">
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger my-1"
+                                        (click)="removeProduct(item.product._id)">
+                                        Remove
+                                    </button>
+                                </div>
+                        </td>
+                </tr>
+            </tbody>
+        </table>
+
+</div>
+<div class="row">
+    <button class="btn btn-sm btn-primary mr-1" (click)="addProduct()">Add Product</button>
+    <button class="btn btn-sm btn-success" (click)="saveChanges()">Save Order</button>
+</div>  

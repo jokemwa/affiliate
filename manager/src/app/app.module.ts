@@ -15,7 +15,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { BrokenLinksComponent } from './components/brokenLinks/brokenLinks.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { MainMenuComponent } from './components/mainMenu/mainMenu.component';
-import { MainPageComponent } from './components/mainPage/mainPage.component';
+import { StartPageComponent } from './components/startPage/startPage.component';
 import { MarketplacesComponent } from './components/marketplaces/marketplaces.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ShopsComponent } from './components/shops/shops.component';
@@ -64,6 +64,9 @@ import { DeleteShopGroupComponent } from './components/shopGroups/childs/deleteS
 import { ViewShopGroupShopsComponent } from './components/shopGroups/childs/viewShopGroupShops/viewShopGroupShops.component';
 import { SelectShopComponent } from './components/shops/childs/selectShop/selectShop.component';
 import { ShopGroupsComponent } from './components/shopGroups/shopGroups.component';
+import { ListProductsComponent } from './components/startPage/childs/listProducts/listProducts.component';
+import { SelectCategoryComponent } from './components/categories/childs/selectCategory/selectCategory.component';
+
 
 
 import { OrderByPipe } from './pipes/orderBy.pipe';
@@ -112,13 +115,13 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'topnavigationmenus',
+    path: 'top-navigation-menus',
     component: TopNavigationMenusComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'mainpage',
-    component: MainPageComponent,
+    path: 'start-page',
+    component: StartPageComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -247,7 +250,7 @@ const appRoutes: Routes = [
     BrokenLinksComponent,
     CategoriesComponent,
     MainMenuComponent,
-    MainPageComponent,
+    StartPageComponent,
     MarketplacesComponent,
     ProductsComponent,
     ShopsComponent,
@@ -296,6 +299,8 @@ const appRoutes: Routes = [
     EditShopGroupComponent,
     ViewShopGroupShopsComponent,
     SelectShopComponent,
+    ListProductsComponent,
+    SelectCategoryComponent,
     OrderByPipe
   ],
   imports: [
@@ -329,7 +334,8 @@ const appRoutes: Routes = [
     DeleteShopGroupComponent,
     NewShopGroupComponent,
     EditShopGroupComponent,
-    SelectShopComponent
+    SelectShopComponent,
+    SelectCategoryComponent
   ],
   providers: [
     RESTService,

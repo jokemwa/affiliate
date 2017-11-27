@@ -24,7 +24,7 @@ export class ShopViewComponent implements OnInit {
 
   ngOnInit(): void {
       this.route.paramMap
-        .switchMap((params: ParamMap) => this.restService.getProductView(params.get('link')))
+        .switchMap((params: ParamMap) => this.restService.getProduct(params.get('link')))
         .subscribe(response => {
           this.product = response;
         },

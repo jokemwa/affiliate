@@ -7,9 +7,9 @@ var Translations = require('../models/translations');
 var translationsRouter = express.Router();
 translationsRouter.use(bodyParser.json());
 
-translationsRouter.route('/:lang')
+translationsRouter.route('/')
     .get(function (req, res, next) {
-        Translations.findOne({lang: req.params.lang}, function (err, result) {
+        Translations.findOne({lang: 'hebrew'}, function (err, result) {
         if(err){
             console.log(err);
             err.status = 500;

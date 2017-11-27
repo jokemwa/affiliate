@@ -14,8 +14,7 @@ mongoose.connect(config.mongoUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-    // we're connected!
-    console.log("Connected correctly to server");
+    console.log("Connected correctly to MongoDB");
 });
 
 var app = express();
@@ -31,30 +30,21 @@ app.set('port', config.port);
 app.set('mode', 'development');
 
 // REST Routes
-var addLink = require('./routes/addLink');
-app.use('/addlink', addLink);
-
-var badges = require('./routes/badges');
-app.use('/api/badges', badges);
-var brands = require('./routes/brands');
-app.use('/api/brands', brands);
-var categories = require('./routes/categories');
-app.use('/api/categories', categories);
+var images = require('./routes/images');
+app.use('/images', images);
+var client = require('./routes/client');
+app.use('/api/client', client);
+var startPage = require('./routes/startPage');
+app.use('/api/start-page', startPage);
 var products = require('./routes/products');
 app.use('/api/products', products);
-var shops = require('./routes/shops');
-app.use('/api/shops', shops);
-var tags = require('./routes/tags');
-app.use('/api/tags', tags);
-var marketplaces = require('./routes/marketplaces');
-app.use('/api/marketplaces', marketplaces);
-var topRated = require('./routes/topRated');
-app.use('/api/topRated', topRated);
 var translation = require('./routes/translation');
 app.use('/api/translation', translation);
+var brands = require('./routes/brands');
+app.use('/api/brands', brands);
 
-// Images
-app.use('/img', express.static(path.join(__dirname, 'img')));
+// Static
+app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // Angular4 client
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -95,9 +85,9 @@ function onError(error) {
       throw error;
     }
   
-    var bind = typeof port === 'string'
-      ? 'Pipe ' + port
-      : 'Port ' + port;
+    var bind = typeof config.port === 'string'
+      ? 'Pipe ' + config.port
+      : 'Port ' + config.port;
   
     // handle specific listen errors with friendly messages
     switch (error.code) {

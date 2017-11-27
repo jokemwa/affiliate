@@ -83,6 +83,7 @@ fileRouter.route('/')
                         fs.unlink(tmpFile, function(err){
                             console.log(err);
                         });
+                        db.close();
                         res.json({'_id': input.id});
                     });
                 });

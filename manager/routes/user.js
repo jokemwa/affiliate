@@ -5,34 +5,78 @@ var User = require('../models/user');
 var Verify = require('./verify');
 
 router.post('/login', function (req, res, next) {
-
-    passport.authenticate('local', function (err, user, info) {
+    User.find({}, (err, result) => {
         if(err){
             console.log(err);
             err.status = 500;
             return next(err);
         }
-        if (!user) {
-            let err = new Error(info);
-            console.log(info);
-            err.status = 401;
-            return next(err);
-        }
-        req.logIn(user, function (err) {
+        if (result.length != 0) {
+            passport.authenticate('local', function (err, user, info) {
                 if(err){
                     console.log(err);
                     err.status = 500;
                     return next(err);
                 }
-
-            var token = Verify.getToken(user);
-            res.status(200).json({
-                status: 'Login successful!',
-                success: true,
-                token: token
+                if (!user) {
+                    let err = new Error(info);
+                    console.log(info);
+                    err.status = 401;
+                    return next(err);
+                }
+                req.logIn(user, function (err) {
+                        if(err){
+                            console.log(err);
+                            err.status = 500;
+                            return next(err);
+                        }
+        
+                    var token = Verify.getToken(user);
+                    res.status(200).json({
+                        status: 'Login successful!',
+                        success: true,
+                        token: token
+                    });
+                });
+            })(req, res, next);
+        } else {
+            User.register(new User({ username: 'admin' }),
+            'qqq', function (err, user) {
+                if(err){
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                }
+                passport.authenticate('local', function (err, user, info) {
+                    if(err){
+                        console.log(err);
+                        err.status = 500;
+                        return next(err);
+                    }
+                    if (!user) {
+                        let err = new Error(info);
+                        console.log(info);
+                        err.status = 401;
+                        return next(err);
+                    }
+                    req.logIn(user, function (err) {
+                            if(err){
+                                console.log(err);
+                                err.status = 500;
+                                return next(err);
+                            }
+            
+                        var token = Verify.getToken(user);
+                        res.status(200).json({
+                            status: 'Login successful!',
+                            success: true,
+                            token: token
+                        });
+                    });
+                })(req, res, next);
             });
-        });
-    })(req, res, next);
+        }
+    });
 });
 
 router.post('/changepassword', function (req, res, next) {

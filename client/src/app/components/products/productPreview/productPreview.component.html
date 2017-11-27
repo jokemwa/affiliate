@@ -1,0 +1,43 @@
+<div *ngIf="isDataReady" class="modal-header d-flex justify-content-end">
+        <button type="button" class="close" (click)="cancel()">
+                <span>&times;</span>
+        </button>
+</div>
+
+<div *ngIf="isDataReady" class="modal-body">
+        <div class="container">
+                <div class="row d-flex">
+                        <div class="col-1">
+                                <div *ngFor="let image of product.images"
+                                class="row d-flex justify-content-center">
+                                        <img
+                                        class="mx-1 my-1" src="./images/{{image.thumb}}" alt="{{image.thumb}}"
+                                        (click) = "selectImage(image._id)"
+                                        [style.border] = "image.hiRes === activeImage.hiRes ? '1px solid black' : 'none'"
+                                        style = "
+                                        max-width:64px;
+                                        max-height: 64px;
+                                        width: auto;
+                                        height: auto;
+                                        cursor: pointer;
+                                        ">
+                                </div>
+                        </div>
+                        <div class="col-6">
+                                <img class="img-fluid"
+                                src="./images/{{activeImage.hiRes}}">
+                        </div>
+                        <div class="col-5">
+                                <h3 class="row">{{product.title}}</h3>
+                                <h5 class="row">{{product.description}}</h5>
+                                <div class="row">
+                                        <h4>
+                                                <a href="#" (click)="viewMore($event)">
+                                                {{translation.productPreview.viewMore}}
+                                                </a>
+                                        </h4>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>

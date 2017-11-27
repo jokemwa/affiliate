@@ -1,0 +1,46 @@
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Manage Panel</a>
+    <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+            <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+            <li class="breadcrumb-item active">Start Page</li>
+    </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+    <div class="row">
+        <h2 class="mb-3">Top Rated Products</h2>
+    </div>
+    <app-list-products
+                [items]="tops.items"
+                (onAddProduct)="showSelectTopProductDialog($event)"
+                (onSaveChanges)="updateTops($event)"
+                (onProductClick)="productPreview($event)"
+                (onEditProduct)="editProduct($event)"
+                (onRemoveProduct)="removeProductFromTops($event)">
+    </app-list-products>
+    <div class="row">
+        <h2 class="my-3">Top Categories</h2>
+    </div>
+    <div class="row">
+        <a href="#" (click)="addTopCategory($event)"><h5>Add Category</h5></a>
+    </div>
+    <div *ngFor="let item of topCategories.items | orderBy: 'order'">
+        <div class="row">
+            <h4 class="mt-3 mb-3">
+                Category: {{item.category.category.name}}
+                <button class="btn btn-sm btn-outline-danger ml-1"
+                (click)="removeTopCategory(item.category._id)">
+                Remove
+                </button>
+            </h4>
+        </div>
+        <app-list-products
+                [items]="item.category.items"
+                (onAddProduct)="showSelectProductDialog($event, item.category._id, item.category.category._id)"
+                (onSaveChanges)="updateTopCategory($event, item.category._id)"
+                (onProductClick)="productPreview($event)"
+                (onEditProduct)="editProduct($event)"
+                (onRemoveProduct)="removeProductFromTopCategory($event, item.category._id)">
+        </app-list-products>
+    </div>
+
+</div>  

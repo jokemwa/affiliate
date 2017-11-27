@@ -8,46 +8,34 @@ var categoriesRouter = express.Router();
 categoriesRouter.use(bodyParser.json());
 
 categoriesRouter.route('/')
+// List of categories
     .get(function (req, res, next) {
         Categories.find({}, function (err, results) {
-        if (err) throw err;
-        res.json(results);
-    });
-})
-
-    .post(function (req, res, next) {
-        Categories.create(req.body, function (err, result) {
-        if (err) throw err;
-        res.json(result);
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(results);
+            res.json(results);
         });
-})
+});
 
 categoriesRouter.route('/:id')
+// Get products list of category {product, order}
     .get(function (req, res, next) {
-        Categories.findById(req.params.id, function (err, result) {
-            if (err) throw err;
+        Categories.findById(req.params.id)
+        .populate('items.product')
+        .exec(function (err, result) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(result);
             res.json(result);
         });
-    })
-
-    .put(function (req, res, next) {
-        Categories.findByIdAndUpdate(req.params.id, {
-            $set: req.body
-        }, {
-                new: true
-            }, function (err, result) {
-                if (err) throw err;
-                res.json(result);
-            });
-    })
-
-    .delete(function (req, res, next) {
-        Categories.findByIdAndRemove(req.params.id, function (err, response) {
-            if (err) throw err;
-            res.json(response);
-        });
-    });
-
+});
 
 
 module.exports = categoriesRouter;

@@ -1,7 +1,5 @@
 module.exports = {
-    'secretKey': '12345-67890-09876-54321',
-    'mongoUrl': 'mongodb://localhost:27017/futurebuy',
+    'mongoUrl': 'mongodb://admin:qqq@35.198.159.129:27017/futurebuy',
     'hostname': 'localhost',
-    'port': 80,
-    'httpsPort': 443
+    'port': 4202
 }

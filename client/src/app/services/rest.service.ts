@@ -5,155 +5,102 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
+
 @Injectable()
 export class RESTService {
 
-    /*private deviceToken: String;
-    private sessionToken: String;*/
-
+    private apiUrl = 'http://localhost:4202';
 
     constructor(
         private http: HttpClient) {
         }
 
-    private headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-
-    /*connectToServer() {
-
-    }*/
 
 /* Translation */
     public getTranslation() {
-        const url = `/api/translation/hebrew`;
+        const url = this.apiUrl + '/api/translation';
         return this.http
         .get(url);
     }
 
-
-
 /* Top Navigation Menus */
     public getBrandsMenu(): Observable<any> {
-        const url = `/api/menu/brands`;
+        const url = this.apiUrl + '/api/menu/brands';
         return this.http
         .get(url);
     }
 
     public getCategoriesMenu(): Observable<any> {
-        const url = `/api/menu/categories`;
+        const url = this.apiUrl + '/api/menu/categories';
         return this.http
         .get(url);
     }
 
     public getMarketplacesMenu(): Observable<any> {
-        const url = `/api/menu/marketplaces`;
+        const url = this.apiUrl + '/api/menu/marketplaces';
         return this.http
         .get(url);
     }
 
     public getShopsMenu(): Observable<any> {
-        const url = `/api/menu/shops`;
+        const url = this.apiUrl + '/api/menu/shops';
         return this.http
         .get(url);
     }
 
 /* Views */
-    public getBrandView(id: String): Observable<any> {
-        const url = `/api/brand/` + id;
+
+    public getCategoryView(id: string): Observable<any> {
+        const url = this.apiUrl + `/api/category/` + id;
         return this.http
         .get(url);
     }
 
-    public getCtaegoryView(id: String): Observable<any> {
-        const url = `/api/category/` + id;
+    public getShopView(id: string): Observable<any> {
+        const url = this.apiUrl + `/api/shop/` + id;
         return this.http
         .get(url);
     }
 
-    public getShopView(id: String): Observable<any> {
-        const url = `/api/shop/` + id;
-        return this.http
-        .get(url);
-    }
-
-    public getMarketplaceView(id: String): Observable<any> {
-        const url = `/api/marketplace/` + id;
-        return this.http
-        .get(url);
-    }
-
-    public getProductView(id: String): Observable<any> {
-        const url = `/api/product/` + id;
+    public getMarketplaceView(id: string): Observable<any> {
+        const url = this.apiUrl + `/api/marketplace/` + id;
         return this.http
         .get(url);
     }
 
 /* Main page */
-    public getTopRated(): Observable<any> {
-        const url = `/api/topRated`;
+    public getTops(): Observable<any> {
+        const url = this.apiUrl + `/api/start-page/tops`;
         return this.http
         .get(url);
     }
 
     public getTopCategories() {
-
-        const topCategories = [{
-            name: 'Cat0',
-            order: 2,
-            products: [
-              {_id: 1, order: 0},
-              {_id: 2, order: 1},
-              {_id: 3, order: 2},
-              {_id: 4, order: 3},
-              {_id: 5, order: 4},
-              {_id: 6, order: 5},
-              {_id: 7, order: 6},
-              ]
-          },
-          {
-            name: 'Cat1',
-            order: 1,
-            products: [
-                {_id: 1, order: 0},
-                {_id: 2, order: 1},
-                {_id: 3, order: 2},
-                {_id: 4, order: 3},
-                {_id: 5, order: 4},
-                {_id: 6, order: 5},
-                {_id: 7, order: 6},
-              ]
-          },
-          {
-            name: 'Cat2',
-            order: 0,
-            products: [
-                {_id: 1, order: 0},
-                {_id: 2, order: 1},
-                {_id: 3, order: 2},
-                {_id: 4, order: 3},
-                {_id: 5, order: 4},
-                {_id: 6, order: 5},
-                {_id: 7, order: 6},
-              ]
-          }
-        ];
-        return topCategories;
-        /*const url = `/api/topRated`;
-        return this.http
-        .get(url);*/
-    }
-
-    public getProductCard(id: String): Observable<any> {
-        const url = `/api/product/card` + id;
+        const url = this.apiUrl + `/api/start-page/categories-list`;
         return this.http
         .get(url);
     }
 
-    public getProductPreview(id: String): Observable<any> {
-        const url = `/api/product/preview` + id;
+/* Products */
+    public getProductPreview(id: string): Observable<any> {
+        const url = this.apiUrl + `/api/products/preview/` + id;
         return this.http
         .get(url);
     }
+
+    public getProduct(promoLink: string): Observable<any> {
+        const url = this.apiUrl + `/api/products/` + promoLink;
+        return this.http
+        .get(url);
+    }
+
+/* Brands */
+
+public getBrand(_id: string): Observable<any> {
+    const url = this.apiUrl + `/api/brands/` + _id;
+    return this.http
+    .get(url);
+}
 
 }
 

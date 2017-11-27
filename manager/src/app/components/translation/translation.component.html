@@ -1,14 +1,22 @@
-<div>
-    <h2>Translation configuration</h2>
-
-    <h4>Top Navigation</h4>
-
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Manage Panel</a>
+    <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+            <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+            <li class="breadcrumb-item active">Translation</li>
+    </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+    <div class="row">
+        <h2 class="mb-3">Top Navigation</h2>
+    </div>
     <div class="row">
         <div class="col-3">
             <label for="logoTitle">Logo Title</label>
         </div>
         <div class="col-9">
-            <input [(ngModel)] = "logoTitle" id="logoTitle" placeholder="{{translation.topNavigation.logoTitle}}" type="text" class="form-control form-control-sm">
+            <input [(ngModel)] = "logoTitle" id="logoTitle"
+            placeholder="{{translation.topNavigation.logoTitle}}"
+            type="text" class="form-control form-control-sm">
         </div>
     </div>
 
@@ -17,7 +25,9 @@
                 <label for="facebookLink">Facebook Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "facebookLink" id="facebookLink" placeholder="{{translation.topNavigation.facebookLink}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "facebookLink" id="facebookLink"
+                placeholder="{{translation.topNavigation.facebookLink}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -26,7 +36,9 @@
                 <label for="youtubeLink">Youtube Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "youtubeLink" id="youtubeLink" placeholder="{{translation.topNavigation.youtubeLink}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "youtubeLink" id="youtubeLink"
+                placeholder="{{translation.topNavigation.youtubeLink}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -35,7 +47,9 @@
                 <label for="searchGoButtion">Search Go Button</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "searchGoButtion" id="searchGoButtion" placeholder="{{translation.topNavigation.searchGoButtion}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "searchGoButtion" id="searchGoButtion"
+                placeholder="{{translation.topNavigation.searchGoButtion}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -44,25 +58,9 @@
                 <label for="searchboxPlaceholder">Searchbox Placeholder</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "searchboxPlaceholder" id="searchboxPlaceholder" placeholder="{{translation.topNavigation.searchboxPlaceholder}}" type="text" class="form-control form-control-sm">
-            </div>
-    </div>
-
-    <div class="row">
-            <div class="col-3">
-                <label for="couponsLink">Coupons Nav Link</label>
-            </div>
-            <div class="col-9">
-                <input [(ngModel)] = "couponsLink" id="couponsLink" placeholder="{{translation.topNavigation.couponsLink}}" type="text" class="form-control form-control-sm">
-            </div>
-    </div>
-
-    <div class="row">
-            <div class="col-3">
-                <label for="marketplacesLink">Marketplaces Nav Link</label>
-            </div>
-            <div class="col-9">
-                <input [(ngModel)] = "marketplacesLink" id="marketplacesLink" placeholder="{{translation.topNavigation.marketplacesLink}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "searchboxPlaceholder" id="searchboxPlaceholder"
+                placeholder="{{translation.topNavigation.searchboxPlaceholder}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -71,7 +69,9 @@
                 <label for="shopsLink">Shops Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "shopsLink" id="shopsLink" placeholder="{{translation.topNavigation.shopsLink}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "shopsLink" id="shopsLink"
+                placeholder="{{translation.topNavigation.shopsLink}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -80,16 +80,9 @@
                 <label for="brandsLink">Brands Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "brandsLink" id="brandsLink" placeholder="{{translation.topNavigation.brandsLink}}" type="text" class="form-control form-control-sm">
-            </div>
-    </div>
-
-    <div class="row">
-            <div class="col-3">
-                <label for="suggestionsLink">Suggestions Nav Link</label>
-            </div>
-            <div class="col-9">
-                <input [(ngModel)] = "suggestionsLink" id="suggestionsLink" placeholder="{{translation.topNavigation.suggestionsLink}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "brandsLink" id="brandsLink"
+                placeholder="{{translation.topNavigation.brandsLink}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -98,7 +91,9 @@
                 <label for="categoriesLink">Categories Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "categoriesLink" id="categoriesLink" placeholder="{{translation.topNavigation.categoriesLink}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "categoriesLink" id="categoriesLink"
+                placeholder="{{translation.topNavigation.categoriesLink}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -107,7 +102,9 @@
                 <label for="homeLink">Home Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "homeLink" id="homeLink" placeholder="{{translation.topNavigation.homeLink}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "homeLink" id="homeLink"
+                placeholder="{{translation.topNavigation.homeLink}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -115,19 +112,12 @@
 
     <div class="row">
             <div class="col-3">
-                <label for="header">Header Label</label>
-            </div>
-            <div class="col-9">
-                <input [(ngModel)] = "header" id="header" placeholder="{{translation.startPage.header}}" type="text" class="form-control form-control-sm">
-            </div>
-    </div>
-
-    <div class="row">
-            <div class="col-3">
                 <label for="topRated">Top Rated Label</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "topRated" id="topRated" placeholder="{{translation.startPage.topRated}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "topRated" id="topRated"
+                placeholder="{{translation.startPage.topRated}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -136,7 +126,9 @@
                 <label for="whatsNew">What's New Label</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "whatsNew" id="whatsNew" placeholder="{{translation.startPage.whatsNew}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "whatsNew" id="whatsNew"
+                placeholder="{{translation.startPage.whatsNew}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -145,7 +137,9 @@
                 <label for="browseAll">Browse All Label</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "browseAll" id="browseAll" placeholder="{{translation.startPage.browseAll}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "browseAll" id="browseAll"
+                placeholder="{{translation.startPage.browseAll}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
 
@@ -156,32 +150,33 @@
                 <label for="viewMore">View More Button</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "viewMore" id="viewMore" placeholder="{{translation.productPreview.viewMore}}" type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "viewMore" id="viewMore"
+                placeholder="{{translation.productPreview.viewMore}}"
+                type="text" class="form-control form-control-sm">
             </div>
     </div>
     
     <div class="row">
-        <button class="btn btn-success"
+        <button class="btn btn-sm btn-success mx-1"
         (click)="saveTranslation(
             logoTitle,
             facebookLink,
             youtubeLink,
             searchGoButtion,
             searchboxPlaceholder,
-            couponsLink,
-            marketplacesLink,
             shopsLink,
             brandsLink,
-            suggestionsLink,
             categoriesLink,
             homeLink,
-            header,
             topRated,
             whatsNew,
             browseAll,
             viewMore
             )">
             Save Translation
+        </button>
+        <button class="btn btn-sm btn-info mx-1" (click)="clickCancel()">
+            Cancel
         </button>
     </div>
 

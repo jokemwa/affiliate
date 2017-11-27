@@ -1,36 +1,26 @@
-<div *ngIf="isDataLoaded" class="mt-4">
-    <div class="row d-flex justify-content-center">
-        <h1>{{translation.startPage.header}}</h1>
+<div *ngIf="isDataReady" class="container mt-4">
+    <div class="row d-flex justify-content-start">
+        <h1 class="text-right mb-2">{{translation.startPage.topRated}}</h1>
     </div>
+    <app-product-carousel class="row d-flex justify-content-center"
+        [items]="tops.items"
+        (onProductClick)="showProductDetail($event)">
+    </app-product-carousel>
 
-    <div class="row d-flex justify-content-end">
-        <h1 class="text-right">{{translation.startPage.topRated}}</h1>
+    <div *ngFor="let item of topCategories.items | orderBy: 'order'">
+        <div class="row">
+            <h2 class="text-right mb-2">{{translation.startPage.whatsNew}} {{item.category.category.name}}</h2>
+        </div>
+        <app-product-carousel class="row d-flex justify-content-center"
+            [items]="item.category.items"
+            (onProductClick)="showProductDetail($event)">
+        </app-product-carousel>
+        <div class="row">
+                <h5 class="text-left mb-5">
+                    <a href="#" (click)="browseAllCategory($event, item.category.category._id)">
+                    {{translation.startPage.browseAll}}
+                    </a>
+                </h5>
+        </div>
     </div>
-
-    <div *ngFor="let category of topCategories; let i = index">
-        <div class="row">{{category.name}}</div>
-            <div class="row">
-                    <div class="col-1">
-                        <button class="btn btn-sm" (click)="moveRightTopCategories(i)">R</button>
-                    </div>
-                    <div class="col-10 card-deck">
-                        <div *ngFor="let product of category.products" class="card mx-1 my-3 text-right {{product.viewClassLg}}">
-                                <div class="card-header text-left" style="padding: 0.2rem 0.2rem">
-                                        <h4>
-                                            <span class="badge badge-pill badge-dark">NEW</span>
-                                        </h4>
-                                </div>
-                                <img class="card-img-top" src="" alt="">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{product._id}}</h5>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <button class="btn btn-sm" (click)="moveLeftTopCategories(i)">L</button>
-                    </div>
-                </div>
-    </div>
-    
-
 </div>

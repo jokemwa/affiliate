@@ -4,8 +4,13 @@ var Schema = mongoose.Schema;
 
 var badgeSchema = new Schema({
 
-    name: {
-        type: String
+    text: {
+        type: String,
+        required: true
+    },
+    color: {
+        type: String,
+        required: true
     }
 
 }, {

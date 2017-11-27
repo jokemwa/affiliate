@@ -1,3 +1,26 @@
-<div>
-        <h1>Brand View</h1>
+<div *ngIf="isDataReady" class="container mt-4">
+        <div class="row d-flex justify-content-start">
+                <h1 class="text-right mb-2">{{brand.name}}</h1>
+        </div>
+        <div class="row d-flex justify-content-start">
+                <h1 class="text-right mb-2">{{brand.name}}</h1>
+        </div>
+        <div *ngFor="let item of brand.items"
+        class="card mx-1 text-right"
+        (click)="onClick(item.product._id)"
+        style="cursor: pointer;
+                width: 200px;">
+                <div class="card-header text-left" style="padding: 0.2rem 0.2rem">
+                    <h4>
+                        <span *ngFor="let badge of item.product.badges"
+                        class="badge badge-pill {{badge.color}}">
+                            {{badge.text}}
+                        </span>
+                    </h4>
+                </div>
+                <img class="card-img-top" src="/images/{{item.product.frontImage.hiRes}}" alt="{{item.product.title}}">
+                <div class="card-body">
+                    <h5 class="card-title" dir="rtl">{{item.product.title}}</h5>
+                </div>
+        </div>
 </div>

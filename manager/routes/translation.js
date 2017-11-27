@@ -9,32 +9,32 @@ var translationsRouter = express.Router();
 translationsRouter.use(bodyParser.json());
 
 translationsRouter.route('/')
-
-    .post(Verify.verifyUser, function (req, res, next) {
-        Translations.create(req.body, function (err, result) {
-        if(err){
-            console.log(err);
-            err.status = 500;
-            return next(err);
-        }
-        res.json(result);
-        });
-    });
-
-translationsRouter.route('/:lang')
     .get(Verify.verifyUser, function (req, res, next) {
-        Translations.findOne({lang: req.params.lang}, function (err, result) {
+        Translations.findOne({lang: 'hebrew'}, function (err, result) {
         if(err){
             console.log(err);
             err.status = 500;
             return next(err);
         }
-        res.json(result);
+        if(result){
+            console.log(result);
+            res.json(result);
+        } else {
+            Translations.create({lang: 'hebrew'}, function (err, result) {
+                if(err){
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                }
+                console.log(result);
+                res.json(result);
+                });
+        }
         });
     })
 
     .put(Verify.verifyUser, function (req, res, next) {
-        Translations.findOneAndUpdate({lang: req.params.lang}, {
+        Translations.findOneAndUpdate({lang: 'hebrew'}, {
             $set: req.body
         }, {
                 new: true
