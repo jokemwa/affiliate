@@ -28,13 +28,13 @@ var translationSchema = new Schema({
             type: String,
             default: 'Search for...'
         },
+        selectTitle: {
+            type: String,
+            default: 'What are you searching for?'
+        },
         couponsLink: {
             type: String,
             default: 'Coupons'
-        },
-        marketplacesLink: {
-            type: String,
-            default: 'Marketplaces'
         },
         shopsLink: {
             type: String,
@@ -58,10 +58,6 @@ var translationSchema = new Schema({
         },
       },
       startPage: {
-          header: {
-            type: String,
-            default: 'FutureBuy: The best offers of online stores around the world are available for Israel'
-        },
           topRated: {
             type: String,
             default: 'Top Rated Offers'

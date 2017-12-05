@@ -1,3 +1,7 @@
-<div>
-        <h1>Category View</h1>
+<div *ngIf="isDataReady" class="container mt-4">
+        
+        <app-product-list
+        [items]="category.items"
+        (onProductClick)="showProductDetail($event)">
+        </app-product-list>
 </div>

@@ -1,11 +1,9 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var Categories = require('../models/categories');
 
 var categoriesRouter = express.Router();
-categoriesRouter.use(bodyParser.json());
 
 categoriesRouter.route('/')
 // List of categories
@@ -26,6 +24,10 @@ categoriesRouter.route('/:id')
     .get(function (req, res, next) {
         Categories.findById(req.params.id)
         .populate('items.product')
+        .populate({
+            path:     'items.product',			
+            populate: { path:  'badges'}
+          })
         .exec(function (err, result) {
             if(err){
                 console.log(err);

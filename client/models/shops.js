@@ -14,7 +14,20 @@ var shopSchema = new Schema({
     },
     logo: {
         type: String
-    }       
+    },
+    description: {
+        type: String,
+        default: ''
+    },
+    items: [{
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product'
+        },
+        order: {
+            type: Number
+        }
+    }]       
 
 }, {
         timestamps: true

@@ -1,9 +1,24 @@
 <div *ngIf="isDataReady" class="container mt-4">
-    <div class="row d-flex justify-content-start">
-        <h1 class="text-right mb-2">{{translation.startPage.topRated}}</h1>
+    <div class="jumbotron bg-white text-primary">
+        <div class="row">
+            <div class="col-md-6 order-2 order-md-1 text-center d-flex align-items-center justify-content-center">
+                <h1>{{message.text}}</h1>
+            </div>
+            <div class="col-md-6 order-1 order-md-2 d-flex align-items-center justify-content-center">
+                <img class="img-fluid"
+                style="padding: 0.2rem"
+                src="/images/{{message.image}}">
+            </div>
+
+        </div>
     </div>
-    <app-product-carousel class="row d-flex justify-content-center"
+
+    <div class="row d-flex justify-content-start">
+        <h2 class="text-right mb-2 mx-2 text-primary">{{translation.startPage.topRated}}</h2>
+    </div>
+    <app-product-carousel class="row d-flex justify-content-center mb-4"
         [items]="tops.items"
+        [sm]="2" [md]="3" [lg]="4" [xl]="4" 
         (onProductClick)="showProductDetail($event)">
     </app-product-carousel>
 
@@ -13,6 +28,7 @@
         </div>
         <app-product-carousel class="row d-flex justify-content-center"
             [items]="item.category.items"
+            [sm]="2" [md]="2" [lg]="3" [xl]="3" 
             (onProductClick)="showProductDetail($event)">
         </app-product-carousel>
         <div class="row">

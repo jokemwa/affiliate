@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-xl-1 d-none d-sm-none d-md-none d-lg-none d-xl-block">
+        <div class="row"
+        style="height:100%">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <a *ngIf="ableToRightXl()" href="#"
+                (click)="moveRight($event)">
+                    <h1><span class="fa fa-chevron-right"></span></h1>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1 d-none d-sm-none d-md-none d-lg-block d-xl-none">
+            <div class="row"
+            style="height:100%">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <a *ngIf="ableToRightLg()" href="#"
+                    (click)="moveRight($event)">
+                        <h1><span class="fa fa-chevron-right"></span></h1>
+                    </a>
+                </div>
+            </div>
+    </div>
+    <div class="col-md-1 d-none d-sm-none d-md-block d-lg-none d-xl-none">
+            <div class="row"
+            style="height:100%">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <a *ngIf="ableToRightMd()" href="#"
+                    (click)="moveRight($event)">
+                        <h1><span class="fa fa-chevron-right"></span></h1>
+                    </a>
+                </div>
+            </div>
+    </div>
+    <div class="col-sm-1 d-none d-sm-block d-md-none d-lg-none d-xl-none">
+            <div class="row"
+            style="height:100%">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <a *ngIf="ableToRightSm()" href="#"
+                    (click)="moveRight($event)">
+                        <h1><span class="fa fa-chevron-right"></span></h1>
+                    </a>
+                </div>
+            </div>
+    </div>
+    <div class="col-12 col-sm-10 card-deck">
+        <div *ngFor="let item of items"
+        class="card mx-1 text-right {{item.xl}} {{item.lg}} {{item.md}} {{item.sm}}"
+        (click)="onClick(item.product._id)"
+        style="
+        cursor: pointer;
+        height: 100%;
+        ">
+                <div class="card-header text-left bg-transparent" style="padding: 0.2rem 0.2rem">
+                    <h4>
+                        <span *ngFor="let badge of item.product.badges"
+                        class="badge badge-pill {{badge.color}}">
+                            {{badge.text}}
+                        </span>
+                        <span *ngIf="item.product.badges.length === 0">
+                            &nbsp;
+                        </span>
+                    </h4>
+                </div>
+                <img class="card-img-top" src="/images/{{item.product.frontImage.hiRes}}" alt="{{item.product.title}}">
+                <div class="card-body">
+                    <h5 class="card-title" dir="rtl">{{item.product.title}}</h5>
+                </div>
+        </div>
+    </div>
+    <div class="col-xl-1 d-none d-sm-none d-md-none d-lg-none d-xl-block">
+        <div class="row"
+        style="height:100%">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <a *ngIf="ableToLeftXl()" href="#"
+                (click)="moveLeft($event)">
+                    <h1><span class="fa fa-chevron-left"></span></h1>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1 d-none d-sm-none d-md-none d-lg-block d-xl-none">
+        <div class="row"
+        style="height:100%">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <a *ngIf="ableToLeftLg()" href="#"
+                (click)="moveLeft($event)">
+                    <h1><span class="fa fa-chevron-left"></span></h1>
+                </a>
+            </div>
+        </div>    
+    </div>
+    <div class="col-md-1 d-none d-sm-none d-md-block d-lg-none d-xl-none">
+        <div class="row"
+        style="height:100%">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <a *ngIf="ableToLeftMd()" href="#"
+                (click)="moveLeft($event)">
+                    <h1><span class="fa fa-chevron-left"></span></h1>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-1 d-none d-sm-block d-md-none d-lg-none d-xl-none">
+        <div class="row"
+        style="height:100%">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <a *ngIf="ableToLeftSm()" href="#"
+                (click)="moveLeft($event)">
+                    <h1><span class="fa fa-chevron-left"></span></h1>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,6 +13,7 @@ import { SelectProductComponent } from '../products/childs/selectProduct/selectP
 import { ProductPreviewComponent } from '../products/childs/productPreview/productPreview.component';
 import { EditProductComponent } from '../products/childs/editProduct/editProduct.component';
 import { SelectCategoryComponent } from '../categories/childs/selectCategory/selectCategory.component';
+import { ImageLoaderComponent } from '../imageLoader/imageLoader.component';
 
 
 @Component({
@@ -24,9 +25,11 @@ import { SelectCategoryComponent } from '../categories/childs/selectCategory/sel
 export class StartPageComponent implements OnInit {
 
   isDataReady = false;
+  uploadedImage = null;
 
   tops: any;
   topCategories: any;
+  message: any;
 
   constructor(
     private restService: RESTService,
@@ -37,10 +40,12 @@ export class StartPageComponent implements OnInit {
     const observables = [];
     observables.push(this.restService.getTopCategories());
     observables.push(this.restService.getTops());
+    observables.push(this.restService.getMarketingMessage());
     Observable.forkJoin(observables).subscribe(
       response => {
         this.topCategories = response[0];
         this.tops = response[1];
+        this.message = response[2];
         this.isDataReady = true;
       },
       err => {
@@ -342,4 +347,160 @@ export class StartPageComponent implements OnInit {
     });
   }
 
+  updateMarketingMessage() {
+    if (this.message.text  === undefined || this.message.text === '') {
+      window.alert('Marketing Message Text is empty!');
+      return;
+    }
+
+    this.restService.updateMarketingMessage(this.message).subscribe(
+      response => {
+        window.alert('Marketing Message updated.');
+    },
+    err => {
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+      window.alert(JSON.stringify(err));
+      console.log(JSON.stringify(err));
+      }
+    });
+  }
+
+  openUploader(e) {
+    const file = e.target.files[0];
+    if (/^image\/\w+/.test(file.type)) {
+      const modalRef = this.modalService.open(ImageLoaderComponent, {size: 'lg'});
+      modalRef.componentInstance.imageURL = URL.createObjectURL(file);
+      modalRef.result.then(
+        (image) => {
+          if (this.uploadedImage) {
+            this.restService.deleteImage(this.uploadedImage).subscribe(
+              response => {
+                this.uploadedImage = image._id;
+                this.message.image = this.uploadedImage;
+                e.target.value = null;
+              },
+              err => {
+                if (err.status === 401 || err.status === 403) {
+                  this.restService.logout();
+                  this.router.navigate(['/login']);
+                } else {
+                window.alert(JSON.stringify(err));
+                console.log(JSON.stringify(err));
+                }
+            });
+          } else {
+            this.uploadedImage = image._id;
+            this.message.image = this.uploadedImage;
+            e.target.value = null;
+          }
+        },
+        () => {
+          e.target.value = null;
+        }
+      );
+     }
+  }
+
+  moveUp (e, _id) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (this.isFirst(_id)) {
+      return;
+    } else {
+      let currentOrder;
+
+      for (let i = 0; i < this.topCategories.items.length; i++) {
+        if (this.topCategories.items[i].category._id === _id) {
+          currentOrder = this.topCategories.items[i].order;
+          for (let j = 0; j < this.topCategories.items.length; j++) {
+            if (this.topCategories.items[j].order === (currentOrder - 1)) {
+              this.topCategories.items[j].order = currentOrder;
+              break;
+            }
+          }
+          this.topCategories.items[i].order--;
+          break;
+        }
+      }
+
+      this.topCategories.items = this.topCategories.items.slice();
+    }
+  }
+
+  moveDown (e, _id) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (this.isLast(_id)) {
+      return;
+    } else {
+      let currentOrder;
+
+      for (let i = 0; i < this.topCategories.items.length; i++) {
+        if (this.topCategories.items[i].category._id === _id) {
+          currentOrder = this.topCategories.items[i].order;
+          for (let j = 0; j < this.topCategories.items.length; j++) {
+            if (this.topCategories.items[j].order === (currentOrder + 1)) {
+              this.topCategories.items[j].order = currentOrder;
+              break;
+            }
+          }
+          this.topCategories.items[i].order++;
+          break;
+        }
+      }
+
+      this.topCategories.items = this.topCategories.items.slice();
+
+    }
+  }
+
+  isLast (_id) {
+    let maxOrder = this.topCategories.items[0].order;
+    let maxId = this.topCategories.items[0].category._id;
+    for (let i = 0; i < this.topCategories.items.length; i++) {
+      if (this.topCategories.items[i].order > maxOrder) {
+        maxOrder = this.topCategories.items[i].order;
+        maxId = this.topCategories.items[i].category._id;
+      }
+    }
+    if (maxId === _id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isFirst (_id) {
+    let minId;
+    for (let i = 0; i < this.topCategories.items.length; i++) {
+      if (this.topCategories.items[i].order === 0) {
+        minId = this.topCategories.items[i].category._id;
+        break;
+      }
+    }
+    if (minId === _id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  saveTopCategoriesOrder() {
+    this.restService.updateTopCategories(this.topCategories).subscribe(
+      response => {
+        window.alert('Categories Order updated.');
+    },
+    err => {
+      if (err.status === 401 || err.status === 403) {
+        this.restService.logout();
+        this.router.navigate(['/login']);
+      } else {
+      window.alert(JSON.stringify(err));
+      console.log(JSON.stringify(err));
+      }
+    });
+  }
 }

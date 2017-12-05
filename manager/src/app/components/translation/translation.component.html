@@ -6,178 +6,235 @@
     </ol>
 </nav>
 <div *ngIf="isDataReady" class="container mt-5">
-    <div class="row">
-        <h2 class="mb-3">Top Navigation</h2>
-    </div>
-    <div class="row">
-        <div class="col-3">
-            <label for="logoTitle">Logo Title</label>
+    <form novalidate #formRef="ngForm">
+        <div class="row">
+            <h2 class="mb-3">Top Navigation</h2>
         </div>
-        <div class="col-9">
-            <input [(ngModel)] = "logoTitle" id="logoTitle"
-            placeholder="{{translation.topNavigation.logoTitle}}"
-            type="text" class="form-control form-control-sm">
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="logoTitle">Logo Title</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.logoTitle"
+                name="logoTitle"
+                #logoTitle="ngModel"
+                type="text" class="form-control form-control-sm" required>
+                <div class="alert alert-danger" *ngIf="logoTitle.touched &&
+                logoTitle?.errors?.required">
+                This field is required.
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="row">
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="facebookLink">Facebook Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "facebookLink" id="facebookLink"
-                placeholder="{{translation.topNavigation.facebookLink}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.topNavigation.facebookLink"
+                name="facebookLink"
+                #facebookLink="ngModel"
+                type="text" class="form-control form-control-sm" required>
+                <div class="alert alert-danger" *ngIf="facebookLink.touched &&
+                facebookLink?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="youtubeLink">Youtube Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "youtubeLink" id="youtubeLink"
-                placeholder="{{translation.topNavigation.youtubeLink}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.topNavigation.youtubeLink"
+                name="youtubeLink"
+                #youtubeLink="ngModel"
+                type="text" class="form-control form-control-sm" required>
+                <div class="alert alert-danger" *ngIf="youtubeLink.touched &&
+                youtubeLink?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="searchGoButtion">Search Go Button</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "searchGoButtion" id="searchGoButtion"
-                placeholder="{{translation.topNavigation.searchGoButtion}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.topNavigation.searchGoButtion"
+                name="searchGoButtion"
+                #searchGoButtion="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="searchGoButtion.touched &&
+                searchGoButtion?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="searchboxPlaceholder">Searchbox Placeholder</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "searchboxPlaceholder" id="searchboxPlaceholder"
-                placeholder="{{translation.topNavigation.searchboxPlaceholder}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.topNavigation.searchboxPlaceholder"
+                name="searchboxPlaceholder"
+                #searchboxPlaceholder="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="searchboxPlaceholder.touched &&
+                searchboxPlaceholder?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="selectTitle">Select Title</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.selectTitle"
+                name="selectTitle"
+                #selectTitle="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="selectTitle.touched &&
+                selectTitle?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="shopsLink">Shops Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "shopsLink" id="shopsLink"
-                placeholder="{{translation.topNavigation.shopsLink}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.topNavigation.shopsLink"
+                name="shopsLink"
+                #shopsLink="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="shopsLink.touched &&
+                shopsLink?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="brandsLink">Brands Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "brandsLink" id="brandsLink"
-                placeholder="{{translation.topNavigation.brandsLink}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.topNavigation.brandsLink"
+                name="brandsLink"
+                #brandsLink="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="brandsLink.touched &&
+                brandsLink?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="categoriesLink">Categories Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "categoriesLink" id="categoriesLink"
-                placeholder="{{translation.topNavigation.categoriesLink}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.topNavigation.categoriesLink"
+                name="categoriesLink"
+                #categoriesLink="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="categoriesLink.touched &&
+                categoriesLink?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="homeLink">Home Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "homeLink" id="homeLink"
-                placeholder="{{translation.topNavigation.homeLink}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.topNavigation.homeLink"
+                name="homeLink"
+                #homeLink="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="homeLink.touched &&
+                homeLink?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
+        </div>
 
-    <h4>Start Page</h4>
-
-    <div class="row">
+        <div class="row">
+                <h2 class="mb-3">Start Page</h2>
+        </div>    
+        <div class="row mb-1">
             <div class="col-3">
-                <label for="topRated">Top Rated Label</label>
+                <label for="topRated">Top Rated Offers Label</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "topRated" id="topRated"
-                placeholder="{{translation.startPage.topRated}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.startPage.topRated"
+                name="topRated"
+                #topRated="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="topRated.touched &&
+                topRated?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
-                <label for="whatsNew">What's New Label</label>
+                <label for="whatsNew">What's New In Label</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "whatsNew" id="whatsNew"
-                placeholder="{{translation.startPage.whatsNew}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.startPage.whatsNew"
+                name="whatsNew"
+                #whatsNew="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="whatsNew.touched &&
+                whatsNew?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <div class="row">
+        </div>
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="browseAll">Browse All Label</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "browseAll" id="browseAll"
-                placeholder="{{translation.startPage.browseAll}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.startPage.browseAll"
+                name="browseAll"
+                #browseAll="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="browseAll.touched &&
+                browseAll?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-
-    <h4>Product Preview Window</h4>
-
-    <div class="row">
+        </div>
+        <div class="row">
+                <h2 class="mb-3">Product Preview Window</h2>
+        </div>              
+        <div class="row mb-1">
             <div class="col-3">
                 <label for="viewMore">View More Button</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "viewMore" id="viewMore"
-                placeholder="{{translation.productPreview.viewMore}}"
-                type="text" class="form-control form-control-sm">
+                <input [(ngModel)] = "translation.productPreview.viewMore"
+                name="viewMore"
+                #viewMore="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="viewMore.touched &&
+                viewMore?.errors?.required">
+                This field is required.
+                </div>
             </div>
-    </div>
-    
-    <div class="row">
-        <button class="btn btn-sm btn-success mx-1"
-        (click)="saveTranslation(
-            logoTitle,
-            facebookLink,
-            youtubeLink,
-            searchGoButtion,
-            searchboxPlaceholder,
-            shopsLink,
-            brandsLink,
-            categoriesLink,
-            homeLink,
-            topRated,
-            whatsNew,
-            browseAll,
-            viewMore
-            )">
-            Save Translation
-        </button>
-        <button class="btn btn-sm btn-info mx-1" (click)="clickCancel()">
-            Cancel
-        </button>
-    </div>
+        </div>
 
+        <div class="row d-flex justify-content-end">
+            <button (click)="saveTranslation()" class="btn btn-success mx-1" [disabled]="formRef.invalid">
+                Save Translation
+            </button>
+            <button class="btn btn-info mx-1" (click)="clickCancel()">
+                Cancel
+            </button>
+        </div>
+    </form>
 </div>

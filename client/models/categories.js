@@ -8,7 +8,20 @@ var categorySchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    description: {
+        type: String,
+        default: ''
+    },
+    items: [{
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product'
+        },
+        order: {
+            type: Number
+        }
+    }]
 
 }, {
         timestamps: true

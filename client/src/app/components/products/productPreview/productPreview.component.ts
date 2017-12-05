@@ -1,13 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/forkJoin';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { RESTService } from '../../../services/rest.service';
 import { TrackingService } from '../../../services/tracking.service';
+import { TranslationService } from '../../../services/translation.service';
 
 @Component({
   selector: 'app-product-preview',
@@ -27,18 +25,17 @@ export class ProductPreviewComponent  implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private restService: RESTService,
+    private translationService: TranslationService,
     private router: Router) {
 
   }
 
   ngOnInit(): void {
-    const observables = [];
-    observables.push(this.restService.getTranslation());
-    observables.push(this.restService.getProductPreview(this.id));
-    Observable.forkJoin(observables).subscribe(
+    this.translation = this.translationService.translation;
+
+    this.restService.getProductPreview(this.id).subscribe(
       response => {
-        this.translation = response[0];
-        this.product = response[1];
+        this.product = response;
         this.activeImage = this.product.frontImage;
         this.product.description = this.product.description.substring(0, 128) + '...';
         this.isDataReady = true;

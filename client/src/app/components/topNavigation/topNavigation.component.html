@@ -1,9 +1,14 @@
-<div *ngIf="isDataLoaded">
-<nav dir="ltr" class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+<nav dir="ltr" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="d-flex">
             <a dir="rtl" (click)="clickLogoTitle($event)" class="navbar-brand" href="#">{{translation.topNavigation.logoTitle}}</a>
-            <a dir="rtl" (click)="clickFacebook($event)" class="btn btn-xs btn-social-icon btn-facebook" href="{{translation.topNavigation.facebookLink}}"><i class="fa fa-facebook"></i></a>
-            <a dir="rtl" (click)="clickYoutube($event)" class="btn btn-xs btn-social-icon btn-youtube" href="{{translation.topNavigation.youtubeLink}}"><i class="fa fa-youtube"></i></a>
+            <span class="d-flex align-items-center">
+                    <a dir="rtl" (click)="clickFacebook($event)"
+                    class="btn btn-xs btn-social-icon btn-facebook mr-1"
+                    href="{{translation.topNavigation.facebookLink}}"><i class="fa fa-facebook"></i></a>
+                    <a dir="rtl" (click)="clickYoutube($event)"
+                    class="btn btn-xs btn-social-icon btn-youtube"
+                    href="{{translation.topNavigation.youtubeLink}}"><i class="fa fa-youtube"></i></a>
+            </span>
         </div>
 
         <button class="navbar-toggler align-self-end" type="button" data-toggle="collapse" data-target="#navbarToggler">
@@ -17,7 +22,20 @@
                 <span class="input-group-btn">
                   <button dir="rtl" (click)="clickSearch()" class="btn btn-outline-secondary btn-sm" type="button">{{translation.topNavigation.searchGoButtion}}</button>
                 </span>
-                <input dir="rtl" type="text" class="form-control form-control-sm" placeholder="{{translation.topNavigation.searchboxPlaceholder}}">
+                <input dir="rtl" type="text"
+                #searchInput
+                class="form-control form-control-sm"
+                placeholder="{{translation.topNavigation.searchboxPlaceholder}}">
+                <div class="title-suggestion-list--wrapper">
+                    <ul class="title-suggestion-list"
+                    *ngIf="searchHints"
+                    [style.display]="searchHints ? 'block' : 'none'">
+                        <li *ngFor="let productHint of searchHints.products">{{productHint.title}}</li>
+                        <li *ngFor="let categoryHint of searchHints.categories">{{categoryHint.name}}</li>
+                        <li *ngFor="let brandHint of searchHints.brands">{{brandHint.name}}</li>
+                        <li *ngFor="let shopHint of searchHints.shops">{{shopHint.name}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -43,4 +61,3 @@
         </ul>
     </div>
 </nav>
-</div>

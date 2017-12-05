@@ -5,6 +5,8 @@ var StartPageCategoriesLists = require('../models/startPage/startPageCategoriesL
 var StartPageCategories = require('../models/startPage/startPageCategories');
 var StartPageTops = require('../models/startPage/startPageTops');
 var Badges = require('../models/badges');
+var StartPageMarketingMessages = require('../models/startPage/startPageMarketingMessages');
+
 
 var startPageRouter = express.Router();
 
@@ -38,6 +40,10 @@ startPageRouter.route('/tops')
         .get(function (req, res, next) {
             StartPageTops.findOne({"version": 0})
             .populate("items.product")
+            .populate({
+                path:     'items.product',			
+                populate: { path:  'badges' } 
+              })
             .exec(function(err, result){
                 if(err){
                     console.log(err);
@@ -47,6 +53,21 @@ startPageRouter.route('/tops')
                 console.log(result);
                 res.json(result);
             });
+});
+
+startPageRouter.route('/marketing-message')
+// Get start page's top products list
+    .get(function (req, res, next) {
+        StartPageMarketingMessages.findOne({"version": 0})
+        .exec(function(err, result){
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(result);
+            res.json(result);
+        });
 });
 
 module.exports = startPageRouter;

@@ -9,19 +9,23 @@ var marketplaceSchema = new Schema({
         unique: true
     },
     parser: {
-        type: String
+        type: String,
+        required: true,
     },
     name: {
         type: String
     },
-    link: {
-        type: String
-    },
     logo: {
         type: String
-    }
-
-
+    },
+    hasShops: {
+        type: Boolean,
+        default: false
+    },
+    shops: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Shop'
+    }]
 }, {
         timestamps: true
     });

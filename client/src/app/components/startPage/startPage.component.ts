@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -7,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 import { RESTService } from '../../services/rest.service';
-
 import { TrackingService } from '../../services/tracking.service';
+import { TranslationService } from '../../services/translation.service';
 
 import { ProductPreviewComponent } from '../products/productPreview/productPreview.component';
 
@@ -26,27 +25,26 @@ export class StartPageComponent implements OnInit, AfterViewInit {
 
   tops: any;
   topCategories: any;
-
-  viewedLg = 4;
-
+  message: any;
 
     constructor(
       private modalService: NgbModal,
       private restService: RESTService,
-      private trackingService: TrackingService,
-      private router: Router
+      private translationService: TranslationService,
+      private trackingService: TrackingService
     ) {}
 
     ngOnInit(): void {
+      this.translation = this.translationService.translation;
       const observables = [];
-      observables.push(this.restService.getTranslation());
       observables.push(this.restService.getTopCategories());
       observables.push(this.restService.getTops());
+      observables.push(this.restService.getMarketingMessage());
       Observable.forkJoin(observables).subscribe(
         response => {
-          this.translation = response[0];
-          this.topCategories = response[1];
-          this.tops = response[2];
+          this.topCategories = response[0];
+          this.tops = response[1];
+          this.message = response[2];
           this.isDataReady = true;
         },
         err => {

@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { RESTService } from './services/rest.service';
 import { TrackingService } from './services/tracking.service';
+import { TranslationService } from './services/translation.service';
 
 import { AppComponent } from './components/_main/app.component';
 
@@ -21,9 +22,14 @@ import { ShopViewComponent } from './components/shopView/shopView.component';
 import { ProductViewComponent } from './components/products/productView/productView.component';
 import { SearchResultsComponent } from './components/searchResults/searchResults.component';
 import { ProductPreviewComponent } from './components/products/productPreview/productPreview.component';
-import { ProductCarouselComponent } from './components/startPage/childs/productCarousel/productCarousel.component';
+import { ProductCarouselComponent } from './components/products/productCarousel/productCarousel.component';
+import { SelectCategoryComponent } from './components/topNavigation/childs/selectCategory/selectCategory.component';
+import { ProductListComponent } from './components/products/productList/productList.component';
+
 
 import { OrderByPipe } from './pipes/orderBy.pipe';
+import { promise } from 'selenium-webdriver';
+import { transition } from '@angular/core/src/animation/dsl';
 
 const appRoutes: Routes = [
   {
@@ -48,8 +54,12 @@ const appRoutes: Routes = [
   }
 ];
 
-export function init(trackConfig: TrackingService) {
-  return () => trackConfig.connectToServer();
+export function initTracking(tracking: TrackingService) {
+  return () => tracking.connectToServer();
+}
+
+export function initTranslation(translation: TranslationService) {
+  return () => translation.loadTranslation();
 }
 
 @NgModule({
@@ -65,6 +75,8 @@ export function init(trackConfig: TrackingService) {
     ShopViewComponent,
     SearchResultsComponent,
     ProductCarouselComponent,
+    SelectCategoryComponent,
+    ProductListComponent,
 
     OrderByPipe
   ],
@@ -78,16 +90,24 @@ export function init(trackConfig: TrackingService) {
     )
   ],
   entryComponents: [
-    ProductPreviewComponent
+    ProductPreviewComponent,
+    SelectCategoryComponent
   ],
   providers: [
     {
       'provide': APP_INITIALIZER,
-      'useFactory': init,
+      'useFactory': initTracking,
       'deps': [TrackingService],
       'multi': true
     },
+    {
+      'provide': APP_INITIALIZER,
+      'useFactory': initTranslation,
+      'deps': [TranslationService],
+      'multi': true
+    },
     TrackingService,
+    TranslationService,
     RESTService
   ],
   bootstrap: [AppComponent]

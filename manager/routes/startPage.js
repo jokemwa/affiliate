@@ -7,6 +7,7 @@ var Verify = require('./verify');
 var StartPageCategoriesLists = require('../models/startPage/startPageCategoriesLists');
 var StartPageCategories = require('../models/startPage/startPageCategories');
 var StartPageTops = require('../models/startPage/startPageTops');
+var StartPageMarketingMessages = require('../models/startPage/startPageMarketingMessages');
 
 var startPage = require('./misc/startPage');
 
@@ -50,6 +51,22 @@ startPageRouter.route('/categories-list')
             
         });
     })
+
+// Update list
+    .put(Verify.verifyUser, function (req, res, next) {
+        StartPageCategoriesLists.findOneAndUpdate({"version": 0},
+        req.body,
+        { new: true }, 
+        function (err, result) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(result);
+            res.json(result);
+        });
+});
 
 startPageRouter.route('/categories-list/add')
 // Add category to list
@@ -198,5 +215,46 @@ startPageRouter.route('/tops/:product_id')
         });
 });
 
+startPageRouter.route('/marketing-message')
+// Get start page's marketing message
+    .get(Verify.verifyUser, function (req, res, next) {
+        StartPageMarketingMessages.findOne({"version": 0})
+        .exec(function(err, result){
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            if (result) {
+                console.log(result);
+                res.json(result);
+            } else {
+                // Create new list
+                StartPageMarketingMessages.create({"version": 0}, function (err, result) {
+                    if(err){
+                        console.log(err);
+                        err.status = 500;
+                        return next(err);
+                    }
+                    console.log(result);
+                    res.json(result);
+                });
+            }
+        });
+    })
+    .put(Verify.verifyUser, function (req, res, next) {
+        StartPageMarketingMessages.findOneAndUpdate({"version": 0}, 
+        req.body,
+        { new: true }, 
+        function (err, result) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(result);
+            res.json(result);
+        });
+    });
 
 module.exports = startPageRouter;

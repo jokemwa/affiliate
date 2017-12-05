@@ -42,6 +42,10 @@ var translation = require('./routes/translation');
 app.use('/api/translation', translation);
 var brands = require('./routes/brands');
 app.use('/api/brands', brands);
+var categories = require('./routes/categories');
+app.use('/api/categories', categories);
+var search = require('./routes/search');
+app.use('/api/search', search);
 
 // Static
 app.use('/static', express.static(path.join(__dirname, 'static')));

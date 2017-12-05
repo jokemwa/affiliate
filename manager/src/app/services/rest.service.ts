@@ -752,7 +752,7 @@ public saveTranslation(translation): Observable<any> {
     const url = `/api/translation`;
     const body = translation;
     return this.http
-    .post(url, body,
+    .put(url, body,
         {
             headers: new HttpHeaders()
             .set('Content-Type', 'application/json')
@@ -794,6 +794,18 @@ public sendFile(formData): Observable<any> {
             {
                 headers: new HttpHeaders()
                 .set('x-access-token', this.token)
+            });
+    }
+
+// Get start page's categories list
+    public updateTopCategories(topCategories): Observable<any> {
+        const url = `/api/start-page/categories-list`;
+        return this.http
+        .put(url, topCategories,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .append('x-access-token', this.token)
             });
     }
 
@@ -903,5 +915,28 @@ public updateTopCategory(category: any): Observable<any> {
                 .append('x-access-token', this.token)
             });
     }
+
+// Get start page's products top
+    public getMarketingMessage(): Observable<any> {
+        const url = `/api/start-page/marketing-message`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+// Update product order in top
+public updateMarketingMessage(message: any): Observable<any> {
+    const url = `/api/start-page/marketing-message`;
+    return this.http
+    .put(url, message,
+        {
+            headers: new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .append('x-access-token', this.token)
+        });
+}
 
 }

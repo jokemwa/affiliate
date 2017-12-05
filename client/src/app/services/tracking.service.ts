@@ -4,11 +4,12 @@ import { Observable } from 'rxjs/Observable';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { Settings } from '../settings';
 
 @Injectable()
 export class TrackingService {
 
-    private apiUrl = 'http://localhost:4202';
+    private apiUrl = Settings.apiUrl;
 
     public deviceId = '';
     public sessionId = '';

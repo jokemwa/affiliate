@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
 import { RESTService } from '../../../services/rest.service';
+import { TranslationService } from '../../../services/translation.service';
 
 @Component({
   selector: 'app-product-view',
@@ -22,25 +23,20 @@ export class ProductViewComponent implements OnInit {
 
   constructor(
     private restService: RESTService,
+    private translationService: TranslationService,
     private location: Location,
     private route: ActivatedRoute,
     private router: Router) {}
 
   ngOnInit(): void {
+    this.translation = this.translationService.translation;
 
       this.route.paramMap
       .switchMap((params: ParamMap) => this.restService.getProduct(params.get('link')))
       .subscribe(response => {
         this.product = response;
         this.activeImage = this.product.frontImage;
-        this.restService.getTranslation().subscribe(resp => {
-          this.translation = resp;
-          this.isDataReady = true;
-        },
-        err => {
-          console.log(JSON.stringify(err));
-        }
-      );
+        this.isDataReady = true;
       },
       err => {
         console.log(JSON.stringify(err));

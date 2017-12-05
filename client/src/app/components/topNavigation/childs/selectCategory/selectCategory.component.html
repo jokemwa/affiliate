@@ -1,0 +1,41 @@
+<div class="modal-header d-flex" dir="rtl">
+        <h5 style="margin-bottom: 0;">
+                {{translation.topNavigation.selectTitle}}
+        </h5>
+        <span class="align-self-end">
+                <button type="button" class="close" style="padding-left: 0;" (click)="cancel()">
+                        <span>&times;</span>
+                </button>
+        </span>
+</div>
+
+<div class="modal-body text-right" dir="rtl">
+        <div class="container">
+                <div class="row">
+                        <div class="col-12 d-block d-lg-none">
+                                <div *ngFor="let element of list">
+                                        <h5>
+                                                {{element.letter}}
+                                        </h5>
+                                        <h6 *ngFor="let category of element.categories">
+                                                <a href="catgeory/{{category._id}}" (click)="clickCategory($event, category._id)">
+                                                        {{category.name}}
+                                                </a>
+                                        </h6>
+                                </div>
+                        </div>
+                        <div *ngFor="let list of columnsList" class="col-6 d-none d-lg-block">
+                                <div *ngFor="let element of list">
+                                        <h5>
+                                                {{element.letter}}
+                                        </h5>
+                                        <h6 *ngFor="let category of element.categories">
+                                                <a href="catgeory/{{category._id}}" (click)="clickCategory($event, category._id)">
+                                                        {{category.name}}
+                                                </a>
+                                        </h6>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>

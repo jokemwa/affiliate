@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var tagSchema = new Schema({
+var shopGroupSchema = new Schema({
 
     name: {
         type: String,
@@ -10,14 +10,19 @@ var tagSchema = new Schema({
         unique: true
     },
     items: [{
+        shop: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product'
-    }] 
+            ref: 'Shop'
+        },
+        order: {
+            type: Number
+        }
+    }]       
 
 }, {
         timestamps: true
     });
 
-var Tags = mongoose.model('Tag', tagSchema);
+var ShopGroups = mongoose.model('ShopGroup', shopGroupSchema);
 
-module.exports = Tags;
+module.exports = ShopGroups;

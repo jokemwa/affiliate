@@ -4,69 +4,44 @@ import { Observable } from 'rxjs/Observable';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { Settings } from '../settings';
+
 
 
 @Injectable()
 export class RESTService {
 
-    private apiUrl = 'http://localhost:4202';
+    private apiUrl = Settings.apiUrl;
 
     constructor(
         private http: HttpClient) {
         }
 
-
-/* Translation */
-    public getTranslation() {
-        const url = this.apiUrl + '/api/translation';
+/* Top Navigation */
+    public getBrands(): Observable<any> {
+        const url = this.apiUrl + '/api/brands';
         return this.http
         .get(url);
     }
 
-/* Top Navigation Menus */
-    public getBrandsMenu(): Observable<any> {
-        const url = this.apiUrl + '/api/menu/brands';
+    public getCategories(): Observable<any> {
+        const url = this.apiUrl + '/api/categories';
         return this.http
         .get(url);
     }
 
-    public getCategoriesMenu(): Observable<any> {
-        const url = this.apiUrl + '/api/menu/categories';
+    public getShopGroups(): Observable<any> {
+        const url = this.apiUrl + '/api/shopsgroups';
         return this.http
         .get(url);
     }
 
-    public getMarketplacesMenu(): Observable<any> {
-        const url = this.apiUrl + '/api/menu/marketplaces';
+    public search(text: string): Observable<any> {
+        const url = this.apiUrl + '/api/search/' + text;
         return this.http
         .get(url);
     }
 
-    public getShopsMenu(): Observable<any> {
-        const url = this.apiUrl + '/api/menu/shops';
-        return this.http
-        .get(url);
-    }
-
-/* Views */
-
-    public getCategoryView(id: string): Observable<any> {
-        const url = this.apiUrl + `/api/category/` + id;
-        return this.http
-        .get(url);
-    }
-
-    public getShopView(id: string): Observable<any> {
-        const url = this.apiUrl + `/api/shop/` + id;
-        return this.http
-        .get(url);
-    }
-
-    public getMarketplaceView(id: string): Observable<any> {
-        const url = this.apiUrl + `/api/marketplace/` + id;
-        return this.http
-        .get(url);
-    }
 
 /* Main page */
     public getTops(): Observable<any> {
@@ -77,6 +52,12 @@ export class RESTService {
 
     public getTopCategories() {
         const url = this.apiUrl + `/api/start-page/categories-list`;
+        return this.http
+        .get(url);
+    }
+
+    public getMarketingMessage() {
+        const url = this.apiUrl + `/api/start-page/marketing-message`;
         return this.http
         .get(url);
     }
@@ -98,6 +79,14 @@ export class RESTService {
 
 public getBrand(_id: string): Observable<any> {
     const url = this.apiUrl + `/api/brands/` + _id;
+    return this.http
+    .get(url);
+}
+
+/* Categories */
+
+public getCategory(_id: string): Observable<any> {
+    const url = this.apiUrl + `/api/categories/` + _id;
     return this.http
     .get(url);
 }

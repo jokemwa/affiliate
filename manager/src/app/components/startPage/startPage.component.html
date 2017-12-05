@@ -7,6 +7,42 @@
 </nav>
 <div *ngIf="isDataReady" class="container mt-5">
     <div class="row">
+        <h2 class="mb-3">Marketing Message</h2>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="row d-flex justify-content-center">
+                <strong class="mb-2">Image:</strong>                            
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <img class="img-fluid" src="./images/{{message.image}}" 
+                    alt="{{message.image}}">
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center mt-2">
+                <input type="file" id="fileInput" (change)="openUploader($event)"
+                accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff"
+                style="display: none;" #fileInput/> 
+                <button class="btn btn-sm btn-outline-warning"
+                (click)="fileInput.click()">Change</button>                         
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="row d-flex justify-content-center">
+                <strong class="mb-2">Text:</strong>                            
+            </div>
+            <div class="row">
+                <textarea [(ngModel)] = "message.text" dir="rtl" class="form-control form-control-sm"
+                rows="2"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <button class="btn btn-success"
+        (click)="updateMarketingMessage()">Save</button>                         
+    </div>
+    <div class="row">
         <h2 class="mb-3">Top Rated Products</h2>
     </div>
     <app-list-products
@@ -18,10 +54,18 @@
                 (onRemoveProduct)="removeProductFromTops($event)">
     </app-list-products>
     <div class="row">
-        <h2 class="my-3">Top Categories</h2>
+        <h2 class="my-3">
+            Top Categories
+        </h2>
     </div>
     <div class="row">
         <a href="#" (click)="addTopCategory($event)"><h5>Add Category</h5></a>
+    </div>
+    <div class="row mb-2">
+        <button class="btn btn-success"
+            (click)="saveTopCategoriesOrder()">
+            Save Order
+        </button>
     </div>
     <div *ngFor="let item of topCategories.items | orderBy: 'order'">
         <div class="row">
@@ -31,6 +75,10 @@
                 (click)="removeTopCategory(item.category._id)">
                 Remove
                 </button>
+                <a href="#" *ngIf="!isFirst(item.category._id)"
+                (click)="moveUp($event, item.category._id)"><span class="fa fa-arrow-up"></span></a>
+                <a href="#" *ngIf="!isLast(item.category._id)"
+                (click)="moveDown($event, item.category._id)"><span class="fa fa-arrow-down"></span></a>
             </h4>
         </div>
         <app-list-products
@@ -41,6 +89,12 @@
                 (onEditProduct)="editProduct($event)"
                 (onRemoveProduct)="removeProductFromTopCategory($event, item.category._id)">
         </app-list-products>
+    </div>
+    <div class="row mt-2">
+        <button class="btn btn-success"
+            (click)="saveTopCategoriesOrder()">
+            Save Order
+        </button>
     </div>
 
 </div>  

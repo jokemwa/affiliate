@@ -7,7 +7,7 @@ var brandsRouter = express.Router();
 
 brandsRouter.route('/:id')
 // Get products of brand
-    .get(Verify.verifyUser, function (req, res, next) {
+    .get(function (req, res, next) {
         Brands.findById(req.params.id)
         .populate('items.product')
         .exec(function (err, result) {
