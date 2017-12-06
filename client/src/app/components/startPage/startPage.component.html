@@ -1,5 +1,5 @@
 <div *ngIf="isDataReady" class="container mt-4">
-    <div class="jumbotron bg-white text-primary">
+    <div class="jumbotron jumbotron-fluid bg-white text-primary">
         <div class="row">
             <div class="col-md-6 order-2 order-md-1 text-center d-flex align-items-center justify-content-center">
                 <h1>{{message.text}}</h1>
@@ -14,29 +14,38 @@
     </div>
 
     <div class="row d-flex justify-content-start">
-        <h2 class="text-right mb-2 mx-2 text-primary">{{translation.startPage.topRated}}</h2>
+        <h2 class="text-right mx-2 text-primary">{{translation.startPage.topRated}}</h2>
     </div>
-    <app-product-carousel class="row d-flex justify-content-center mb-4"
+    <app-product-carousel
         [items]="tops.items"
-        [sm]="2" [md]="3" [lg]="4" [xl]="4" 
-        (onProductClick)="showProductDetail($event)">
+        [sm]="2" [md]="2" [lg]="3" [xl]="4" 
+        (onProductClick)="showProductDetail($event)"
+        (onTagClick)="showTagResults($event)">
     </app-product-carousel>
-
+    <div class="mt-5"></div>
     <div *ngFor="let item of topCategories.items | orderBy: 'order'">
         <div class="row">
-            <h2 class="text-right mb-2">{{translation.startPage.whatsNew}} {{item.category.category.name}}</h2>
+            <h2 class="text-right mx-2 text-primary">
+                {{translation.startPage.whatsNew}}
+                <a href="#" class="text-dark"
+                (click)="browseAllCategory($event, item.category.category._id)">
+                {{item.category.category.name}}
+                </a>
+            </h2>
         </div>
-        <app-product-carousel class="row d-flex justify-content-center"
+        <app-product-carousel
             [items]="item.category.items"
             [sm]="2" [md]="2" [lg]="3" [xl]="3" 
-            (onProductClick)="showProductDetail($event)">
+            (onProductClick)="showProductDetail($event)"
+            (onTagClick)="showTagResults($event)">
         </app-product-carousel>
-        <div class="row">
-                <h5 class="text-left mb-5">
-                    <a href="#" (click)="browseAllCategory($event, item.category.category._id)">
+        <div class="row d-flex justify-content-end">
+                <h3 class="mt-2 mb-5">
+                    <a href="#"
+                    (click)="browseAllCategory($event, item.category.category._id)">
                     {{translation.startPage.browseAll}}
                     </a>
-                </h5>
+                </h3>
         </div>
     </div>
 </div>

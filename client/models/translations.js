@@ -76,7 +76,13 @@ var translationSchema = new Schema({
             type: String,
             default: 'View More'
         },
-      }
+      },
+      tagView: {
+        tagResults: {
+          type: String,
+          default: 'Search results for tag:'
+      },
+    }
 
 }, {
         timestamps: true

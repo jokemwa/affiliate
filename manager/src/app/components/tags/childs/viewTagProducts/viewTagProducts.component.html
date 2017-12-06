@@ -2,7 +2,7 @@
         <a class="navbar-brand" href="/">Manage Panel</a>
         <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
                 <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
-                <li class="breadcrumb-item"><a href="/badges">Badges</a></li>
+                <li class="breadcrumb-item"><a href="/tags">Tags</a></li>
                 <li class="breadcrumb-item active">Products</li>
         </ol>
 </nav>
@@ -26,30 +26,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of tag.items | orderBy: 'item.title'; let i = index">
+                                <tr *ngFor="let item of tag.items | orderBy: 'item.product.title'; let i = index">
                                         <th scope="row">
                                                 {{i+1}}
                                         </th>
                                         <td>
-                                                <a href="#" (click)="productPreview($event, item._id)">
-                                                                <img src="/images/{{item.frontImage.thumb}}"
+                                                <a href="#" (click)="productPreview($event, item.product._id)">
+                                                                <img src="/images/{{item.product.frontImage.thumb}}"
                                                                 style = "
                                                                 max-width:32px;
                                                                 max-height: 32px;
                                                                 width: auto;
                                                                 height: auto;
                                                                ">
-                                                        <strong dir="rtl">{{item.title}}</strong>
+                                                        <strong dir="rtl">{{item.product.title}}</strong>
                                                 </a>
                                         </td>
                                         <td>
                                                 <div class="row"> 
                                                 <button class="btn btn-sm btn-outline-warning mr-1 my-1"
-                                                 (click)="editProduct(item._id)">
+                                                 (click)="editProduct(item.product._id)">
                                                  Edit
                                                 </button>
                                                 <button class="btn btn-sm btn-outline-danger my-1"
-                                                (click)="removeProduct(item._id)">
+                                                (click)="removeProduct(item.product._id)">
                                                 Remove
                                                 </button>
                                             </div>

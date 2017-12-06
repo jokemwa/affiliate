@@ -43,7 +43,7 @@ exports.getProductShop = function (product_id) {
 
 exports.getProductTags = function (product_id) {
     return new Promise (function(resolve, reject){
-       Tags.find({ "items": product_id },
+       Tags.find({ "items": {$elemMatch: {"product": product_id} } },
        function (err, result) {
            if(err){
                reject(err);

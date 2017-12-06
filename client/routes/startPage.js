@@ -7,6 +7,7 @@ var StartPageTops = require('../models/startPage/startPageTops');
 var Badges = require('../models/badges');
 var StartPageMarketingMessages = require('../models/startPage/startPageMarketingMessages');
 
+var products = require('./misc/products');
 
 var startPageRouter = express.Router();
 
@@ -44,14 +45,35 @@ startPageRouter.route('/tops')
                 path:     'items.product',			
                 populate: { path:  'badges' } 
               })
+            .lean()
             .exec(function(err, result){
                 if(err){
                     console.log(err);
                     err.status = 500;
                     return next(err);
                 }
-                console.log(result);
-                res.json(result);
+                let promises = [];
+                result.items.forEach(element => {
+                    promises.push(products.getProductTags(element.product._id)
+                    .then(
+                    (tags) => {
+                        element.product.tags = tags;
+                    },
+                    (err) => {
+                        return Promise.reject(err);
+                    }));
+                });
+
+                Promise.all(promises)
+                .then(() => {
+                    console.log(result);
+                    res.json(result);
+                },
+                (err) => {
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                });
             });
 });
 

@@ -227,6 +227,24 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+                <h2 class="mb-3">Tag View</h2>
+        </div>              
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="tagResults">Search by tag results</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.tagView.tagResults"
+                name="tagResults"
+                #tagResults="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="tagResults.touched &&
+                tagResults?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
 
         <div class="row d-flex justify-content-end">
             <button (click)="saveTranslation()" class="btn btn-success mx-1" [disabled]="formRef.invalid">

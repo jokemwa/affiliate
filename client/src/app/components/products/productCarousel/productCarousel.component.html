@@ -4,6 +4,7 @@
         style="height:100%">
             <div class="col-12 d-flex align-items-center justify-content-center">
                 <a *ngIf="ableToRightXl()" href="#"
+                class="text-warning"
                 (click)="moveRight($event)">
                     <h1><span class="fa fa-chevron-right"></span></h1>
                 </a>
@@ -43,28 +44,44 @@
                 </div>
             </div>
     </div>
-    <div class="col-12 col-sm-10 card-deck">
-        <div *ngFor="let item of items"
-        class="card mx-1 text-right {{item.xl}} {{item.lg}} {{item.md}} {{item.sm}}"
-        (click)="onClick(item.product._id)"
-        style="
-        cursor: pointer;
-        height: 100%;
-        ">
-                <div class="card-header text-left bg-transparent" style="padding: 0.2rem 0.2rem">
-                    <h4>
-                        <span *ngFor="let badge of item.product.badges"
-                        class="badge badge-pill {{badge.color}}">
-                            {{badge.text}}
-                        </span>
-                        <span *ngIf="item.product.badges.length === 0">
-                            &nbsp;
-                        </span>
-                    </h4>
-                </div>
-                <img class="card-img-top" src="/images/{{item.product.frontImage.hiRes}}" alt="{{item.product.title}}">
-                <div class="card-body">
-                    <h5 class="card-title" dir="rtl">{{item.product.title}}</h5>
+    <div class="col-12 col-sm-10">
+        <div class="card-deck">
+                <div *ngFor="let item of items"
+                class="card border-0 mx-2 text-right bg-transparent
+                {{item.xl}} {{item.lg}} {{item.md}} {{item.sm}}">
+                        <div class="card-header border-0 text-left bg-transparent" style="padding: 0;">
+                            <h4 style="margin-bottom: .3rem;">
+                                <span *ngFor="let badge of item.product.badges"
+                                class="badge badge-pill {{badge.color}}">
+                                    {{badge.text}}
+                                </span>
+                                <span *ngIf="item.product.badges.length === 0">
+                                    &nbsp;
+                                </span>
+                            </h4>
+                        </div>
+                        <img class="card-img-top border border-bottom-0 border-secondary rounded-top bg-light"
+                        src="/images/{{item.product.frontImage.hiRes}}"
+                        alt="{{item.product.title}}"
+                        (click)="onClickProduct(item.product._id)"
+                        style="
+                        cursor: pointer;
+                        ">
+                        <div class="card-body border border-secondary rounded-bottom bg-light">
+                                <h5 class="card-text" dir="rtl"
+                                (click)="onClickProduct(item.product._id)"
+                                style="
+                                cursor: pointer;
+                                ">
+                                    {{item.product.title}}
+                                </h5>
+                                <small class="text-muted">
+                                    <span *ngFor="let tag of item.product.tags"
+                                    class="mx-1">
+                                    <a href="/tag/{{tag._id}}" (click)="onClickTag($event, tag._id)"><span dir="ltr">#</span><span>{{tag.name}}</span></a>
+                                    </span>
+                                </small>
+                        </div>
                 </div>
         </div>
     </div>

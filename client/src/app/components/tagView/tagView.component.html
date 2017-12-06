@@ -2,15 +2,13 @@
         <div class="jumbotron jumbotron-fluid bg-white text-primary">
                 <div class="row text-right" style="padding-left: .5rem; padding-right: .5rem;">
                         <h2>
-                                {{category.name}}
+                                {{translation.tagView.tagResults}}
+                                <span class="text-dark">{{tag.name}}</span>
                         </h2>
-                        <p class="text-secondary">
-                                {{category.description}}
-                        </p>
                 </div>
         </div>
         <app-product-list
-        [items]="category.items"
+        [items]="tag.items"
         (onProductClick)="showProductDetail($event)"
         (onTagClick)="showTagResults($event)">
         </app-product-list>

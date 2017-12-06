@@ -11,6 +11,9 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import { orderBy } from 'lodash';
 
+declare var jquery: any;
+declare var $: any;
+
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
 
@@ -63,41 +66,52 @@ export class TopNavigationComponent implements OnInit {
   clickLogoTitle(e) {
     e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
     this.router.navigate(['/']);
   }
 
   clickFacebook(e) {
     e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
     window.open(this.translation.topNavigation.facebookLink, '_blank');
   }
 
   clickYoutube(e) {
     e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
     window.open(this.translation.topNavigation.youtubeLink, '_blank');
   }
 
   clickSearch(e) {
+    e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
   }
 
   clickCoupons(e) {
     e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
   }
 
   clickShops(e) {
+    e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
   }
 
   clickBrands(e) {
+    e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
   }
 
   clickSuggestions(e) {
     e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
   }
 
   clickCategories(e) {
@@ -105,6 +119,7 @@ export class TopNavigationComponent implements OnInit {
     e.preventDefault();
     this.restService.getCategories().subscribe(
       response => {
+        $('.navbar-collapse').collapse('hide');
         const modalRef = this.modalService.open(SelectCategoryComponent, {size: 'lg'});
         modalRef.componentInstance.categories = response;
       },
@@ -116,6 +131,7 @@ export class TopNavigationComponent implements OnInit {
   clickHome(e) {
     e.stopPropagation();
     e.preventDefault();
+    $('.navbar-collapse').collapse('hide');
     this.router.navigate(['/']);
   }
 

@@ -91,6 +91,14 @@ public getCategory(_id: string): Observable<any> {
     .get(url);
 }
 
+/* Categories */
+
+public getTag(_id: string): Observable<any> {
+    const url = this.apiUrl + `/api/tags/` + _id;
+    return this.http
+    .get(url);
+}
+
 }
 
 

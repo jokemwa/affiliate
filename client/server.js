@@ -44,6 +44,8 @@ var brands = require('./routes/brands');
 app.use('/api/brands', brands);
 var categories = require('./routes/categories');
 app.use('/api/categories', categories);
+var tags = require('./routes/tags');
+app.use('/api/tags', tags);
 var search = require('./routes/search');
 app.use('/api/search', search);
 

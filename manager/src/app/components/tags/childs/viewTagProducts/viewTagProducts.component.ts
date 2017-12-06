@@ -88,7 +88,7 @@ export class ViewTagProductsComponent implements OnInit {
       for (let i = 0; i < productsList.length; i++) {
         let isFound = false;
         for (let j = 0; j < this.tag.items.length; j++) {
-          if (this.tag.items[j]._id === productsList[i]._id) {
+          if (this.tag.items[j].product._id === productsList[i]._id) {
               isFound = true;
           }
         }

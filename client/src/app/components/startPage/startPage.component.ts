@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -31,7 +32,8 @@ export class StartPageComponent implements OnInit, AfterViewInit {
       private modalService: NgbModal,
       private restService: RESTService,
       private translationService: TranslationService,
-      private trackingService: TrackingService
+      private trackingService: TrackingService,
+      private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -62,9 +64,14 @@ export class StartPageComponent implements OnInit, AfterViewInit {
       modalRef.componentInstance.id = id;
     }
 
+    showTagResults(tag_id: string) {
+      this.router.navigate(['/tag/' + tag_id]);
+    }
+
     browseAllCategory(e, category_id) {
       e.stopPropagation();
       e.preventDefault();
+      this.router.navigate(['/category/' + category_id]);
     }
 
 }

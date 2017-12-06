@@ -55,7 +55,7 @@ tagsRouter.route('/:id')
 // Get products by tag
     .get(Verify.verifyUser, function (req, res, next) {
         Tags.findById(req.params.id)
-        .populate('items')
+        .populate('items.product')
         .exec(function (err, result) {
             if(err){
                 console.log(err);

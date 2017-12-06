@@ -15,6 +15,7 @@ export class ProductCarouselComponent implements OnInit {
   @Input() lg: string;
   @Input() xl: string;
   @Output() onProductClick = new EventEmitter<string>();
+  @Output() onTagClick = new EventEmitter<string>();
 
   viewSize = {
     sm: 0,
@@ -41,25 +42,25 @@ export class ProductCarouselComponent implements OnInit {
       this.items = orderBy(this.items, 'order', 'asc');
       for (let i = 0; i < this.items.length; i++) {
         if (i >= this.viewIndex.xl && i < (this.viewIndex.xl + this.viewSize.xl)) {
-          this.items[i].xl = 'd-xl-block';
+          this.items[i].xl = 'd-xl-flex';
         } else {
           this.items[i].xl = 'd-xl-none';
         }
 
         if (i >= this.viewIndex.lg && i < (this.viewIndex.lg + this.viewSize.lg)) {
-          this.items[i].lg = 'd-lg-block';
+          this.items[i].lg = 'd-lg-flex';
         } else {
           this.items[i].lg = 'd-lg-none';
         }
 
         if (i >= this.viewIndex.md && i < (this.viewIndex.md + this.viewSize.md)) {
-          this.items[i].md = 'd-md-block';
+          this.items[i].md = 'd-md-flex';
         } else {
           this.items[i].md = 'd-md-none';
         }
 
         if (i >= this.viewIndex.sm && i < (this.viewIndex.sm + this.viewSize.sm)) {
-          this.items[i].sm = 'd-sm-block';
+          this.items[i].sm = 'd-sm-flex';
         } else {
           this.items[i].sm = 'd-sm-none';
         }
@@ -117,22 +118,22 @@ export class ProductCarouselComponent implements OnInit {
       }
       for (let i = 0; i < this.items.length; i++) {
         if (i >= this.viewIndex.xl && i < (this.viewIndex.xl + this.viewSize.xl)) {
-          this.items[i].xl = 'd-xl-block';
+          this.items[i].xl = 'd-xl-flex';
         } else {
           this.items[i].xl = 'd-xl-none';
         }
         if (i >= this.viewIndex.lg && i < (this.viewIndex.lg + this.viewSize.lg)) {
-          this.items[i].lg = 'd-lg-block';
+          this.items[i].lg = 'd-lg-flex';
         } else {
           this.items[i].lg = 'd-lg-none';
         }
         if (i >= this.viewIndex.md && i < (this.viewIndex.md + this.viewSize.md)) {
-          this.items[i].md = 'd-md-block';
+          this.items[i].md = 'd-md-flex';
         } else {
           this.items[i].md = 'd-md-none';
         }
         if (i >= this.viewIndex.sm && i < (this.viewIndex.sm + this.viewSize.sm)) {
-          this.items[i].sm = 'd-sm-block';
+          this.items[i].sm = 'd-sm-flex';
         } else {
           this.items[i].sm = 'd-sm-none';
         }
@@ -188,30 +189,36 @@ export class ProductCarouselComponent implements OnInit {
       }
       for (let i = 0; i < this.items.length; i++) {
         if (i >= this.viewIndex.xl && i < (this.viewIndex.xl + this.viewSize.xl)) {
-          this.items[i].xl = 'd-xl-block';
+          this.items[i].xl = 'd-xl-flex';
         } else {
           this.items[i].xl = 'd-xl-none';
         }
         if (i >= this.viewIndex.lg && i < (this.viewIndex.lg + this.viewSize.lg)) {
-          this.items[i].lg = 'd-lg-block';
+          this.items[i].lg = 'd-lg-flex';
         } else {
           this.items[i].lg = 'd-lg-none';
         }
         if (i >= this.viewIndex.md && i < (this.viewIndex.md + this.viewSize.md)) {
-          this.items[i].md = 'd-md-block';
+          this.items[i].md = 'd-md-flex';
         } else {
           this.items[i].md = 'd-md-none';
         }
         if (i >= this.viewIndex.sm && i < (this.viewIndex.sm + this.viewSize.sm)) {
-          this.items[i].sm = 'd-sm-block';
+          this.items[i].sm = 'd-sm-flex';
         } else {
           this.items[i].sm = 'd-sm-none';
         }
       }
     }
 
-    onClick(product_id) {
-      this.onProductClick.emit(product_id);
+    onClickProduct(product_promoLink) {
+      this.onProductClick.emit(product_promoLink);
+    }
+
+    onClickTag(e, tag_id) {
+      e.stopPropagation();
+      e.preventDefault();
+      this.onTagClick.emit(tag_id);
     }
 
 }

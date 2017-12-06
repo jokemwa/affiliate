@@ -68,19 +68,14 @@ export class CategoriesComponent implements OnInit {
   }
 
   editCategory (_id) {
-    for (let i = 0; i < this.categories.length; i++) {
-      if (this.categories[i]._id === _id) {
-          const modalRef = this.modalService.open(EditCategoryComponent, {size: 'lg'});
-          modalRef.componentInstance._id = _id;
-          modalRef.result.then(
-            () => {
-              this.getCategories();
-            },
-            () => {}
-          );
-        }
-        break;
-      }
+    const modalRef = this.modalService.open(EditCategoryComponent, {size: 'lg'});
+    modalRef.componentInstance._id = _id;
+    modalRef.result.then(
+      () => {
+        this.getCategories();
+      },
+      () => {}
+    );
   }
 
   deleteCategory (_id: String) {

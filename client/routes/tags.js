@@ -1,52 +1,57 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var Tags = require('../models/tags');
 
+var products = require('./misc/products');
+
 var tagsRouter = express.Router();
-tagsRouter.use(bodyParser.json());
-
-tagsRouter.route('/')
-    .get(function (req, res, next) {
-        Tags.find({}, function (err, results) {
-        if (err) throw err;
-        res.json(results);
-    });
-})
-
-    .post(function (req, res, next) {
-        Tags.create(req.body, function (err, result) {
-        if (err) throw err;
-        res.json(result);
-        });
-})
 
 tagsRouter.route('/:id')
+// Get products list of tag {product, order}
     .get(function (req, res, next) {
-        Tags.findById(req.params.id, function (err, result) {
-            if (err) throw err;
-            res.json(result);
-        });
-    })
-
-    .put(function (req, res, next) {
-        Tags.findByIdAndUpdate(req.params.id, {
-            $set: req.body
-        }, {
-                new: true
-            }, function (err, result) {
-                if (err) throw err;
+        Tags.findById(req.params.id)
+        .populate('items.product')
+        .populate({
+            path:     'items.product',			
+            populate: { path:  'badges'}
+          })
+        .lean()
+        .exec(function (err, result) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            if(result){
+                let promises = [];
+                result.items.forEach(element => {
+                    promises.push(products.getProductTags(element.product._id)
+                    .then(
+                    (tags) => {
+                        element.product.tags = tags;
+                    },
+                    (err) => {
+                        return Promise.reject(err);
+                    }));
+                });
+    
+                Promise.all(promises)
+                .then(() => {
+                    console.log(result);
+                    res.json(result);
+                },
+                (err) => {
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                });
+            } else {
+                console.log(result);
                 res.json(result);
-            });
-    })
-
-    .delete(function (req, res, next) {
-        Tags.findByIdAndRemove(req.params.id, function (err, response) {
-            if (err) throw err;
-            res.json(response);
+            }
         });
-    });
+});
 
 
 

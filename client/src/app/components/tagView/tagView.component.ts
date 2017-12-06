@@ -13,13 +13,13 @@ import { TranslationService } from '../../services/translation.service';
 
 
 @Component({
-  selector: 'app-category-view',
-  templateUrl: './categoryView.component.html',
+  selector: 'app-tag-view',
+  templateUrl: './tagView.component.html',
   styleUrls: []
 })
-export class CategoryViewComponent implements OnInit {
+export class TagViewComponent implements OnInit {
 
-  category: any;
+  tag: any;
   isDataReady = false;
   translation: any;
 
@@ -32,13 +32,13 @@ export class CategoryViewComponent implements OnInit {
     ngOnInit(): void {
       this.translation = this.translationService.translation;
             this.route.paramMap
-            .switchMap((params: ParamMap) => this.restService.getCategory(params.get('_id')))
+            .switchMap((params: ParamMap) => this.restService.getTag(params.get('_id')))
             .subscribe(response => {
               if (!response) {
                 this.router.navigate(['/']);
               }
-              this.category = response;
-              this.category.items = orderBy(this.category.items, 'order', 'asc');
+              this.tag = response;
+              this.tag.items = orderBy(this.tag.items, 'product.title', 'asc');
               this.isDataReady = true;
             },
             err => {

@@ -10,9 +10,11 @@ var tagSchema = new Schema({
         unique: true
     },
     items: [{
+        product: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product'
-    }] 
+        }
+    }]  
 
 }, {
         timestamps: true

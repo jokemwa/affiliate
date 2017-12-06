@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 
 var Categories = require('../models/categories');
 
+var products = require('./misc/products');
+
 var categoriesRouter = express.Router();
 
 categoriesRouter.route('/')
@@ -28,14 +30,41 @@ categoriesRouter.route('/:id')
             path:     'items.product',			
             populate: { path:  'badges'}
           })
+        .lean()
         .exec(function (err, result) {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-            console.log(result);
-            res.json(result);
+            if(result){
+                let promises = [];
+                result.items.forEach(element => {
+                    promises.push(products.getProductTags(element.product._id)
+                    .then(
+                    (tags) => {
+                        element.product.tags = tags;
+                    },
+                    (err) => {
+                        return Promise.reject(err);
+                    }));
+                });
+    
+                Promise.all(promises)
+                .then(() => {
+                    console.log(result);
+                    res.json(result);
+                },
+                (err) => {
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                });
+            } else {
+                console.log(result);
+                res.json(result);
+            }
+            
         });
 });
 

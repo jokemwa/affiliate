@@ -1,29 +1,40 @@
 <div class="row">
-    <div *ngFor="let item of items | orderBy: 'order' | slice:0:showed"
-        class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-4"
-        (click)="onClick(item.product.promoLink)"
-        style="
-        cursor: pointer;
-        ">
-        <div class="card bg-light border-secondary text-right"
+    <div *ngFor="let item of items | slice:0:showed"
+        class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-4">
+        <div class="card bg-transparent border-0 text-right"
         style="height:100%">
-            <div *ngIf="item.product.badges.length !== 0" 
-            class="card-header text-left" style="padding: 0.2rem 0.2rem">
-                <h5 style="margin-bottom: 0">
+            <div class="card-header border-0 text-left bg-transparent" style="padding: 0; padding-bottom: 0.2rem">
+                <h4 style="margin-bottom: 0rem;">
                     <span *ngFor="let badge of item.product.badges"
                     class="badge badge-pill {{badge.color}}">
                         {{badge.text}}
                     </span>
-                </h5>
+                    <span *ngIf="item.product.badges.length === 0">
+                        &nbsp;
+                    </span>
+                </h4>
             </div>
-            <img class="card-img-top"
-            style="padding: 0.5rem"
+            <img class="card-img-top border border-bottom-0 border-secondary rounded-top bg-light"
             src="/images/{{item.product.frontImage.hiRes}}"
-            alt="{{item.product.title}}">
-            <div class="card-body">
-                <h5 class="card-title" dir="rtl">
+            alt="{{item.product.title}}"
+            (click)="onClickProduct(item.product.promoLink)"
+            style="
+            cursor: pointer;
+            ">
+            <div class="card-body border border-secondary rounded-bottom bg-light">
+                <h5 class="card-title" dir="rtl"
+                (click)="onClickProduct(item.product.promoLink)"
+                style="
+                cursor: pointer;
+                ">
                     {{item.product.title}}
                 </h5>
+                <small class="text-muted text-left">
+                        <span *ngFor="let tag of item.product.tags"
+                        class="mx-1">
+                            <a href="/tag/{{tag._id}}" (click)="onClickTag($event, tag._id)"><span dir="ltr">#</span><span>{{tag.name}}</span></a>
+                        </span>
+                </small>
             </div>
         </div>
     </div>

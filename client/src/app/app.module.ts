@@ -18,6 +18,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { StartPageComponent } from './components/startPage/startPage.component';
 import { BrandViewComponent } from './components/brandView/brandView.component';
 import { CategoryViewComponent } from './components/categoryView/categoryView.component';
+import { TagViewComponent } from './components/tagView/tagView.component';
 import { ShopViewComponent } from './components/shopView/shopView.component';
 import { ProductViewComponent } from './components/products/productView/productView.component';
 import { SearchResultsComponent } from './components/searchResults/searchResults.component';
@@ -49,6 +50,10 @@ const appRoutes: Routes = [
     component: ShopViewComponent
   },
   {
+    path: 'tag/:_id',
+    component: TagViewComponent
+  },
+  {
     path: '**',
     component: StartPageComponent
   }
@@ -77,6 +82,7 @@ export function initTranslation(translation: TranslationService) {
     ProductCarouselComponent,
     SelectCategoryComponent,
     ProductListComponent,
+    TagViewComponent,
 
     OrderByPipe
   ],
