@@ -29,6 +29,12 @@ app.set('view engine', 'pug');
 app.set('port', config.port);
 app.set('mode', 'development');
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // REST Routes
 var images = require('./routes/images');
 app.use('/images', images);
