@@ -1,3 +1,25 @@
-<div>
-        <h1>Shop View</h1>
+<div *ngIf="isDataReady" class="container">
+        <div class="jumbotron jumbotron-fluid bg-white text-primary">
+                <div class="row">
+                        <div class="col-md-5 col-lg-4">
+                                <img class="img-fluid"
+                                style="padding: 0.2rem; width: 100%;"
+                                src="/images/{{shop.logo}}"
+                                alt="{{shop.name}}">
+                        </div>
+                        <div class="col-md-7 col-lg-8 text-right">
+                                <h2>
+                                        {{shop.name}}
+                                </h2>
+                                <p class="text-secondary">
+                                        {{shop.description}}
+                                </p>
+                        </div>
+                </div>
+        </div>
+        <app-product-list
+        [items]="shop.items"
+        (onProductClick)="showProductDetail($event)"
+        (onTagClick)="showTagResults($event)">
+        </app-product-list>
 </div>

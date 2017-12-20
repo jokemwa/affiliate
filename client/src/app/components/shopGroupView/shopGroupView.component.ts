@@ -1,37 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { orderBy } from 'lodash';
+
 import 'rxjs/add/operator/switchMap';
 
 import { RESTService } from '../../services/rest.service';
-
-
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
-  selector: 'app-shop-view',
-  templateUrl: './shopView.component.html',
+  selector: 'app-shop-group-view',
+  templateUrl: './shopGroupView.component.html',
   styleUrls: [],
 })
 
 export class ShopGroupViewComponent implements OnInit {
 
-  product: any;
+  shopGroup: any;
+  isDataReady = false;
+  translation: any;
 
   constructor(
     private restService: RESTService,
+    private translationService: TranslationService,
+    private location: Location,
     private route: ActivatedRoute,
-    private location: Location) {}
+    private router: Router) {}
 
   ngOnInit(): void {
       this.route.paramMap
-        .switchMap((params: ParamMap) => this.restService.getProduct(params.get('link')))
+        .switchMap((params: ParamMap) => this.restService.getShopGroup(params.get('_id')))
         .subscribe(response => {
-          this.product = response;
+          if (!response) {
+            this.router.navigate(['/']);
+          }
+          this.shopGroup = response;
+          this.shopGroup.items = orderBy(this.shopGroup.items, 'order', 'asc');
+          this.isDataReady = true;
         },
         err => {
-          window.alert('Server error: ' + err);
-          console.log(err);
-      });
+          this.router.navigate(['/']);
+          console.log(JSON.stringify(err));
+          }
+        );
+  }
+
+  clickShop(e, _id: string) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.router.navigate(['/shop/' + _id]);
   }
 
 }

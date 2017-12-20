@@ -7,7 +7,11 @@
         <div class="container">
 
                 <div class="row d-flex justify-content-center">
-                    <p><u>http://www...il/{{product.promoLink}}</u></p>
+                        <div class="col-12">
+                                <input type="text" disabled
+                                style="width:100%;"
+                                value="http://www...il/{{product.promoLink}}">
+                        </div>
                 </div>
                 <div class="row">
                         <div class="col-6">
@@ -15,14 +19,13 @@
                                         <span *ngFor="let badge of product.badges"
                                         class="badge badge-pill {{badge.color}} mx-1" dir="rtl">{{badge.text}}</span>
                                 </div>
-                                <div class="row mt-3 d-flex justify-content-end">
+                                <div class="row mt-3 d-flex justify-content-end text-right">
                                         <h4>
                                                 <button class="btn btn-danger"
                                                 (click)="clickBuyButton()">
                                                 Buy
                                                 </button>
                                                 <span dir="rtl">{{product.title}}</span>
-                                                
                                         </h4>
                                 </div>
                                 <div class="row mt-3 d-flex justify-content-end">
@@ -52,8 +55,8 @@
                                 <div class="row mt-2 d-flex justify-content-end">
                                         <h6><u>Description:</u></h6>
                                 </div>
-                                <div class="row d-flex justify-content-end">
-                                        <h6 dir="rtl">{{product.description}}</h6>
+                                <div class="row d-flex d-flex justify-content-end text-right">
+                                        <h6 dir="rtl" style="white-space: pre-wrap;">{{product.description}}</h6>
                                 </div>
                         </div>
                         <div class="col-6">

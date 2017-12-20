@@ -1,7 +1,7 @@
 <nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
-    <a class="navbar-brand" href="/">Manage Panel</a>
+    <a class="navbar-brand" routerLink="/">Manage Panel</a>
     <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
-            <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
+            <li class="breadcrumb-item"><a routerLink="/">Main Menu</a></li>
             <li class="breadcrumb-item active">Translation</li>
     </ol>
 </nav>
@@ -102,30 +102,15 @@
         </div>
         <div class="row mb-1">
             <div class="col-3">
-                <label for="shopsLink">Shops Nav Link</label>
+                <label for="homeLink">Home Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "translation.topNavigation.shopsLink"
-                name="shopsLink"
-                #shopsLink="ngModel"
+                <input [(ngModel)] = "translation.topNavigation.homeLink"
+                name="homeLink"
+                #homeLink="ngModel"
                 type="text" class="form-control form-control-sm" dir="rtl" required>
-                <div class="alert alert-danger" *ngIf="shopsLink.touched &&
-                shopsLink?.errors?.required">
-                This field is required.
-                </div>
-            </div>
-        </div>
-        <div class="row mb-1">
-            <div class="col-3">
-                <label for="brandsLink">Brands Nav Link</label>
-            </div>
-            <div class="col-9">
-                <input [(ngModel)] = "translation.topNavigation.brandsLink"
-                name="brandsLink"
-                #brandsLink="ngModel"
-                type="text" class="form-control form-control-sm" dir="rtl" required>
-                <div class="alert alert-danger" *ngIf="brandsLink.touched &&
-                brandsLink?.errors?.required">
+                <div class="alert alert-danger" *ngIf="homeLink.touched &&
+                homeLink?.errors?.required">
                 This field is required.
                 </div>
             </div>
@@ -147,15 +132,207 @@
         </div>
         <div class="row mb-1">
             <div class="col-3">
-                <label for="homeLink">Home Nav Link</label>
+                <label for="brandsLink">Brands Nav Link</label>
             </div>
             <div class="col-9">
-                <input [(ngModel)] = "translation.topNavigation.homeLink"
-                name="homeLink"
-                #homeLink="ngModel"
+                <input [(ngModel)] = "translation.topNavigation.brandsLink"
+                name="brandsLink"
+                #brandsLink="ngModel"
                 type="text" class="form-control form-control-sm" dir="rtl" required>
-                <div class="alert alert-danger" *ngIf="homeLink.touched &&
-                homeLink?.errors?.required">
+                <div class="alert alert-danger" *ngIf="brandsLink.touched &&
+                brandsLink?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="shopsLink">Shops Nav Link</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.shopsLink"
+                name="shopsLink"
+                #shopsLink="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="shopsLink.touched &&
+                shopsLink?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="couponsLink">Coupons Nav Link</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.couponsLink"
+                name="couponsLink"
+                #couponsLink="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="couponsLink.touched &&
+                couponsLink?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="helpLink">Help Nav Link</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.helpLink"
+                name="helpLink"
+                #helpLink="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="helpLink.touched &&
+                helpLink?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+                <h2 class="mb-3">Footer</h2>
+        </div>    
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="year">Year</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.footer.year"
+                name="year"
+                #year="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="year.touched &&
+                year?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="year">Follow Us</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.footer.followUs"
+                name="followUs"
+                #followUs="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="followUs.touched &&
+                followUs?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="year">Contact Email</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.footer.contactEmail"
+                name="contactEmail"
+                #contactEmail="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="contactEmail.touched &&
+                contactEmail?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="year">Subscribe Label</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.footer.subscribeLabel"
+                name="subscribeLabel"
+                #subscribeLabel="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="subscribeLabel.touched &&
+                subscribeLabel?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="year">Subscribe Field Placeholder</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.footer.subscribeFieldPlaceholder"
+                name="subscribeFieldPlaceholder"
+                #subscribeFieldPlaceholder="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="subscribeFieldPlaceholder.touched &&
+                subscribeFieldPlaceholder?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="year">Subscribe Button</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.footer.subscribeButton"
+                name="subscribeButton"
+                #subscribeButton="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="subscribeButton.touched &&
+                subscribeButton?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+                <h2 class="mb-3">Subscribe Result Window</h2>
+        </div>    
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="success">Success</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.subscribeResult.success"
+                name="success"
+                #success="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="success.touched &&
+                success?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="success">Already Subscribed</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.subscribeResult.alreadySubscribed"
+                name="alreadySubscribed"
+                #alreadySubscribed="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="alreadySubscribed.touched &&
+                alreadySubscribed?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="success">Close Button</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.subscribeResult.closeButton"
+                name="closeButton"
+                #closeButton="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="closeButton.touched &&
+                closeButton?.errors?.required">
                 This field is required.
                 </div>
             </div>

@@ -1,7 +1,4 @@
-При долнном названии продукта кнопки Edit Delete отборажаются криво
 Продукты с AliExpress'а из шопов не дают название для промолинка
-Длина промолинка в превью продукта
-we support сжаты лейблы
 Add shop лишние маректплейсы
 
 https://www.365games.co.uk/pc-games/total-war-shogun-gold-edition-game-pc

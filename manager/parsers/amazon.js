@@ -5,6 +5,7 @@ var cheerio = require('cheerio');
 
 exports.parseImages = function (page){
     return new Promise(function(resolve, reject){
+        
         var imageJSONs = [];
 
         if(page.indexOf("'colorImages': { ") < 0){

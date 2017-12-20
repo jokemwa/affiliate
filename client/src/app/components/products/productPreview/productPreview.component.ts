@@ -37,7 +37,7 @@ export class ProductPreviewComponent  implements OnInit {
       response => {
         this.product = response;
         this.activeImage = this.product.frontImage;
-        this.product.description = this.product.description.substring(0, 128) + '...';
+        this.product.description = this.product.description.substring(0, 200) + '...';
         this.isDataReady = true;
       },
       err => {

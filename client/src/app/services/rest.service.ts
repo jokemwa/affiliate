@@ -19,7 +19,7 @@ export class RESTService {
 
 /* Top Navigation */
     public getBrands(): Observable<any> {
-        const url = this.apiUrl + '/api/brands';
+        const url = this.apiUrl + '/api/top-navigation-menus/brands-menu';
         return this.http
         .get(url);
     }
@@ -31,7 +31,7 @@ export class RESTService {
     }
 
     public getShopGroups(): Observable<any> {
-        const url = this.apiUrl + '/api/shopsgroups';
+        const url = this.apiUrl + '/api/shop-groups';
         return this.http
         .get(url);
     }
@@ -77,27 +77,56 @@ export class RESTService {
 
 /* Brands */
 
-public getBrand(_id: string): Observable<any> {
-    const url = this.apiUrl + `/api/brands/` + _id;
-    return this.http
-    .get(url);
-}
+    public getBrand(_id: string): Observable<any> {
+        const url = this.apiUrl + `/api/brands/` + _id;
+        return this.http
+        .get(url);
+    }
 
 /* Categories */
 
-public getCategory(_id: string): Observable<any> {
-    const url = this.apiUrl + `/api/categories/` + _id;
-    return this.http
-    .get(url);
-}
+    public getCategory(_id: string): Observable<any> {
+        const url = this.apiUrl + `/api/categories/` + _id;
+        return this.http
+        .get(url);
+    }
 
-/* Categories */
+/* Tags */
 
-public getTag(_id: string): Observable<any> {
-    const url = this.apiUrl + `/api/tags/` + _id;
-    return this.http
-    .get(url);
-}
+    public getTag(_id: string): Observable<any> {
+        const url = this.apiUrl + `/api/tags/` + _id;
+        return this.http
+        .get(url);
+    }
+
+/* Shop Groups */
+
+    public getShopGroup(_id: string): Observable<any> {
+        const url = this.apiUrl + `/api/shop-groups/` + _id;
+        return this.http
+        .get(url);
+    }
+
+/* Shops */
+
+    public getShop(_id: string): Observable<any> {
+        const url = this.apiUrl + `/api/shops/` + _id;
+        return this.http
+        .get(url);
+    }
+
+/* Newsletter subscribe */
+
+    public subscribeEmail(email: string): Observable<any> {
+        const url = this.apiUrl + `/api/subscribe`;
+        const body = {'email': email};
+        return this.http
+        .post(url, body,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+            });
+    }
 
 }
 

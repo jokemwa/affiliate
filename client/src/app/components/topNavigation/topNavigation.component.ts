@@ -18,6 +18,9 @@ import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
 
 import { SelectCategoryComponent } from './childs/selectCategory/selectCategory.component';
+import { SelectBrandComponent } from './childs/selectBrand/selectBrand.component';
+import { SelectShopGroupComponent } from './childs/selectShopGroup/selectShopGroup.component';
+
 
 @Component({
   selector: 'app-top-navigation',
@@ -99,16 +102,32 @@ export class TopNavigationComponent implements OnInit {
   clickShops(e) {
     e.stopPropagation();
     e.preventDefault();
-    $('.navbar-collapse').collapse('hide');
+    this.restService.getShopGroups().subscribe(
+      response => {
+        $('.navbar-collapse').collapse('hide');
+        const modalRef = this.modalService.open(SelectShopGroupComponent, {size: 'sm'});
+        modalRef.componentInstance.shopGroups = response;
+      },
+      err => {
+        console.log(JSON.stringify(err));
+    });
   }
 
   clickBrands(e) {
     e.stopPropagation();
     e.preventDefault();
-    $('.navbar-collapse').collapse('hide');
+    this.restService.getBrands().subscribe(
+      response => {
+        $('.navbar-collapse').collapse('hide');
+        const modalRef = this.modalService.open(SelectBrandComponent, {size: 'lg'});
+        modalRef.componentInstance.brands = response;
+      },
+      err => {
+        console.log(JSON.stringify(err));
+    });
   }
 
-  clickSuggestions(e) {
+  clickHelp(e) {
     e.stopPropagation();
     e.preventDefault();
     $('.navbar-collapse').collapse('hide');
@@ -134,11 +153,5 @@ export class TopNavigationComponent implements OnInit {
     $('.navbar-collapse').collapse('hide');
     this.router.navigate(['/']);
   }
-
-
-  /*openAddWindow() {
-    const modalRef = this.modalService.open(AddProductComponent, {size: 'lg'});
-
-  }*/
 
 }

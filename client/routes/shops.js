@@ -1,53 +1,56 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var Shops = require('../models/shops');
 
+var products = require('./misc/products');
+
 var shopsRouter = express.Router();
-shopsRouter.use(bodyParser.json());
-
-shopsRouter.route('/')
-    .get(function (req, res, next) {
-        Shops.find({}, function (err, results) {
-        if (err) throw err;
-        res.json(results);
-    });
-})
-
-    .post(function (req, res, next) {
-        Shops.create(req.body, function (err, result) {
-        if (err) throw err;
-        res.json(result);
-        });
-})
 
 shopsRouter.route('/:id')
+// Get products list of shop
     .get(function (req, res, next) {
-        Shops.findById(req.params.id, function (err, result) {
-            if (err) throw err;
-            res.json(result);
-        });
-    })
-
-    .put(function (req, res, next) {
-        Shops.findByIdAndUpdate(req.params.id, {
-            $set: req.body
-        }, {
-                new: true
-            }, function (err, result) {
-                if (err) throw err;
+        Shops.findById(req.params.id)
+        .populate('items.product')
+        .populate({
+            path:     'items.product',			
+            populate: { path:  'badges'}
+        })
+        .lean()
+        .exec(function (err, result) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            if(result){
+                let promises = [];
+                result.items.forEach(element => {
+                    promises.push(products.getProductTags(element.product._id)
+                    .then(
+                    (tags) => {
+                        element.product.tags = tags;
+                    },
+                    (err) => {
+                        return Promise.reject(err);
+                    }));
+                });
+    
+                Promise.all(promises)
+                .then(() => {
+                    console.log(result);
+                    res.json(result);
+                },
+                (err) => {
+                    console.log(err);
+                    err.status = 500;
+                    return next(err);
+                });
+            } else {
+                console.log(result);
                 res.json(result);
-            });
-    })
-
-    .delete(function (req, res, next) {
-        Shops.findByIdAndRemove(req.params.id, function (err, response) {
-            if (err) throw err;
-            res.json(response);
+            }
         });
-    });
-
-
+});
 
 module.exports = shopsRouter;

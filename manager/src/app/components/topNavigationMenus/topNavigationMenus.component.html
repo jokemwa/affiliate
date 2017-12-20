@@ -1,5 +1,59 @@
-<li *ngFor="let marketplace of marketplaces | orderBy: 'searchTag'">
-    <span>{{marketplace.name}}</span>
-    <span>{{marketplace.menuVisible}}</span>
-    <span>{{marketplace.menuOrder}}</span> 
-</li>
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" routerLink="/">Manage Panel</a>
+    <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+            <li class="breadcrumb-item"><a routerLink="/">Main Menu</a></li>
+            <li class="breadcrumb-item active">Top Navigation Menus</li>
+    </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+    <div class="row">
+        <h2 class="mb-3">Brands Menu</h2>
+    </div>
+    <div class="row">
+        <button class="btn btn-sm btn-primary mr-1" (click)="addBrand()">Add Brand</button>
+        <button class="btn btn-sm btn-success" (click)="saveChanges()">Save Order</button>
+    </div>
+    <div class="row">
+            <table class="table table-hover mt-3">
+                <thead>
+                    <tr>
+                            <th>Order</th>
+                            <th>Brand</th>
+                            <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of topNavBrands.items | orderBy: 'order'; let i = index">
+                            <th scope="row">
+                                <a href="#" *ngIf="!isFirst(item._id)" (click)="moveUp($event, item._id)"><span class="fa fa-arrow-up"></span></a>
+                                    {{i+1}}
+                                <a href="#" *ngIf="!isLast(item._id)" (click)="moveDown($event, item._id)"><span class="fa fa-arrow-down"></span></a>
+                            </th>
+                            <td>
+                                <img src="/images/{{item.brand.logo}}"
+                                    style = "
+                                    max-width:128px;
+                                    max-height: 64px;
+                                    width: auto;
+                                    height: auto;
+                                    ">
+                                <strong>{{item.brand.name}}</strong>
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <button class="btn btn-sm btn-outline-danger my-1"
+                                        (click)="removeBrand(item.brand._id)">
+                                        Remove
+                                    </button>
+                                </div>
+                            </td>
+                    </tr>
+                </tbody>
+            </table>
+    
+    </div>
+    <div class="row">
+        <button class="btn btn-sm btn-primary mr-1" (click)="addBrand()">Add Brand</button>
+        <button class="btn btn-sm btn-success" (click)="saveChanges()">Save Order</button>
+    </div>  
+</div>  

@@ -1,8 +1,8 @@
 <nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
-                <a class="navbar-brand" href="/">Manage Panel</a>
+                <a class="navbar-brand" routerLink="/">Manage Panel</a>
                 <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
-                        <li class="breadcrumb-item"><a href="/">Main Menu</a></li>
-                        <li class="breadcrumb-item"><a href="/shopgroups">Shop Groups</a></li>
+                        <li class="breadcrumb-item"><a routerLink="/">Main Menu</a></li>
+                        <li class="breadcrumb-item"><a routerLink="/shopgroups">Shop Groups</a></li>
                         <li class="breadcrumb-item active">Products</li>
                 </ol>
         </nav>

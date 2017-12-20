@@ -20,7 +20,7 @@ import { MarketplacesComponent } from './components/marketplaces/marketplaces.co
 import { ProductsComponent } from './components/products/products.component';
 import { ShopsComponent } from './components/shops/shops.component';
 import { StatsComponent } from './components/stats/stats.component';
-import { SuggestionsComponent } from './components/suggestions/suggestions.component';
+import { HintsComponent } from './components/hints/hints.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { TopNavigationMenusComponent } from './components/topNavigationMenus/topNavigationMenus.component';
 import { TrackingComponent } from './components/tracking/tracking.component';
@@ -66,6 +66,8 @@ import { SelectShopComponent } from './components/shops/childs/selectShop/select
 import { ShopGroupsComponent } from './components/shopGroups/shopGroups.component';
 import { ListProductsComponent } from './components/startPage/childs/listProducts/listProducts.component';
 import { SelectCategoryComponent } from './components/categories/childs/selectCategory/selectCategory.component';
+import { SelectBrandComponent } from './components/brands/childs/selectBrand/selectBrand.component';
+import { SubscribeListComponent } from './components/subscribeList/subscribeList.component';
 
 
 
@@ -105,8 +107,8 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'suggestions',
-    component: SuggestionsComponent,
+    path: 'hints',
+    component: HintsComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -234,6 +236,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'subscribe-list',
+    component: SubscribeListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     component: MainMenuComponent,
     canActivate: [AuthGuard]
@@ -255,7 +262,7 @@ const appRoutes: Routes = [
     ProductsComponent,
     ShopsComponent,
     StatsComponent,
-    SuggestionsComponent,
+    HintsComponent,
     TagsComponent,
     TopNavigationMenusComponent,
     TrackingComponent,
@@ -301,6 +308,9 @@ const appRoutes: Routes = [
     SelectShopComponent,
     ListProductsComponent,
     SelectCategoryComponent,
+    SelectBrandComponent,
+    SubscribeListComponent,
+
     OrderByPipe
   ],
   imports: [
@@ -335,7 +345,8 @@ const appRoutes: Routes = [
     NewShopGroupComponent,
     EditShopGroupComponent,
     SelectShopComponent,
-    SelectCategoryComponent
+    SelectCategoryComponent,
+    SelectBrandComponent
   ],
   providers: [
     RESTService,

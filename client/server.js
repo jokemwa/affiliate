@@ -46,8 +46,16 @@ var categories = require('./routes/categories');
 app.use('/api/categories', categories);
 var tags = require('./routes/tags');
 app.use('/api/tags', tags);
+var shops = require('./routes/shops');
+app.use('/api/shops', shops);
 var search = require('./routes/search');
 app.use('/api/search', search);
+var topNavigationMenus = require('./routes/topNavigationMenus');
+app.use('/api/top-navigation-menus', topNavigationMenus);
+var shopGroups = require('./routes/shopGroups');
+app.use('/api/shop-groups', shopGroups);
+var subscribe = require('./routes/newsletterSubscribers');
+app.use('/api/subscribe', subscribe);
 
 // Static
 app.use('/static', express.static(path.join(__dirname, 'static')));

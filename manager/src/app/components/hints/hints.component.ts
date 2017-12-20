@@ -9,12 +9,12 @@ import { RESTService } from '../../services/rest.service';
 
 
 @Component({
-  selector: 'app-suggestions',
-  templateUrl: './suggestions.component.html',
+  selector: 'app-hints',
+  templateUrl: './hints.component.html',
   styleUrls: [],
 })
 
-export class SuggestionsComponent implements OnInit {
+export class HintsComponent implements OnInit {
 
   marketplaces: any;
 

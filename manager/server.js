@@ -47,7 +47,6 @@ app.use('/api/images', images);
 
 var startPage = require('./routes/startPage');
 app.use('/api/start-page', startPage);
-
 var badges = require('./routes/badges');
 app.use('/api/badges', badges);
 var brands = require('./routes/brands');
@@ -72,9 +71,10 @@ var file = require('./routes/file');
 app.use('/api/file', file);
 var shopGroups = require('./routes/shopGroups');
 app.use('/api/shopgroups', shopGroups);
-
-//var createUser = require('./routes/createUser');
-//app.use('/api/createuser', createUser);
+var topNavigationMenus = require('./routes/topNavigationMenus');
+app.use('/api/top-navigation-menus', topNavigationMenus);
+var subscribe = require('./routes/newsletterSubscribers');
+app.use('/api/subscribe', subscribe);
 
 // Images
 app.use('/img', express.static(path.join(__dirname, 'img')));

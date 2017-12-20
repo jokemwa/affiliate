@@ -43,6 +43,9 @@ productsRouter.route('/preview/:id')
         promises.push(products.getProductShop(result._id)
             .then(
             (shop) => {
+                if (shop == null) {
+                    shop = {name: '', _id: ''};
+                }
                 result.shop = shop;
             },
             (err) => {
@@ -111,6 +114,9 @@ productsRouter.route('/:promoLink')
         promises.push(products.getProductShop(result._id)
             .then(
             (shop) => {
+                if (shop == null) {
+                    shop = {name: '', _id: ''};
+                }
                 result.shop = shop;
             },
             (err) => {

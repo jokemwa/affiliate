@@ -5,6 +5,21 @@ var Brands = require('../models/brands');
 
 var brandsRouter = express.Router();
 
+brandsRouter.route('/')
+// List of categories
+    .get(function (req, res, next) {
+        Brands.find({}, function (err, result) {
+            if(err){
+                console.log(err);
+                err.status = 500;
+                return next(err);
+            }
+            console.log(result);
+            res.json(result);
+        });
+});
+
+
 brandsRouter.route('/:id')
 // Get products of brand
     .get(function (req, res, next) {

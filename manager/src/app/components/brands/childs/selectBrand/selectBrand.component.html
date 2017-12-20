@@ -1,0 +1,43 @@
+<div class="modal-header">
+        <h3>Select Brand</h3>
+</div>
+<div class="modal-body">
+        <div class="container">
+                <div class="form-group row">
+                        <label for="searchText" class="col-2 col-form-label">Search:</label>
+                        <div class="col-10">
+                                <input [(ngModel)]="searchText" (input)="search()" type="text"
+                                class="form-control form-control-sm" id="searchText">
+                        </div>
+                </div>
+                <div class="row">
+                        <div class="col-12" style="max-height: 360px; overflow-y: auto;">
+                                <table class="table table-hover mt-3">
+                                        <tbody>
+                                                <tr *ngFor="let brand of searchResults | orderBy: 'name'">
+                                                        <td (click)="selectBrand($event, brand._id)"
+                                                        style="cursor: pointer;"
+                                                        >
+                                                                <a (click)="selectBrand($event, brand._id)">
+                                                                        <img src="/images/{{brand.logo}}"
+                                                                        style = "
+                                                                        max-width:128px;
+                                                                        max-height: 64px;
+                                                                        width: auto;
+                                                                        height: auto;
+                                                                        ">
+                                                                        <strong>{{brand.name}}</strong>
+                                                                </a>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                </table>
+                        </div>
+                </div>
+        </div>
+</div>
+<div class="modal-footer">
+        <button class="btn btn-sm btn-outline-info" (click)="clickCancel()">
+        Cancel
+        </button>
+</div>

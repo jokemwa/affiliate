@@ -20,13 +20,16 @@ import { BrandViewComponent } from './components/brandView/brandView.component';
 import { CategoryViewComponent } from './components/categoryView/categoryView.component';
 import { TagViewComponent } from './components/tagView/tagView.component';
 import { ShopViewComponent } from './components/shopView/shopView.component';
+import { ShopGroupViewComponent } from './components/shopGroupView/shopGroupView.component';
 import { ProductViewComponent } from './components/products/productView/productView.component';
 import { SearchResultsComponent } from './components/searchResults/searchResults.component';
 import { ProductPreviewComponent } from './components/products/productPreview/productPreview.component';
 import { ProductCarouselComponent } from './components/products/productCarousel/productCarousel.component';
 import { SelectCategoryComponent } from './components/topNavigation/childs/selectCategory/selectCategory.component';
 import { ProductListComponent } from './components/products/productList/productList.component';
-
+import { SelectBrandComponent } from './components/topNavigation/childs/selectBrand/selectBrand.component';
+import { SelectShopGroupComponent } from './components/topNavigation/childs/selectShopGroup/selectShopGroup.component';
+import { SubscribeResultComponent } from './components/footer/childs/subscribeResult/subscribeResult.component';
 
 import { OrderByPipe } from './pipes/orderBy.pipe';
 import { promise } from 'selenium-webdriver';
@@ -44,6 +47,10 @@ const appRoutes: Routes = [
   {
     path: 'brand/:_id',
     component: BrandViewComponent
+  },
+  {
+    path: 'shop-group/:_id',
+    component: ShopGroupViewComponent
   },
   {
     path: 'shop/:_id',
@@ -83,6 +90,10 @@ export function initTranslation(translation: TranslationService) {
     SelectCategoryComponent,
     ProductListComponent,
     TagViewComponent,
+    SelectBrandComponent,
+    SelectShopGroupComponent,
+    ShopGroupViewComponent,
+    SubscribeResultComponent,
 
     OrderByPipe
   ],
@@ -97,7 +108,10 @@ export function initTranslation(translation: TranslationService) {
   ],
   entryComponents: [
     ProductPreviewComponent,
-    SelectCategoryComponent
+    SelectCategoryComponent,
+    SelectBrandComponent,
+    SelectShopGroupComponent,
+    SubscribeResultComponent
   ],
   providers: [
     {

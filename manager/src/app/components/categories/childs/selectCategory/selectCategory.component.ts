@@ -32,7 +32,7 @@ export class SelectCategoryComponent implements OnInit {
   search () {
     this.searchResults = [];
     for (let i = 0; i < this.categories.length; i++) {
-      const element = this.categories[i].title.toLowerCase();
+      const element = this.categories[i].name.toLowerCase();
       if (element.indexOf(this.searchText.toLowerCase()) >= 0) {
         this.searchResults.push(this.categories[i]);
       }

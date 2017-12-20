@@ -44,9 +44,9 @@ var translationSchema = new Schema({
             type: String,
             default: 'Brands'
         },
-        suggestionsLink: {
+        helpLink: {
             type: String,
-            default: 'Suggestions'
+            default: 'Help'
         },
         categoriesLink: {
             type: String,
@@ -57,6 +57,46 @@ var translationSchema = new Schema({
             default: 'Home'
         },
       },
+      footer: {
+        year: {
+            type: String,
+            default: '2017'
+        },
+        followUs: {
+            type: String,
+            default: 'Follow Us'
+        },
+        contactEmail: {
+            type: String,
+            default: 'contact@futurebuy.il'
+        },
+        subscribeLabel: {
+            type: String,
+            default: 'Our Newsletter'
+        },
+        subscribeFieldPlaceholder: {
+            type: String,
+            default: 'Your e-mail'
+        },
+        subscribeButton: {
+            type: String,
+            default: 'Subscribe!'
+        }
+      },
+      subscribeResult: {
+        success: {
+            type: String,
+            default: 'Thank you!'
+        },
+        alreadySubscribed: {
+            type: String,
+            default: 'You have already subscribed!'
+        },
+        closeButton: {
+            type: String,
+            default: 'Close'
+        },
+    },
       startPage: {
           topRated: {
             type: String,

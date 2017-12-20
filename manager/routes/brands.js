@@ -7,6 +7,8 @@ var Brands = require('../models/brands');
 
 var brands = require('./misc/brands');
 var images = require('./misc/images');
+var topNavigationMenus = require('./misc/topNavigationMenus');
+
 
 var brandsRouter = express.Router();
 brandsRouter.use(bodyParser.json());
@@ -122,8 +124,16 @@ brandsRouter.route('/:id')
                                 err.status = 500;
                                 return next(err);
                             }
-                            console.log(response);
-                            res.json(response);
+                            topNavigationMenus.searchAndRemoveFromBrandsMenu(req.params.id,
+                            function (err, response) {
+                                if(err){
+                                    console.log(err);
+                                    err.status = 500;
+                                    return next(err);
+                                }
+                                console.log(response);
+                                res.json(response);
+                            });
                         });
                     });
                 } else {

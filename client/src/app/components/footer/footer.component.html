@@ -1,3 +1,52 @@
-<footer class="bg-dark">
-    Footer
+<footer class="navbar bg-dark text-light text-right">
+        <div class="row" style="width: 100%">
+            <div class="col-12 col-md-3 d-flex align-items-center justify-content-start">
+                <h6>
+                    &copy;{{translation.footer.year}} {{translation.topNavigation.logoTitle}}
+                    <a class="btn btn-social-icon"
+                    href="mailto:{{translation.footer.contactEmail}}"
+                    (click)="clickEmail($event)">
+                        <i class="fa fa-envelope-o"></i>
+                    </a>
+                </h6>
+            </div>
+            <div class="col-12 col-md-5 d-flex align-items-center justify-content-center">
+                    <h4>
+                        {{translation.footer.followUs}}
+                        <a class="btn btn-social-icon btn-facebook"
+                        href="{{translation.topNavigation.facebookLink}}"
+                        (click)="clickFacebook($event)">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a class="btn btn-social-icon btn-youtube"
+                        href="{{translation.topNavigation.youtubeLink}}"
+                        (click)="clickYoutube($event)">
+                            <i class="fa fa-youtube"></i>
+                        </a>
+                    </h4>
+            </div>
+            <div class="col-12 col-md-4 d-flex align-items-center justify-content-center">
+                <form novalidate #formRef="ngForm">
+                    <h4>
+                        {{translation.footer.subscribeLabel}}
+                    </h4>
+                    <div class="input-group" dir="ltr">
+                            <span class="input-group-btn">
+                                    <button dir="rtl"
+                                    class="btn btn-secondary btn-sm" type="button"
+                                    [disabled]="formRef.invalid"
+                                    (click)="clickSubscribe()">
+                                        {{translation.footer.subscribeButton}}
+                                    </button>
+                            </span>
+                            <input dir="rtl" type="text"
+                            name="subscribeField"
+                            [(ngModel)] = "subscribeEmail"
+                            [pattern]="EMAIL_REGEX"
+                            class="form-control form-control-sm"
+                            placeholder="{{translation.footer.subscribeFieldPlaceholder}}" required>
+                    </div>
+                </form>
+            </div>
+        </div>
 </footer>

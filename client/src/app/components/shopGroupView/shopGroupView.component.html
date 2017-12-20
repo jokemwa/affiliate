@@ -1,3 +1,27 @@
-<div>
-        <h1>Shop View</h1>
+<div *ngIf="isDataReady" class="container">
+        <div class="jumbotron jumbotron-fluid bg-white text-primary">
+                <div class="row text-right" style="padding-left: .5rem; padding-right: .5rem;">
+                        <h2>
+                                {{shopGroup.name}}
+                        </h2>
+                </div>
+        </div>
+        <div *ngFor="let item of shopGroup.items" class="row mb-5 bg-light">
+                <div class="col-12 col-md-3">
+                        <img class="ml-md-3"
+                        src="/images/{{item.shop.logo}}"
+                        style="padding: 0.2rem; width: 100%; cursor: pointer;"
+                        alt="{{item.shop.name}}"
+                        (click)="clickShop($event, item.shop._id)">
+                </div>        
+                <div class="col-12 col-md-9 text-right">
+                        <h4>
+                                <a href="/shop/{{item.shop._id}}"
+                                (click)="clickShop($event, item.shop._id)">
+                                        {{item.shop.name}}
+                                </a>
+                        </h4>
+                        <p>{{item.shop.description}}</p>
+                </div>
+        </div>
 </div>

@@ -928,15 +928,87 @@ public updateTopCategory(category: any): Observable<any> {
     }
 
 // Update product order in top
-public updateMarketingMessage(message: any): Observable<any> {
-    const url = `/api/start-page/marketing-message`;
-    return this.http
-    .put(url, message,
-        {
-            headers: new HttpHeaders()
-            .set('Content-Type', 'application/json')
-            .append('x-access-token', this.token)
-        });
-}
+    public updateMarketingMessage(message: any): Observable<any> {
+        const url = `/api/start-page/marketing-message`;
+        return this.http
+        .put(url, message,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .append('x-access-token', this.token)
+            });
+    }
+
+/* Top Naviagtion - Brands Menu */
+
+// Get brands menu
+    public getBrandsMenu(): Observable<any> {
+        const url = `/api/top-navigation-menus/brands-menu`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+// Update brands menu
+    public updateBrandsMenu(brandsMenuList: any): Observable<any> {
+        const url = `/api/top-navigation-menus/brands-menu`;
+        return this.http
+        .put(url, brandsMenuList,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .append('x-access-token', this.token)
+            });
+    }
+
+// Add brand to menu
+    public addBrandToMenu(brand_id: string): Observable<any> {
+        const url = `/api/top-navigation-menus/brands-menu/add`;
+        const body = {'brand_id': brand_id};
+        return this.http
+        .post(url, body,
+            {
+                headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+                .append('x-access-token', this.token)
+            });
+    }
+
+// Remove product from top
+    public removeBrandFromMenu(brand_id: string): Observable<any> {
+        const url = `/api/top-navigation-menus/brands-menu/${brand_id}`;
+        return this.http
+        .delete(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+/* Subscribe List */
+
+// Get brands menu
+    public getSubscribeList(): Observable<any> {
+        const url = `/api/subscribe`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+    public removeFromSubscribeList(subscriber_id: string): Observable<any> {
+        const url = `/api/subscribe/${subscriber_id}`;
+        return this.http
+        .delete(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
 
 }

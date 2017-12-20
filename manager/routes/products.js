@@ -60,6 +60,9 @@ productsRouter.route('/')
                 promises.push(products.getProductShop(element._id)
                 .then(
                 (shop) => {
+                    if (shop == null) {
+                        shop = {name: '', _id: ''};
+                    }
                     element.shop = shop;
                 },
                 (err) => {
@@ -278,6 +281,9 @@ productsRouter.route('/:id')
             promises.push(products.getProductShop(result._id)
                 .then(
                 (shop) => {
+                    if (shop == null) {
+                        shop = {name: '', _id: ''};
+                    }
                     result.shop = shop;
                 },
                 (err) => {

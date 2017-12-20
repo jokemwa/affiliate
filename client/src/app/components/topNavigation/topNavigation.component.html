@@ -1,4 +1,4 @@
-<nav dir="ltr" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+<nav dir="ltr" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="d-flex">
             <a dir="rtl" (click)="clickLogoTitle($event)" class="navbar-brand" href="#">{{translation.topNavigation.logoTitle}}</a>
             <span class="d-flex align-items-center">
@@ -40,17 +40,17 @@
         </div>
 
         <ul class="navbar-nav d-flex align-items-end">
-            <li class="nav-item mr-lg-2  order-6 order-lg-1">
-                <a dir="rtl" (click)="clickCoupons($event)" class="nav-link disabled" href="#">{{translation.topNavigation.couponsLink}}</a>
-            </li>                        
+            <li class="nav-item mr-lg-2 order-6 order-lg-1">
+                <a dir="rtl" (click)="clickHelp($event)" class="nav-link" href="#">{{translation.topNavigation.helpLink}}</a>
+            </li>
             <li class="nav-item mr-lg-2 order-5 order-lg-2">
                 <a dir="rtl" (click)="clickShops($event)" class="nav-link" href="#">{{translation.topNavigation.shopsLink}}</a>
             </li>
             <li class="nav-item mr-lg-2 order-4 order-lg-3">
-                <a dir="rtl" (click)="clickBrands($event)" class="nav-link" href="#">{{translation.topNavigation.brandsLink}}</a>
-            </li>
+                <a dir="rtl" (click)="clickCoupons($event)" class="nav-link disabled" href="#">{{translation.topNavigation.couponsLink}}</a>
+            </li> 
             <li class="nav-item mr-lg-2 order-3 order-lg-4">
-                <a dir="rtl" (click)="clickSuggestions($event)" class="nav-link disabled" href="#">{{translation.topNavigation.suggestionsLink}}</a>
+                <a dir="rtl" (click)="clickBrands($event)" class="nav-link" href="#">{{translation.topNavigation.brandsLink}}</a>
             </li>
             <li class="nav-item mr-lg-2 order-2 order-lg-5">
                 <a dir="rtl" (click)="clickCategories($event)" class="nav-link" href="#">{{translation.topNavigation.categoriesLink}}</a>
