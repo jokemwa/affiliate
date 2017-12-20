@@ -9,7 +9,7 @@
         <div *ngFor="let item of shopGroup.items" class="row mb-5 bg-light">
                 <div class="col-12 col-md-3">
                         <img class="ml-md-3"
-                        src="/images/{{item.shop.logo}}"
+                        src="{{apiUrl}}/images/{{item.shop.logo}}"
                         style="padding: 0.2rem; width: 100%; cursor: pointer;"
                         alt="{{item.shop.name}}"
                         (click)="clickShop($event, item.shop._id)">

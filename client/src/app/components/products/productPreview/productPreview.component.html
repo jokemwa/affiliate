@@ -19,7 +19,7 @@ style="padding: 6px">
                                                 <div *ngFor="let image of product.images"
                                                 class="row d-flex justify-content-center">
                                                         <img
-                                                        class="mx-1 my-1" src="./images/{{image.thumb}}" alt="{{image.thumb}}"
+                                                        class="mx-1 my-1" src="{{apiUrl}}/images/{{image.thumb}}" alt="{{image.thumb}}"
                                                         (click) = "selectImage(image._id)"
                                                         [style.border] = "image.hiRes === activeImage.hiRes ? '1px solid black' : 'none'"
                                                         style = "
@@ -33,7 +33,7 @@ style="padding: 6px">
                                         </div>
                                         <div class="col-10">
                                                 <img class="img-fluid"
-                                                src="./images/{{activeImage.hiRes}}">
+                                                src="{{apiUrl}}/images/{{activeImage.hiRes}}">
                                         </div>
                                 </div>
                         </div>

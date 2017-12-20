@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
+import { Settings } from '../../../settings';
 
 @Component ({
   selector: 'app-product-list',
@@ -7,6 +8,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: []
 })
 export class ProductListComponent implements OnInit {
+
+  apiUrl = Settings.apiUrl;
 
   @Input() items: any;
   @Output() onProductClick = new EventEmitter<string>();

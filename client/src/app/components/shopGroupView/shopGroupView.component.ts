@@ -11,6 +11,8 @@ import 'rxjs/add/operator/switchMap';
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
 
+import { Settings } from '../../settings';
+
 @Component({
   selector: 'app-shop-group-view',
   templateUrl: './shopGroupView.component.html',
@@ -18,6 +20,8 @@ import { TranslationService } from '../../services/translation.service';
 })
 
 export class ShopGroupViewComponent implements OnInit {
+
+  apiUrl = Settings.apiUrl;
 
   shopGroup: any;
   isDataReady = false;

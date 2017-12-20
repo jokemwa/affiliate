@@ -21,6 +21,8 @@ import { Settings } from '../../settings';
 })
 export class BrandViewComponent implements OnInit {
 
+  apiUrl = Settings.apiUrl;
+
   brand: any;
   isDataReady = false;
   translation: any;

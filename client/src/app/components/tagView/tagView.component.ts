@@ -11,6 +11,7 @@ import 'rxjs/add/operator/switchMap';
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
 
+import { Settings } from '../../settings';
 
 @Component({
   selector: 'app-tag-view',
@@ -18,6 +19,8 @@ import { TranslationService } from '../../services/translation.service';
   styleUrls: []
 })
 export class TagViewComponent implements OnInit {
+
+  apiUrl = Settings.apiUrl;
 
   tag: any;
   isDataReady = false;

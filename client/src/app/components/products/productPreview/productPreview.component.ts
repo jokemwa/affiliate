@@ -7,12 +7,16 @@ import { RESTService } from '../../../services/rest.service';
 import { TrackingService } from '../../../services/tracking.service';
 import { TranslationService } from '../../../services/translation.service';
 
+import { Settings } from '../../../settings';
+
 @Component({
   selector: 'app-product-preview',
   templateUrl: './productPreview.component.html',
   styleUrls: []
 })
 export class ProductPreviewComponent  implements OnInit {
+
+  apiUrl = Settings.apiUrl;
 
   @Input() id;
 

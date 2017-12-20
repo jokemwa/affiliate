@@ -11,6 +11,8 @@ import 'rxjs/add/operator/switchMap';
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
 
+import { Settings } from '../../settings';
+
 
 @Component({
   selector: 'app-category-view',
@@ -18,6 +20,8 @@ import { TranslationService } from '../../services/translation.service';
   styleUrls: []
 })
 export class CategoryViewComponent implements OnInit {
+
+  apiUrl = Settings.apiUrl;
 
   category: any;
   isDataReady = false;

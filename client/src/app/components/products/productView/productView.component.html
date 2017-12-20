@@ -4,7 +4,7 @@
                         <div *ngFor="let image of product.images"
                         class="row d-flex justify-content-center">
                                 <img
-                                class="mx-1 my-1" src="./images/{{image.thumb}}" alt="{{image.thumb}}"
+                                class="mx-1 my-1" src="{{apiUrl}}/images/{{image.thumb}}" alt="{{image.thumb}}"
                                 (click) = "selectImage(image._id)"
                                 [style.border] = "image.hiRes === activeImage.hiRes ? '1px solid black' : 'none'"
                                 style = "
@@ -19,7 +19,7 @@
                 <div class="col-5">
                         <div class="row">
                                 <div class="col">
-                                        <img class="img-fluid" src="./images/{{activeImage.hiRes}}" 
+                                        <img class="img-fluid" src="{{apiUrl}}/images/{{activeImage.hiRes}}" 
                                         alt="{{activeImage.hiRes}}"
                                         style="
                                         cursor: url(static/searchgrey_2x.cur), pointer;
