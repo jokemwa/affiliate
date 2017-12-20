@@ -52,28 +52,34 @@ startPageRouter.route('/tops')
                     err.status = 500;
                     return next(err);
                 }
-                let promises = [];
-                result.items.forEach(element => {
-                    promises.push(products.getProductTags(element.product._id)
-                    .then(
-                    (tags) => {
-                        element.product.tags = tags;
+                if (result) {
+                    let promises = [];
+                    
+                    result.items.forEach(element => {
+                        promises.push(products.getProductTags(element.product._id)
+                        .then(
+                        (tags) => {
+                            element.product.tags = tags;
+                        },
+                        (err) => {
+                            return Promise.reject(err);
+                        }));
+                    });
+
+                    Promise.all(promises)
+                    .then(() => {
+                        console.log(result);
+                        res.json(result);
                     },
                     (err) => {
-                        return Promise.reject(err);
-                    }));
-                });
-
-                Promise.all(promises)
-                .then(() => {
+                        console.log(err);
+                        err.status = 500;
+                        return next(err);
+                    });
+                } else {
                     console.log(result);
                     res.json(result);
-                },
-                (err) => {
-                    console.log(err);
-                    err.status = 500;
-                    return next(err);
-                });
+                }
             });
 });
 

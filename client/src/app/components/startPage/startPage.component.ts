@@ -44,8 +44,16 @@ export class StartPageComponent implements OnInit, AfterViewInit {
       observables.push(this.restService.getMarketingMessage());
       Observable.forkJoin(observables).subscribe(
         response => {
-          this.topCategories = response[0];
-          this.tops = response[1];
+          if (response[0]) {
+            this.topCategories = response[0];
+          } else {
+            this.topCategories = {items: []};
+          }
+          if (response[1]) {
+            this.tops = response[1];
+          } else {
+            this.tops = {items: []};
+          }
           this.message = response[2];
           this.isDataReady = true;
         },
