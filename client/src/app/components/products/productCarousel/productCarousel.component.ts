@@ -10,6 +10,8 @@ import { Settings } from '../../../settings';
 })
 export class ProductCarouselComponent implements OnInit {
 
+  apiUrl = Settings.apiUrl;
+
   @Input() items: any;
   @Input() sm: string;
   @Input() md: string;

@@ -14,14 +14,14 @@ import { ProductPreviewComponent } from '../products/productPreview/productPrevi
 
 import { Settings } from '../../settings';
 
-
-
 @Component ({
   selector: 'app-start-page',
   templateUrl: './startPage.component.html',
   styleUrls: []
 })
 export class StartPageComponent implements OnInit, AfterViewInit {
+
+  apiUrl = Settings.apiUrl;
 
   isDataReady = false;
   translation: any;
