@@ -12,6 +12,8 @@ import { TranslationService } from '../../services/translation.service';
 
 import { ProductPreviewComponent } from '../products/productPreview/productPreview.component';
 
+import { Settings } from '../../settings';
+
 
 
 @Component ({

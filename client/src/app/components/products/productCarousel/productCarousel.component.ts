@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { orderBy } from 'lodash';
 
+import { Settings } from '../../../settings';
 
 @Component ({
   selector: 'app-product-carousel',

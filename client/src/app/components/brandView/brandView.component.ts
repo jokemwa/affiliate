@@ -11,6 +11,8 @@ import 'rxjs/add/operator/switchMap';
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
 
+import { Settings } from '../../settings';
+
 
 @Component({
   selector: 'app-brand-view',
