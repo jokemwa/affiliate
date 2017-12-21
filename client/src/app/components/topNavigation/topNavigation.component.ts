@@ -87,9 +87,7 @@ export class TopNavigationComponent implements OnInit {
     window.open(this.translation.topNavigation.youtubeLink, '_blank');
   }
 
-  clickSearch(e) {
-    e.stopPropagation();
-    e.preventDefault();
+  clickSearch() {
     $('.navbar-collapse').collapse('hide');
   }
 
