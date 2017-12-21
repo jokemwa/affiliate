@@ -1,9 +1,9 @@
 Install:
-curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo apt-get install -y mongodb
 sudo apt-get install -y git
-npm install -g @angular/cli
+sudo npm install -g @angular/cli
 git clone https://github.com/Kubera2017/affiliate.git
 cd affiliate
 cd manager
