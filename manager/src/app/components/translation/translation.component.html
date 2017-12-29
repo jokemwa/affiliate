@@ -87,6 +87,66 @@
         </div>
         <div class="row mb-1">
             <div class="col-3">
+                <label for="searchboxPlaceholder">Searchbox Dropdown in Products</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.searchboxDropdown.inProducts"
+                name="searchboxDropdownInProducts"
+                #searchboxDropdownInProducts="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="searchboxDropdownInProducts.touched &&
+                searchboxDropdownInProducts?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="searchboxPlaceholder">Searchbox Dropdown in Categories</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.searchboxDropdown.inCategories"
+                name="searchboxDropdownInCategories"
+                #searchboxDropdownInCategories="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="searchboxDropdownInCategories.touched &&
+                searchboxDropdownInCategories?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="searchboxPlaceholder">Searchbox Dropdown in Brands</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.searchboxDropdown.inBrands"
+                name="searchboxDropdownInBrands"
+                #searchboxDropdownInBrands="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="searchboxDropdownInBrands.touched &&
+                searchboxDropdownInBrands?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="searchboxPlaceholder">Searchbox Dropdown in Shops</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.topNavigation.searchboxDropdown.inShops"
+                name="searchboxDropdownInShops"
+                #searchboxDropdownInShops="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="searchboxDropdownInShops.touched &&
+                searchboxDropdownInShops?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
                 <label for="selectTitle">Select Title</label>
             </div>
             <div class="col-9">
@@ -418,6 +478,88 @@
                 type="text" class="form-control form-control-sm" dir="rtl" required>
                 <div class="alert alert-danger" *ngIf="tagResults.touched &&
                 tagResults?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <h2 class="mb-3">Search Results View</h2>
+        </div>              
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="searchResults">Search results for</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.searchView.searchResults"
+                name="searchResults"
+                #searchResults="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="searchResults.touched &&
+                searchResults?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="productsResults">Products</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.searchView.productsResults"
+                name="productsResults"
+                #productsResults="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="productsResults.touched &&
+                productsResults?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="numberOfResults">N founded.</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.searchView.numberOfResults"
+                name="numberOfResults"
+                #numberOfResults="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="numberOfResults.touched &&
+                numberOfResults?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+                <h2 class="mb-3">Product View</h2>
+        </div>              
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="buyButton">Buy Button</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.productView.buyButton"
+                name="buyButton"
+                #buyButton="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="buyButton.touched &&
+                buyButton?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="interestedIn">Interested In Label</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.productView.interestedIn"
+                name="interestedIn"
+                #interestedIn="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="interestedIn.touched &&
+                interestedIn?.errors?.required">
                 This field is required.
                 </div>
             </div>

@@ -31,6 +31,7 @@ export class TopNavigationComponent implements OnInit {
 
   translation: any;
   @ViewChild('searchInput') searchInput;
+  searchInputField: any;
   searchHints: any;
 
   constructor(
@@ -50,13 +51,28 @@ export class TopNavigationComponent implements OnInit {
     .map((event: KeyboardEvent) =>
     (<HTMLInputElement>event.target).value)
     .subscribe(text => {
+      if (text.length < 3) {
+        this.searchHints = undefined;
+        return;
+      }
       this.restService.search(text).subscribe(
         response => {
-          this.searchHints = response;
-          this.searchHints.products = orderBy(this.searchHints.products, 'title', 'asc');
-          this.searchHints.categories = orderBy(this.searchHints.categories, 'name', 'asc');
-          this.searchHints.brands = orderBy(this.searchHints.brands, 'name', 'asc');
-          this.searchHints.shops = orderBy(this.searchHints.shops, 'name', 'asc');
+          if (response) {
+            if (response.products.length !== 0
+              || response.categories.length !== 0
+              || response.brands.length !== 0
+              || response.shops.length !== 0 ) {
+                this.searchHints = response;
+                this.searchHints.products = orderBy(this.searchHints.products, 'title', 'asc');
+                this.searchHints.categories = orderBy(this.searchHints.categories, 'name', 'asc');
+                this.searchHints.brands = orderBy(this.searchHints.brands, 'name', 'asc');
+                this.searchHints.shops = orderBy(this.searchHints.shops, 'name', 'asc');
+              } else {
+                this.searchHints = undefined;
+              }
+          } else {
+            this.searchHints = undefined;
+          }
         },
         err => {
           this.searchHints = undefined;
@@ -89,6 +105,35 @@ export class TopNavigationComponent implements OnInit {
 
   clickSearch() {
     $('.navbar-collapse').collapse('hide');
+    this.router.navigate(['/search/' + this.searchInput.nativeElement.value]);
+    this.searchHints = undefined;
+    this.searchInput.nativeElement.value = '';
+    this.searchInputField = undefined;
+  }
+
+  clickProductHint(promoLink: string) {
+    this.router.navigate(['/product/' + promoLink]);
+    this.searchHints = undefined;
+    this.searchInput.nativeElement.value = '';
+  }
+
+  clickCategoryHint(_id: string) {
+    this.router.navigate(['/category/' + _id]);
+    this.searchHints = undefined;
+    this.searchInput.nativeElement.value = '';
+  }
+
+  clickBrandHint(_id: string) {
+    this.router.navigate(['/brand/' + _id]);
+    this.searchHints = undefined;
+    this.searchInput.nativeElement.value = '';
+
+  }
+
+  clickShopHint(_id: string) {
+    this.router.navigate(['/shop/' + _id]);
+    this.searchHints = undefined;
+    this.searchInput.nativeElement.value = '';
   }
 
   clickCoupons(e) {

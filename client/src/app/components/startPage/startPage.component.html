@@ -27,7 +27,7 @@
         <div class="row">
             <h2 class="text-right mx-2 text-primary">
                 {{translation.startPage.whatsNew}}
-                <a href="#" class="text-dark"
+                <a href="/category/{{item.category.category._id}}" class="text-dark"
                 (click)="browseAllCategory($event, item.category.category._id)">
                 {{item.category.category.name}}
                 </a>
@@ -41,7 +41,7 @@
         </app-product-carousel>
         <div class="row d-flex justify-content-end">
                 <h3 class="mt-2 mb-5">
-                    <a href="#"
+                    <a href="/category/{{item.category.category._id}}"
                     (click)="browseAllCategory($event, item.category.category._id)">
                     {{translation.startPage.browseAll}}
                     </a>

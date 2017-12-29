@@ -75,6 +75,12 @@ export class RESTService {
         .get(url);
     }
 
+    public getSimilarProducts(id: string): Observable<any> {
+        const url = this.apiUrl + `/api/similar/` + id;
+        return this.http
+        .get(url);
+    }
+
 /* Brands */
 
     public getBrand(_id: string): Observable<any> {

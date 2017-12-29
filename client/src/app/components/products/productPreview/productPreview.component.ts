@@ -66,8 +66,9 @@ export class ProductPreviewComponent  implements OnInit {
   viewMore(e) {
     e.stopPropagation();
     e.preventDefault();
-    this.router.navigate(['/product/' + this.product.promoLink]);
     this.activeModal.close();
+    this.router.navigate(['/product/' + this.product.promoLink]);
+
   }
 
 }

@@ -45,6 +45,14 @@ export class ProductsComponent implements OnInit {
     this.restService.getProducts().subscribe(
       response => {
           this.products = response;
+          this.products.forEach(element => {
+            if (!element.brand) {
+              element.brand = {name: '', _id: ''};
+            }
+            if (!element.shop) {
+              element.shop = {name: '', _id: ''};
+            }
+          });
           this.isDataReady = true;
       },
       err => {

@@ -20,7 +20,6 @@ import { MarketplacesComponent } from './components/marketplaces/marketplaces.co
 import { ProductsComponent } from './components/products/products.component';
 import { ShopsComponent } from './components/shops/shops.component';
 import { StatsComponent } from './components/stats/stats.component';
-import { HintsComponent } from './components/hints/hints.component';
 import { TagsComponent } from './components/tags/tags.component';
 import { TopNavigationMenusComponent } from './components/topNavigationMenus/topNavigationMenus.component';
 import { TrackingComponent } from './components/tracking/tracking.component';
@@ -104,11 +103,6 @@ const appRoutes: Routes = [
   {
     path: 'tags',
     component: TagsComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'hints',
-    component: HintsComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -262,7 +256,6 @@ const appRoutes: Routes = [
     ProductsComponent,
     ShopsComponent,
     StatsComponent,
-    HintsComponent,
     TagsComponent,
     TopNavigationMenusComponent,
     TrackingComponent,

@@ -1,3 +1,90 @@
-<div>
-        <h1>Brand View</h1>
+<div *ngIf="isDataReady" class="container">
+        <div class="jumbotron jumbotron-fluid bg-white text-primary">
+                <div class="row text-right" style="padding-left: .5rem; padding-right: .5rem;">
+                        <h2>
+                                {{translation.searchView.searchResults}}
+                                <span class="text-dark">{{text}}</span>
+                        </h2>
+                </div>
+        </div>
+
+        <div *ngIf="results.products.length > 0" class="row d-flex justify-content-start"
+        style="padding-right: .5rem;">
+                <h4>
+                        <span class="text-primary">
+                                {{translation.searchView.productsResults}}:
+                        </span>
+                        {{results.products.length}} {{translation.searchView.numberOfResults}}
+                </h4>
+        </div>
+        <ul *ngIf="results.products.length > 0" class="list-unstyled text-right"
+        style="padding-right: 0;">
+                <li *ngFor="let product of results.products"
+                class="text-right">
+                        <a class="text-dark" href="/product/{{product.promoLink}}"
+                        (click)="clickProduct($event, product.promoLink)">
+                        {{product.title}}
+                        </a>
+                </li>
+        </ul>
+
+        <div *ngIf="results.categories.length > 0" class="row d-flex justify-content-start"
+        style="padding-right: .5rem;">
+                <h4>
+                        <span class="text-primary">
+                                {{translation.topNavigation.categoriesLink}}:
+                        </span>
+                        {{results.categories.length}} {{translation.searchView.numberOfResults}}
+                </h4>
+        </div>
+        <ul *ngIf="results.categories.length > 0" class="list-unstyled text-right"
+        style="padding-right: 0;">
+                <li *ngFor="let category of results.categories"
+                class="text-right">
+                        <a class="text-dark" href="/category/{{category._id}}"
+                        (click)="clickCategory($event, category._id)">
+                        {{category.name}}
+                        </a>
+                </li>
+        </ul>
+        
+        <div *ngIf="results.brands.length > 0" class="row d-flex justify-content-start"
+        style="padding-right: .5rem;">
+                <h4>
+                        <span class="text-primary">
+                                {{translation.topNavigation.brandsLink}}:
+                        </span>
+                        {{results.brands.length}} {{translation.searchView.numberOfResults}}
+                </h4>
+        </div>
+        <ul *ngIf="results.brands.length > 0" class="list-unstyled text-right"
+        style="padding-right: 0;">
+                <li *ngFor="let brand of results.brands"
+                class="text-right">
+                        <a class="text-dark" href="/brand/{{brand._id}}"
+                        (click)="clickBrand($event, brand._id)">
+                        {{brand.name}}
+                        </a>
+                </li>
+        </ul>
+
+        <div *ngIf="results.shops.length > 0" class="row d-flex justify-content-start"
+        style="padding-right: .5rem;">
+                <h4>
+                        <span class="text-primary">
+                                {{translation.topNavigation.shopsLink}}:
+                        </span>
+                        {{results.shops.length}} {{translation.searchView.numberOfResults}}
+                </h4>
+        </div>
+        <ul *ngIf="results.shops.length > 0" class="list-unstyled text-right"
+        style="padding-right: 0;">
+                <li *ngFor="let shop of results.shops"
+                class="text-right">
+                        <a class="text-dark" href="/shop/{{shop._id}}"
+                        (click)="clickShop($event, shop._id)">
+                        {{shop.name}}
+                        </a>
+                </li>
+        </ul>
 </div>

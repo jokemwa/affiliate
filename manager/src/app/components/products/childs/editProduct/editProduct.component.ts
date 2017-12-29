@@ -28,6 +28,8 @@ export class EditProductComponent implements OnInit {
 
   product: any;
 
+  buyLinkPresent: any;
+
   newShop: String = '';
   newCategory: String = '';
   newBrand: String = '';
@@ -65,8 +67,16 @@ export class EditProductComponent implements OnInit {
         this.product = response;
         const resp = JSON.parse(JSON.stringify(response));
         this.productCategory = resp.category;
-        this.productBrand = resp.brand;
-        this.productShop = resp.shop;
+        if (resp.brand) {
+          this.productBrand = resp.brand;
+        } else {
+          this.productBrand = {name: '', _id: ''};
+        }
+        if (resp.shop) {
+          this.productShop = resp.shop;
+        } else {
+          this.productShop = {name: '', _id: ''};
+        }
         this.productBadges = resp.badges;
         this.productTags = resp.tags;
         this.selectedImage = resp.frontImage;
@@ -77,12 +87,12 @@ export class EditProductComponent implements OnInit {
         observables.push(this.restService.getBadges());
         observables.push(this.restService.getMarketplaceShops(resp.marketplace));
         Observable.forkJoin(observables).subscribe(
-          resp => {
-            this.existedCategories = resp[0];
-            this.existedTags = resp[1];
-            this.existedBrands = resp[2];
-            this.existedBadges = resp[3];
-            this.marketplace = resp[4];
+          resp1 => {
+            this.existedCategories = resp1[0];
+            this.existedTags = resp1[1];
+            this.existedBrands = resp1[2];
+            this.existedBadges = resp1[3];
+            this.marketplace = resp1[4];
             this.isDataReady = true;
           },
           err => {
@@ -382,11 +392,16 @@ export class EditProductComponent implements OnInit {
       return;
     }
 
-    for (let i = 0; i < this.marketplace.shops.length; i++) {
-      if (this.marketplace.shops[i]._id === this.productShop._id) {
-        this.productShop.name = this.marketplace.shops[i].name;
+    if (this.productShop._id.length === 0) {
+      this.productShop.name = '';
+    } else {
+      for (let i = 0; i < this.marketplace.shops.length; i++) {
+        if (this.marketplace.shops[i]._id === this.productShop._id) {
+          this.productShop.name = this.marketplace.shops[i].name;
+        }
       }
     }
+
 
     for (let i = 0; i < this.existedCategories.length; i++) {
       if (this.existedCategories[i]._id === this.productCategory._id) {
@@ -394,12 +409,16 @@ export class EditProductComponent implements OnInit {
       }
     }
 
-    for (let i = 0; i < this.existedBrands.length; i++) {
-      if (this.existedBrands[i]._id === this.productBrand._id) {
-        this.productBrand.name = this.existedBrands[i].name;
+    if (this.productBrand._id.length === 0) {
+      this.productBrand.name = '';
+    } else {
+      for (let i = 0; i < this.existedBrands.length; i++) {
+        if (this.existedBrands[i]._id === this.productBrand._id) {
+          this.productBrand.name = this.existedBrands[i].name;
+        }
       }
     }
-
+    this.buyLinkPresent = decodeURIComponent(this.product.buyLink);
 
     this.Step = 'preview';
   }
@@ -420,16 +439,28 @@ export class EditProductComponent implements OnInit {
       observables.push(this.restService.changeProductCategory(this.product.category._id, this.productCategory._id, this.product._id));
     }
 
-    if (this.product.shop._id !== this.productShop._id) {
-      observables.push(this.restService.removeProductFromShop(this.product.shop._id, this.product._id));
-      observables.push(this.restService.addProductToShop(this.productShop._id, this.product._id));
+    if (this.product.shop) {
+      if (this.product.shop._id !== this.productShop._id) {
+        observables.push(this.restService.removeProductFromShop(this.product.shop._id, this.product._id));
+        if (this.productShop.name.length !== 0) {
+          observables.push(this.restService.addProductToShop(this.productShop._id, this.product._id));
+        }
+      }
+    } else {
+      if (this.productShop.name.length !== 0) {
+        observables.push(this.restService.addProductToShop(this.productShop._id, this.product._id));
+      }
     }
 
-    if (this.product.brand._id !== this.productBrand._id) {
-      if (this.product.brand._id !== '') {
+    if (this.product.brand) {
+      if (this.product.brand._id !== this.productBrand._id) {
         observables.push(this.restService.removeProductFromBrand(this.product.brand._id, this.product._id));
+        if (this.productBrand.name.length !== 0) {
+          observables.push(this.restService.addProductToBrand(this.productBrand._id, this.product._id));
+        }
       }
-      if (this.productBrand._id !== '') {
+    } else {
+      if (this.productBrand.name.length !== 0) {
         observables.push(this.restService.addProductToBrand(this.productBrand._id, this.product._id));
       }
     }

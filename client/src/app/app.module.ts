@@ -61,6 +61,10 @@ const appRoutes: Routes = [
     component: TagViewComponent
   },
   {
+    path: 'search/:text',
+    component: SearchResultsComponent
+  },
+  {
     path: '**',
     component: StartPageComponent
   }

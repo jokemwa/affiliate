@@ -28,6 +28,24 @@ var translationSchema = new Schema({
             type: String,
             default: 'Search for...'
         },
+        searchboxDropdown: {
+            inProducts: {
+                type: String,
+                default: 'in Products'
+            },
+            inCategories: {
+                type: String,
+                default: 'in Categories'
+            },
+            inBrands: {
+                type: String,
+                default: 'in Brands'
+            },
+            inShops: {
+                type: String,
+                default: 'in Shops'
+            }
+        },
         selectTitle: {
             type: String,
             default: 'What are you searching for?'
@@ -95,8 +113,8 @@ var translationSchema = new Schema({
         closeButton: {
             type: String,
             default: 'Close'
-        }
-      },
+        },
+    },
       startPage: {
           topRated: {
             type: String,
@@ -111,17 +129,41 @@ var translationSchema = new Schema({
             default: 'Browse All..'
         },
       },
-      productPreview: {
+    productPreview: {
           viewMore: {
             type: String,
             default: 'View More'
         },
-      },
-      tagView: {
+    },
+    tagView: {
         tagResults: {
+            type: String,
+            default: 'Search results for tag:'
+        }
+    },
+    searchView: {
+        searchResults: {
+            type: String,
+            default: 'Search results for:'
+        },
+        productsResults: {
+            type: String,
+            default: 'Products'
+        },
+        numberOfResults: {
+            type: String,
+            default: ' founded.'
+        }
+    },
+    productView: {
+        buyButton: {
           type: String,
-          default: 'Search results for tag:'
-      },
+          default: 'Buy'
+        },
+        interestedIn: {
+            type: String,
+            default: 'You may be interested in:'
+        }
     }
 
 }, {

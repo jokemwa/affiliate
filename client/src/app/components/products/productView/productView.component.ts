@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import 'rxjs/add/operator/switchMap';
 
 import { RESTService } from '../../../services/rest.service';
 import { TranslationService } from '../../../services/translation.service';
 
 import { Settings } from '../../../settings';
+
+import { ProductPreviewComponent } from '../productPreview/productPreview.component';
+
 
 @Component({
   selector: 'app-product-view',
@@ -19,6 +24,7 @@ export class ProductViewComponent implements OnInit {
   apiUrl = Settings.apiUrl;
 
   product: any;
+  similar: any;
 
   activeImage: any;
   translation: any;
@@ -26,6 +32,7 @@ export class ProductViewComponent implements OnInit {
 
 
   constructor(
+    private modalService: NgbModal,
     private restService: RESTService,
     private translationService: TranslationService,
     private location: Location,
@@ -40,7 +47,15 @@ export class ProductViewComponent implements OnInit {
       .subscribe(response => {
         this.product = response;
         this.activeImage = this.product.frontImage;
-        this.isDataReady = true;
+        this.restService.getSimilarProducts(this.product._id)
+        .subscribe(resp => {
+          this.similar = resp;
+          this.isDataReady = true;
+        },
+          err => {
+            console.log(JSON.stringify(err));
+            }
+        );
       },
       err => {
         console.log(JSON.stringify(err));
@@ -61,7 +76,9 @@ export class ProductViewComponent implements OnInit {
     window.open(this.product.buyLink, '_blank');
   }
 
-  clickTag (_id) {
+  clickTag (e, _id) {
+    e.stopPropagation();
+    e.preventDefault();
     this.router.navigate(['/tag/' + _id]);
   }
 
@@ -74,6 +91,7 @@ export class ProductViewComponent implements OnInit {
   clickCategory (e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    window.alert('here');
     this.router.navigate(['/category/' + _id]);
   }
 
@@ -83,4 +101,16 @@ export class ProductViewComponent implements OnInit {
     this.router.navigate(['/brand/' + _id]);
   }
 
+  showProductDetail(promoLink: string) {
+    for (let i = 0; i < this.similar.length; i++) {
+      if (this.similar[i].product.promoLink === promoLink) {
+        const modalRef = this.modalService.open(ProductPreviewComponent, {size: 'lg'});
+        modalRef.componentInstance.id = this.similar[i].product._id;
+      }
+    }
+  }
+
+  showTagResults(tag_id: string) {
+    this.router.navigate(['/tag/' + tag_id]);
+  }
 }

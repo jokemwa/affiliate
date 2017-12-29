@@ -1,90 +1,89 @@
 <div *ngIf="isDataReady" class="container">
         <div class="row">
-                <div class="col-1">
-                        <div *ngFor="let image of product.images"
-                        class="row d-flex justify-content-center">
-                                <img
-                                class="mx-1 my-1" src="{{apiUrl}}/images/{{image.thumb}}" alt="{{image.thumb}}"
-                                (click) = "selectImage(image._id)"
-                                [style.border] = "image.hiRes === activeImage.hiRes ? '1px solid black' : 'none'"
-                                style = "
-                                max-width:64px;
-                                max-height: 64px;
-                                width: auto;
-                                height: auto;
-                                cursor: pointer;
-                                ">
-                        </div>
-                </div>
-                <div class="col-5">
+                <div class="col-12 col-lg-7">
                         <div class="row">
-                                <div class="col">
+                                <div class="col-2">
+                                        <div *ngFor="let image of product.images"
+                                        class="row d-flex justify-content-center">
+                                                <img
+                                                class="mx-1 my-1" src="{{apiUrl}}/images/{{image.thumb}}" alt="{{image.thumb}}"
+                                                (click) = "selectImage(image._id)"
+                                                [style.border] = "image.hiRes === activeImage.hiRes ? '1px solid black' : 'none'"
+                                                style = "
+                                                max-width:64px;
+                                                max-height: 64px;
+                                                width: auto;
+                                                height: auto;
+                                                cursor: pointer;
+                                                ">
+                                        </div>
+                                </div>
+                                <div class="col-10">
                                         <img class="img-fluid" src="{{apiUrl}}/images/{{activeImage.hiRes}}" 
                                         alt="{{activeImage.hiRes}}"
                                         style="
-                                        cursor: url({{apiUrl}}/static/searchgrey_2x.cur), pointer;
+                                        cursor: url(/assets/searchgrey_2x.cur), pointer;
                                         ">
                                 </div>
                         </div>
                 </div>
-                <div class="col-6">
-                        <div class="row d-flex justify-content-start">
-                                <span *ngFor="let badge of product.badges"
-                                class="badge badge-pill {{badge.color}} mx-1" dir="rtl">{{badge.text}}</span>
+                <div class="col-12 col-lg-5">
+                        <div class="row mx-2 mt-3 justify-content-start">
+                                <strong dir="ltr" class="text-dark">
+                                        <span *ngIf="product.shop.name.length !== 0">
+                                                <a href="/shop/{{product.shop._id}}"
+                                                (click)="clickShop($event, product.shop._id)">
+                                                {{product.shop.name}}
+                                                </a> | 
+                                        </span>
+                                        <span *ngIf="product.brand.name.length !== 0">
+                                                <a href="/brand/{{product.brand._id}}"
+                                                (click)="clickBrand($event, product.brand._id)">
+                                                {{product.brand.name}}
+                                                </a> |
+                                        </span>
+                                        <a href="/category/{{product.category._id}}"
+                                        (click)="clickCategory($event, product.category._id)">
+                                                {{product.category.name}}
+                                        </a>
+                                </strong>
                         </div>
-                        <div class="row mt-3 d-flex justify-content-start">
-                                <h4>
-                                        <span dir="rtl">{{product.title}}</span>
-                                        <button class="btn btn-danger"
-                                        (click)="clickBuyButton()">
-                                        Buy
-                                        </button>
+                        <div class="row mx-2 mt-1 d-flex justify-content-start">
+                                <h4 class="text-right">
+                                        {{product.title}}
                                 </h4>
                         </div>
-                        <div class="row mt-3 d-flex justify-content-start">
-                                <button *ngFor="let tag of product.tags | orderBy: 'name'" 
-                                class="btn btn-sm btn-outline-success mx-1"
-                                (click) = "clickTag(tag._id)"
-                                >
-                                {{tag.name}}
+                        <div class="row mx-2 mt-3 d-flex justify-content-center">
+                                <button class="btn btn-lg btn-outline-warning"
+                                (click)="clickBuyButton()" style="
+                                cursor: pointer;
+                                ">
+                                        <b>{{translation.productView.buyButton}}</b>
                                 </button>
                         </div>
-                        <div class="row mt-2 d-flex justify-content-start">
-                                <h6><u>Shop:</u></h6>
+                        <div class="row mx-2 mt-4 d-flex justify-content-start">
+                                <h6 class="text-right" style="white-space: pre-wrap;">{{product.description}}</h6>
                         </div>
-                        <div class="row d-flex justify-content-start">
-                                <h6>
-                                        <a href="#" (click) = "clickShop($event, shop._id)">
-                                        {{product.shop.name}}
-                                        </a>
-                                </h6>
+                        
+                        <div class="row mx-2 mt-1 d-flex justify-content-start">
+                                <a *ngFor="let tag of product.tags | orderBy: 'name'" 
+                                href="/tag/{{tag._id}}"
+                                (click) = "clickTag($event, tag._id)" class="mx-1">
+                                <span dir="ltr">#</span><span>{{tag.name}}</span>
+                                </a>
                         </div>
-                        <div class="row mt-2 d-flex justify-content-start">
-                                <h6><u>Category:</u></h6>                             
-                        </div>
-                        <div class="row d-flex justify-content-start">
-                                <h6 dir="rtl">
-                                        <a href="#" (click) = "clickCategory($event, category._id)">
-                                        {{product.category.name}}
-                                        </a>
-                                </h6>                                    
-                        </div>
-                        <div class="row mt-2 d-flex justify-content-start">
-                                <h6><u>Brand:</u></h6>
-                        </div>
-                        <div class="row d-flex justify-content-start">
-                                <h6>
-                                        <a href="#" (click) = "clickBrand($event, brand._id)">
-                                        {{product.brand.name}}
-                                        </a>
-                                </h6>
-                        </div>
-                        <div class="row mt-2 d-flex justify-content-start">
-                                <h6><u>Description:</u></h6>
-                        </div>
-                        <div class="row d-flex justify-content-start">
-                                <h6 dir="rtl">{{product.description}}</h6>
-                        </div>
-                </div>                
+                </div>            
         </div>
+        <div class="row mt-4 mb-2">
+                <div class="col-12 d-flex justify-content-center">
+                        <h4>
+                                {{translation.productView.interestedIn}}
+                        </h4>
+                </div>
+        </div>
+        <app-product-list
+        [items]="similar"
+        (onProductClick)="showProductDetail($event)"
+        (onTagClick)="showTagResults($event)">
+        </app-product-list>
 </div>

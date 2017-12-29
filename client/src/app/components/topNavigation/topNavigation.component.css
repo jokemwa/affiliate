@@ -1,15 +1,15 @@
 .title-suggestion-list--wrapper {
-    width: 500px;
+    width: 100%;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
-    left: 0;
+    top: 100%;
     right: 0;
     z-index: 1001;
   }
   
   .title-suggestion-list {
-    width: 80%;
+    width: 100%;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -20,12 +20,12 @@
   }
   
   .title-suggestion-list li {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    line-height: 2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.3rem;
     overflow: hidden;
-    text-align: left;
-    font-size: 0.9rem;
+    text-align: right;
+    cursor: pointer;
   }
   
   .title-suggestion-list li:hover {

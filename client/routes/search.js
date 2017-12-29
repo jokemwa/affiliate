@@ -9,6 +9,12 @@ var Shops = require('../models/shops');
 
 var searchRouter = express.Router();
 
+searchRouter.route('/')
+    .get(function (req, res, next) {
+        res.json(null);
+    });
+
+
 searchRouter.route('/:text')
 // Searching
     .get(function (req, res, next) {
@@ -28,15 +34,24 @@ searchRouter.route('/:text')
                         return callback(err);
                     }
                     for (let i = 0; i < result.length; i++) {
-                        if(result[i].title.indexOf(req.params.text) > 0) {
+                        if(result[i].title.toLowerCase().indexOf(req.params.text.toLowerCase()) >= 0) {
                             searchResult.products.push(result[i]);
                             continue;
                         }
                     }
                     for (let i = 0; i < result.length; i++) {
-                        if(result[i].description.indexOf(req.params.text) > 0) {
-                            searchResult.products.push(result[i]);
-                            continue;
+                        if(result[i].description.toLowerCase().indexOf(req.params.text.toLowerCase()) >= 0) {
+                            let existed = false;
+                            for (let j = 0; j < searchResult.products.length; j++) {
+                                if (searchResult.products[j]._id === result[i]._id) {
+                                    existed = true;
+                                    break;
+                                }
+                            }
+                            if (!existed) {
+                                searchResult.products.push(result[i]);
+                                continue;
+                            }
                         }
                     }
                     callback(null);
@@ -52,15 +67,24 @@ searchRouter.route('/:text')
                         return callback(err);
                     }
                     for (let i = 0; i < result.length; i++) {
-                        if(result[i].name.indexOf(req.params.text) > 0) {
+                        if(result[i].name.toLowerCase().indexOf(req.params.text.toLowerCase()) >= 0) {
                             searchResult.categories.push(result[i]);
                             continue;
                         }
                     }
                     for (let i = 0; i < result.length; i++) {
-                        if(result[i].description.indexOf(req.params.text) > 0) {
-                            searchResult.categories.push(result[i]);
-                            continue;
+                        if(result[i].description.toLowerCase().indexOf(req.params.text.toLowerCase()) >= 0) {
+                            let existed = false;
+                            for (let j = 0; j < searchResult.categories.length; j++) {
+                                if (searchResult.categories[j]._id === result[i]._id) {
+                                    existed = true;
+                                    break;
+                                }
+                            }
+                            if (!existed) {
+                                searchResult.categories.push(result[i]);
+                                continue;
+                            }
                         }
                     }
                     callback(null);
@@ -76,15 +100,24 @@ searchRouter.route('/:text')
                         return callback(err);
                     }
                     for (let i = 0; i < result.length; i++) {
-                        if(result[i].name.indexOf(req.params.text) > 0) {
+                        if(result[i].name.toLowerCase().indexOf(req.params.text.toLowerCase()) >= 0) {
                             searchResult.brands.push(result[i]);
                             continue;
                         }
                     }
                     for (let i = 0; i < result.length; i++) {
-                        if(result[i].description.indexOf(req.params.text) > 0) {
-                            searchResult.brands.push(result[i]);
-                            continue;
+                        if(result[i].description.toLowerCase().indexOf(req.params.text.toLowerCase()) >= 0) {
+                            let existed = false;
+                            for (let j = 0; j < searchResult.brands.length; j++) {
+                                if (searchResult.brands[j]._id === result[i]._id) {
+                                    existed = true;
+                                    break;
+                                }
+                            }
+                            if (!existed) {
+                                searchResult.brands.push(result[i]);
+                                continue;
+                            }
                         }
                     }
                     callback(null);
@@ -100,15 +133,24 @@ searchRouter.route('/:text')
                         return callback(err);
                     }
                     for (let i = 0; i < result.length; i++) {
-                        if(result[i].name.indexOf(req.params.text) > 0) {
+                        if(result[i].name.toLowerCase().indexOf(req.params.text.toLowerCase()) >= 0) {
                             searchResult.shops.push(result[i]);
                             continue;
                         }
                     }
                     for (let i = 0; i < result.length; i++) {
-                        if(result[i].description.indexOf(req.params.text) > 0) {
-                            searchResult.shops.push(result[i]);
-                            continue;
+                        if(result[i].description.toLowerCase().indexOf(req.params.text.toLowerCase()) >= 0) {
+                            let existed = false;
+                            for (let j = 0; j < searchResult.shops.length; j++) {
+                                if (searchResult.shops[j]._id === result[i]._id) {
+                                    existed = true;
+                                    break;
+                                }
+                            }
+                            if (!existed) {
+                                searchResult.shops.push(result[i]);
+                                continue;
+                            }
                         }
                     }
                     callback(null);

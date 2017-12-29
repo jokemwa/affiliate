@@ -62,9 +62,9 @@ var shopGroups = require('./routes/shopGroups');
 app.use('/api/shop-groups', shopGroups);
 var subscribe = require('./routes/newsletterSubscribers');
 app.use('/api/subscribe', subscribe);
+var similar = require('./routes/similar');
+app.use('/api/similar', similar);
 
-// Static
-app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // Angular4 client
 app.use(express.static(path.join(__dirname, 'dist')));

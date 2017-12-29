@@ -1,4 +1,6 @@
 // Base.com parser
+const awinmid = '2694';
+const awinaffid = '460206';
 
 var cheerio = require('cheerio');
 
@@ -69,5 +71,12 @@ exports.parseTitle = function(page, extLink){
             resolve(title);
         }
     });
+};
+
+exports.parseBuyLink = function(extLink){
+    let buyLink = 'https://www.awin1.com/cread.php?awinmid=' + awinmid
+    + '&awinaffid=' + awinaffid + '&clickref=&p=' + encodeURIComponent(extLink);
+    return  buyLink
+
 };
 

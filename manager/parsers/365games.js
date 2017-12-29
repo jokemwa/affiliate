@@ -1,4 +1,6 @@
 // 365games parser
+const awinmid = '5778';
+const awinaffid = '460206';
 
 var cheerio = require('cheerio');
 
@@ -49,5 +51,12 @@ exports.parseTitle = function(page, extLink){
         }
 
     });
+};
+
+exports.parseBuyLink = function(extLink){
+    let buyLink = 'https://www.awin1.com/cread.php?awinmid=' + awinmid
+    + '&awinaffid=' + awinaffid + '&clickref=&p=' + encodeURIComponent(extLink);
+    return  buyLink
+
 };
 

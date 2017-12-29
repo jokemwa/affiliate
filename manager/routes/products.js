@@ -39,9 +39,6 @@ productsRouter.route('/')
                 promises.push(products.getProductBrand(element._id)
                 .then(
                 (brand) => {
-                    if (brand == null) {
-                        brand = {name: '', _id: ''};
-                    }
                     element.brand = brand;
                 },
                 (err) => {
@@ -60,9 +57,6 @@ productsRouter.route('/')
                 promises.push(products.getProductShop(element._id)
                 .then(
                 (shop) => {
-                    if (shop == null) {
-                        shop = {name: '', _id: ''};
-                    }
                     element.shop = shop;
                 },
                 (err) => {
@@ -118,10 +112,10 @@ productsRouter.route('/')
 
                     product.marketplace = results[i]._id;
                     console.log("Marketplace: ", product.marketplace);
-                    product.buyLink = req.body.link;
-                    console.log("Buy link: ", product.buyLink);
-
+                    
                     let parser = require(results[i].parser);
+                    product.buyLink = parser.parseBuyLink(req.body.link);
+                    console.log("Buy link: ", product.buyLink);
 
                     saver.download(req.body.link)
                     .then(
@@ -260,9 +254,6 @@ productsRouter.route('/:id')
             promises.push(products.getProductBrand(result._id)
                 .then(
                 (brand) => {
-                    if (brand == null) {
-                        brand = {name: '', _id: ''};
-                    }
                     result.brand = brand;
                 },
                 (err) => {
@@ -281,9 +272,6 @@ productsRouter.route('/:id')
             promises.push(products.getProductShop(result._id)
                 .then(
                 (shop) => {
-                    if (shop == null) {
-                        shop = {name: '', _id: ''};
-                    }
                     result.shop = shop;
                 },
                 (err) => {
