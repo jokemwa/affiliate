@@ -1,10 +1,73 @@
 // Base.com parser
-const awinmid = '2694';
-const awinaffid = '460206';
+var secrets = require('../_secrets');
 
 var cheerio = require('cheerio');
 
-exports.parseImages = function (page){
+exports.parse = function (page, extLink){
+    return new Promise(function(resolve, reject){
+        // Images
+        var imageJSONs = [];
+
+        var $ = cheerio.load(page);
+
+        let filename = $('img[id=mainImage]').attr('src');
+        for(let i=filename.length-1; i >= 0; i--){
+            if(filename[i] == "/"){
+                filename = filename.substring(i+1);
+                break;
+            }
+        }
+        imageJSONs.push({
+            "hiRes": "https://www.base.com/images/zoom/" + filename,
+            "thumb": "https://www.base.com/images/standard-lclip/" + filename
+        });
+
+        if(page.indexOf('class="more-images"') >= 0){
+            let part = cheerio.load($('.more-images').html());
+        
+            part('img').each(function(i, elem) {
+                filename = $(this).attr('src');
+                
+                for(let i=filename.length-1; i >= 0; i--){
+                    if(filename[i] == "/"){
+        
+                        filename = filename.substring(i+1);
+                        break;
+                    }
+                }
+                let imageJSON = {
+                    "hiRes": "https://www.base.com/images/largemedia/" + filename,
+                    "thumb": "https://www.base.com/images/media-thumb/" + filename
+                };
+                imageJSONs.push(imageJSON);
+            });
+        }
+
+        if(imageJSONs.length == 0){
+            reject("Parser error");
+        }
+
+        // Title
+        let title = "";
+        
+        var $=cheerio.load(page);
+
+        title = $('title').text();
+        
+        if(title.length == 0){
+            reject("Parser error");
+        }
+
+        // buy Link
+        let buyLink = 'https://www.awin1.com/cread.php?awinmid=' + secrets.BASE.awinmid
+        + '&awinaffid=' + secrets.AWIN.affid + '&clickref=&p=' + encodeURIComponent(extLink);
+
+        resolve({'images': imageJSONs, 'title': title, 'buyLink': buyLink});
+
+    });
+}
+
+exports.parseImages = function (page, extLink){
     return new Promise(function(resolve, reject){
         var imageJSONs = [];
 
@@ -74,9 +137,11 @@ exports.parseTitle = function(page, extLink){
 };
 
 exports.parseBuyLink = function(extLink){
-    let buyLink = 'https://www.awin1.com/cread.php?awinmid=' + awinmid
+    return new Promise(function(resolve, reject){
+        let buyLink = 'https://www.awin1.com/cread.php?awinmid=' + awinmid
     + '&awinaffid=' + awinaffid + '&clickref=&p=' + encodeURIComponent(extLink);
-    return  buyLink
-
+        
+        resolve(buyLink);
+    });
 };
 

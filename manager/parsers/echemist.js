@@ -1,4 +1,4 @@
-// GearBest parser
+// eChemist parser
 var secrets = require('../_secrets');
 
 var cheerio = require('cheerio');
@@ -8,21 +8,27 @@ exports.parse = function (page, extLink){
         // Images
         var imageJSONs = [];
 
-        var $=cheerio.load(page);
+        var $ = cheerio.load(page);
 
-        var part = cheerio.load($('.js_scrollableDiv').html());
-        part('img').each(function(i, elem) {
+        var part = cheerio.load($('.product-image').html());
+
+        var part1 = cheerio.load(part('ul[id=image-slider]').html());
+        part1('li').each(function(i, elem) {
             let imageJSON = {
                 "hiRes": "",
                 "thumb": ""
             };
-            imageJSON.hiRes = $(this).attr('data-big-img');
-            if($(this).attr('data-src')){
-                imageJSON.thumb = $(this).attr('data-src');
-            } else {
-                imageJSON.thumb = $(this).attr('data-original');
-            }
+            let party = cheerio.load($(this).html());
+
+            imageJSON.hiRes = party('img').attr('src');
             imageJSONs.push(imageJSON);
+        });
+
+        var part2 = cheerio.load(part('.image-pager').html());
+        var part3 = cheerio.load(part2('li').html());
+        part3('a').each(function(i, elem) {
+            let party = cheerio.load($(this).html());
+            imageJSONs[i].thumb = party('img').attr('src');
         });
 
         if(imageJSONs.length == 0){
@@ -32,8 +38,9 @@ exports.parse = function (page, extLink){
         // Title
         let title = "";
 
-        var $=cheerio.load(page);
-        part = cheerio.load($('div .goods-info-top').html());
+        var $ = cheerio.load(page);
+
+        var part = cheerio.load($('.right-side').html());
         title = part('h1').text();
 
         if(title.length == 0){
@@ -41,7 +48,7 @@ exports.parse = function (page, extLink){
         }
 
         // Buy Link
-        let buyLink = 'https://www.awin1.com/cread.php?awinmid=' + secrets.GEARBEST.awinmid
+        let buyLink = 'https://www.awin1.com/cread.php?awinmid=' + secrets.ECHEMIST.awinmid
         + '&awinaffid=' + secrets.AWIN.affid + '&clickref=&p=' + encodeURIComponent(extLink);
 
         resolve({'images': imageJSONs, 'title': title, 'buyLink': buyLink});
@@ -53,22 +60,29 @@ exports.parseImages = function (page, extLink){
     return new Promise(function(resolve, reject){
         var imageJSONs = [];
 
-        var $=cheerio.load(page);
+        var $ = cheerio.load(page);
 
-        var part = cheerio.load($('.js_scrollableDiv').html());
-        part('img').each(function(i, elem) {
+        var part = cheerio.load($('.product-image').html());
+
+        var part1 = cheerio.load(part('ul[id=image-slider]').html());
+        part1('li').each(function(i, elem) {
             let imageJSON = {
                 "hiRes": "",
                 "thumb": ""
             };
-            imageJSON.hiRes = $(this).attr('data-big-img');
-            if($(this).attr('data-src')){
-                imageJSON.thumb = $(this).attr('data-src');
-            } else {
-                imageJSON.thumb = $(this).attr('data-original');
-            }
+            let party = cheerio.load($(this).html());
+
+            imageJSON.hiRes = party('img').attr('src');
             imageJSONs.push(imageJSON);
         });
+
+        var part2 = cheerio.load(part('.image-pager').html());
+        var part3 = cheerio.load(part2('li').html());
+        part3('a').each(function(i, elem) {
+            let party = cheerio.load($(this).html());
+            imageJSONs[i].thumb = party('img').attr('src');
+        });
+
 
         if(imageJSONs.length == 0){
             reject("Parser error");
@@ -86,8 +100,9 @@ exports.parseTitle = function(page, extLink){
 
         let title = "";
 
-        var $=cheerio.load(page);
-        let part = cheerio.load($('div .goods-info-top').html());
+        var $ = cheerio.load(page);
+
+        var part = cheerio.load($('.right-side').html());
         title = part('h1').text();
 
         if(title.length == 0){

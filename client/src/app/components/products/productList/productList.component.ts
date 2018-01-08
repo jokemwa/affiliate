@@ -5,7 +5,7 @@ import { Settings } from '../../../settings';
 @Component ({
   selector: 'app-product-list',
   templateUrl: './productList.component.html',
-  styleUrls: []
+  styleUrls: ['./productList.component.css']
 })
 export class ProductListComponent implements OnInit {
 

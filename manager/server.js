@@ -13,6 +13,8 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var mongoose = require('mongoose');
 
+var brokenLinksChecker = require('./workers/brokenLinksChecker');
+
 mongoose.connect(config.mongoUrl);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -22,6 +24,9 @@ db.once('open', function () {
 });
 
 var app = express();
+app.use(logger('common', {
+  stream: fs.createWriteStream('./logs/access.log', {flags: 'a'})
+}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -75,6 +80,8 @@ var topNavigationMenus = require('./routes/topNavigationMenus');
 app.use('/api/top-navigation-menus', topNavigationMenus);
 var subscribe = require('./routes/newsletterSubscribers');
 app.use('/api/subscribe', subscribe);
+var brokenLinks = require('./routes/brokenLinks');
+app.use('/api/broken-links', brokenLinks);
 
 // Images
 app.use('/img', express.static(path.join(__dirname, 'img')));
@@ -96,13 +103,14 @@ app.use(function(req, res, next) {
   
   // error handler
   app.use(function(err, req, res, next) {
+    /*
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
   
-    // render the error page
+    // render the error page*/
     res.status(err.status || 500);
-    res.render('error');
+    res.end(JSON.stringify(err));
   });
 
 var options = {
@@ -110,6 +118,7 @@ var options = {
     cert: fs.readFileSync('./keys/server.crt')
 };
 var server = https.createServer(options, app);
+
 
 server.listen(app.get('port'), function() {
   console.log('Server listening on port', app.get('port'));
@@ -148,3 +157,10 @@ function onError(error) {
       : 'port ' + addr.port;
     debug('Listening on ' + bind);
   }
+
+  // Broken Links Checker
+  brokenLinksChecker.checkProducts();
+  const interval = 24 * 3600 * 1000;
+  setInterval(() => {
+    brokenLinksChecker.checkProducts();
+  }, interval);

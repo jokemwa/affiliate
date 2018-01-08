@@ -1011,4 +1011,26 @@ public updateTopCategory(category: any): Observable<any> {
             });
     }
 
+/* Broken Links */
+
+    public getBrokenLinks(): Observable<any> {
+        const url = `/api/broken-links`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+    public removeBrokenLink(_id: string): Observable<any> {
+        const url = `/api/broken-links/${_id}`;
+        return this.http
+        .delete(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
 }

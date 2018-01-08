@@ -2,7 +2,7 @@
 
 var cheerio = require('cheerio');
 
-exports.parseImages = function (page){
+exports.parseImages = function (page, extLink){
     return new Promise(function(resolve, reject){
         var imageJSONs = [];
 

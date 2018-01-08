@@ -10,10 +10,12 @@ var shopSchema = new Schema({
         unique: true
     },
     link: {
-        type: String
+        type: String,
+        default: ''
     },
     logo: {
-        type: String
+        type: String,
+        default: ''
     },
     description: {
         type: String,

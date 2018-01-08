@@ -20,6 +20,9 @@ var productSchema = new Schema({
     buyLink: {
         type: String
     },
+    link: {
+        type: String
+    },
     brokenLinkCheck: {
         type: Date
     },

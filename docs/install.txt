@@ -1,4 +1,4 @@
-Install:
+1. Install:
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo apt-get install -y mongodb
@@ -15,6 +15,13 @@ npm install
 ng build
 cd..
 
-Run:
+2. Run:
 node ./manager/server
 node ./client/server
+
+3. Initiate (required!)
+Go: Manage Panel -> Translation
+Go: Manage Panel -> Start Page
+
+
+

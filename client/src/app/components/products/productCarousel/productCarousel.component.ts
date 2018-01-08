@@ -6,7 +6,7 @@ import { Settings } from '../../../settings';
 @Component ({
   selector: 'app-product-carousel',
   templateUrl: './productCarousel.component.html',
-  styleUrls: []
+  styleUrls: ['./productCarousel.component.css']
 })
 export class ProductCarouselComponent implements OnInit {
 

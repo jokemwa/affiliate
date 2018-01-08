@@ -13,6 +13,7 @@ var brands = require('./misc/brands');
 var tags = require('./misc/tags');
 var products = require('./misc/products');
 var startPage = require('./misc/startPage');
+var brokenLinks = require('./misc/brokenLinks');
 
 var Products = require('../models/products');
 var Marketplaces = require('../models/marketplaces');
@@ -87,14 +88,17 @@ productsRouter.route('/')
 })
 // Create new product
     .post(Verify.verifyUser, function (req, res, next) {
-        
+
+        console.log("Link: ", req.body.link);
         let product = {
+            link: req.body.link,
             images: [],
             marketplace: null,
             buyLink: null,
-            promoLink: null
+            promoLink: null,
+            brokenLinkCheck: null
         };
-        console.log("Link: ", req.body.link);
+
         let domain = saver.cutLink(req.body.link);
         console.log("Domain: ", domain);
 
@@ -114,85 +118,51 @@ productsRouter.route('/')
                     console.log("Marketplace: ", product.marketplace);
                     
                     let parser = require(results[i].parser);
-                    product.buyLink = parser.parseBuyLink(req.body.link);
-                    console.log("Buy link: ", product.buyLink);
 
                     saver.download(req.body.link)
-                    .then(
-                        function(page){
-                            parser.parseTitle(page, req.body.link)
-                            .then(function(title){
-                                saver.preparePromoLink(title)
-                                .then(function(title){
-                                    product.promoLink = title;
-                                    console.log("Promo link: ", product.promoLink);
-                                    parser.parseImages(page)
-                                    .then(function(imageURLs){
-                                        console.log("Image URLs: ", imageURLs);
-                                        var imagesDownloads = [];
-                                        imageURLs.forEach(function(element) {
-                                            imagesDownloads.push(saver.saveImage(element)
-                                            .then(function(imageFile){
-                                                product.images.push(imageFile);
-                                                },
-                                                function(err){
-                                                    return Promise.reject(err);
-                                                })
-                                            );
-                                        });
-                                        Promise.all(imagesDownloads).then(function() {
-                                            console.log("Saved images: ", product.images);
-                                            Products.create(product, function (err, result) {
-                                                
-                                                if (err) {
-                                                    // Error then create prouct
-                                                    console.log(err);
-                                                    err.status = 500;
-                                                    return next(err);
-                                                }
-                                                
-                                                    console.log("Product created: ", result);
-                                                    res.json(result);
-                                                });
-                                        }, function(err){
-                                            // Error then create product
+                    .then(page => {
+                            parser.parse(page, req.body.link)
+                            .then(result => {
+                                let now = new Date();
+                                product.brokenLinkCheck = now;
+                                product.buyLink = result.buyLink;
+                                console.log("Buy link: ", product.buyLink);
+                                product.promoLink = saver.preparePromoLink(result.title);
+                                console.log("Promo link: ", product.promoLink);
+                                console.log("Image URLs: ", result.images);
+                                let imagesDownloads = [];
+                                result.images.forEach(function(element) {
+                                    imagesDownloads.push(saver.saveImage(element)
+                                    .then(imageFile => {
+                                        product.images.push(imageFile);
+                                    }));
+                                });
+                                Promise.all(imagesDownloads).then(() => {
+                                    console.log("Saved images: ", product.images);
+
+                                    Products.create(product, function (err, result) {            
+                                        if (err) {
                                             console.log(err);
                                             err.status = 500;
                                             return next(err);
                                         }
-                                    );
-                                    },
-                                    function(err){
-                                        // Error then getting images urls from page
-                                        console.log(err);
-                                        err.status = 500;
-                                        return next(err);
+                                            console.log("Product created: ", result);
+                                            res.json(result);
                                     });
-                                },
-                                function(err){
-                                    // Error then preparing promoLink
+                                }, err => {
                                     console.log(err);
                                     err.status = 500;
                                     return next(err);
                                 });
                             },
-                        function(err){
-                            // Error then getting title from page
-                            console.log(err);
-                            err.status = 500;
-                            return next(err);
-                        });
-                        },
-                        function(err){
-                            // Error then downloading page
-                            console.log(err);
-                            err.status = 500;
-                            return next(err);
-                        }
-                    );
+                            err => {
+                                console.log(err);
+                                err.status = 500;
+                                return next(err);
+                            });
+                    });
                     break;
-                }
-                else{
+                } else {
                     if(i == (results.length-1)){
                         console.log("Wrong link");
                         let err = new Error("Wrong link");
@@ -243,6 +213,7 @@ productsRouter.route('/:id')
     .get(Verify.verifyUser, function (req, res, next) {
         Products.findById(req.params.id)
         .populate('badges')
+        .populate('marketplace')
         .lean()
         .exec(function (err, result) {
             if (err) {
@@ -356,15 +327,22 @@ productsRouter.route('/:id')
                                     return next(err);
                                 }
                                 startPage.removeFromStartPage(req.params.id, (err, result) => {
-                                    Products.findByIdAndRemove(req.params.id, function (err, result) {
+                                    brokenLinks.removeFromBrokenLinks(req.params.id, (err, result) => {
                                         if(err){
                                             console.log(err);
                                             err.status = 500;
                                             return next(err);
                                         }
-                                        console.log(result);
-                                        res.json(result);
-                                    });
+                                        Products.findByIdAndRemove(req.params.id, function (err, result) {
+                                            if(err){
+                                                console.log(err);
+                                                err.status = 500;
+                                                return next(err);
+                                            }
+                                            console.log(result);
+                                            res.json(result);
+                                        });
+                                    });                              
                                 });
                             });
                         });

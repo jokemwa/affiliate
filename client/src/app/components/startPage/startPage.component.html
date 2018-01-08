@@ -5,7 +5,7 @@
                 <h1>{{message.text}}</h1>
             </div>
             <div class="col-md-6 order-1 order-md-2 d-flex align-items-center justify-content-center">
-                <img class="img-fluid"
+                <img *ngIf="message.image.length !== 0" class="img-fluid"
                 style="padding: 0.2rem"
                 src="{{apiUrl}}/images/{{message.image}}">
             </div>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="row d-flex justify-content-start">
-        <h2 class="text-right mx-2 text-primary">{{translation.startPage.topRated}}</h2>
+        <h2 *ngIf="tops.items.length !== 0" class="text-right mx-2 text-primary">{{translation.startPage.topRated}}</h2>
     </div>
     <app-product-carousel
         [items]="tops.items"

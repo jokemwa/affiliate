@@ -23,13 +23,15 @@ import { ShopViewComponent } from './components/shopView/shopView.component';
 import { ShopGroupViewComponent } from './components/shopGroupView/shopGroupView.component';
 import { ProductViewComponent } from './components/products/productView/productView.component';
 import { SearchResultsComponent } from './components/searchResults/searchResults.component';
-import { ProductPreviewComponent } from './components/products/productPreview/productPreview.component';
 import { ProductCarouselComponent } from './components/products/productCarousel/productCarousel.component';
 import { SelectCategoryComponent } from './components/topNavigation/childs/selectCategory/selectCategory.component';
 import { ProductListComponent } from './components/products/productList/productList.component';
 import { SelectBrandComponent } from './components/topNavigation/childs/selectBrand/selectBrand.component';
 import { SelectShopGroupComponent } from './components/topNavigation/childs/selectShopGroup/selectShopGroup.component';
 import { SubscribeResultComponent } from './components/footer/childs/subscribeResult/subscribeResult.component';
+import { contentSlider, SafeHtmlPipe, printSlide, slideAjaxDiv } from './components/slider/index';
+import { ImageShowComponent } from './components/sliderDemo/index';
+
 
 import { OrderByPipe } from './pipes/orderBy.pipe';
 import { promise } from 'selenium-webdriver';
@@ -65,6 +67,10 @@ const appRoutes: Routes = [
     component: SearchResultsComponent
   },
   {
+    path: 'test',
+    component: ImageShowComponent
+  },
+  {
     path: '**',
     component: StartPageComponent
   }
@@ -87,7 +93,6 @@ export function initTranslation(translation: TranslationService) {
     BrandViewComponent,
     CategoryViewComponent,
     ProductViewComponent,
-    ProductPreviewComponent,
     ShopViewComponent,
     SearchResultsComponent,
     ProductCarouselComponent,
@@ -98,6 +103,11 @@ export function initTranslation(translation: TranslationService) {
     SelectShopGroupComponent,
     ShopGroupViewComponent,
     SubscribeResultComponent,
+    contentSlider,
+    ImageShowComponent,
+    SafeHtmlPipe,
+    printSlide,
+    slideAjaxDiv,
 
     OrderByPipe
   ],
@@ -111,7 +121,6 @@ export function initTranslation(translation: TranslationService) {
     )
   ],
   entryComponents: [
-    ProductPreviewComponent,
     SelectCategoryComponent,
     SelectBrandComponent,
     SelectShopGroupComponent,

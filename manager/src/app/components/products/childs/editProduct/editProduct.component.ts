@@ -28,8 +28,6 @@ export class EditProductComponent implements OnInit {
 
   product: any;
 
-  buyLinkPresent: any;
-
   newShop: String = '';
   newCategory: String = '';
   newBrand: String = '';
@@ -85,7 +83,7 @@ export class EditProductComponent implements OnInit {
         observables.push(this.restService.getTags());
         observables.push(this.restService.getBrands());
         observables.push(this.restService.getBadges());
-        observables.push(this.restService.getMarketplaceShops(resp.marketplace));
+        observables.push(this.restService.getMarketplaceShops(resp.marketplace._id));
         Observable.forkJoin(observables).subscribe(
           resp1 => {
             this.existedCategories = resp1[0];
@@ -418,7 +416,6 @@ export class EditProductComponent implements OnInit {
         }
       }
     }
-    this.buyLinkPresent = decodeURIComponent(this.product.buyLink);
 
     this.Step = 'preview';
   }

@@ -20,10 +20,8 @@ export class NewCategoryComponent {
     private restService: RESTService,
     private router: Router) {}
 
-  clickSave (name, description) {
-    if (name !== undefined && name !== '') {
-      this.category.name = name;
-      this.category.description = description;
+  clickSave () {
+    if (this.category.name !== undefined && this.category.name !== '') {
       this.restService.createCategory(this.category).subscribe(
         response => {
           this.activeModal.close('Created');

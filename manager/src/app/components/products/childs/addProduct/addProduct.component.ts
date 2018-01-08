@@ -26,7 +26,6 @@ export class AddProductComponent implements OnInit {
   isDataReady = false;
 
   link: String = '';
-  buyLinkPresent: any;
 
   product: any;
 
@@ -433,7 +432,6 @@ export class AddProductComponent implements OnInit {
         this.productBrand.name = this.existedBrands[i].name;
       }
     }
-    this.buyLinkPresent = decodeURIComponent(this.product.buyLink);
 
     this.Step = 'preview';
   }

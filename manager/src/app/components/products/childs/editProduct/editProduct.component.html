@@ -27,17 +27,12 @@
                             <h4 class="my-2">Front image of the product will be:</h4>                            
                       </div>
                       <div class="row">
-                        <div class="col-12 d-flex justify-content-center">
-                                <img class="img-fluid" src="./images/{{selectedImage.hiRes}}" 
-                                alt="{{selectedImage.hiRes}}" 
-                                style = "
-                                 display: block;
-                                 max-width:400px;
-                                 max-height: 400px;
-                                 width: auto;
-                                 height: auto;
-                                ">
-                        </div>
+                                <div class="col-3"></div>
+                                <div class="col-6">
+                                        <img class="img-fluid" src="./images/{{selectedImage.hiRes}}" 
+                                        alt="{{selectedImage.hiRes}}" >
+                                </div>
+                                <div class="col-3"></div>
                       </div>
                   </div>  
                 </div>
@@ -193,6 +188,7 @@
             <div *ngSwitchCase="'preview'">
                 <div class="row d-flex justify-content-center">
                         <div class="col-12">
+                                <p style="margin-bottom: 0">Promo link:</p>
                                 <input type="text" disabled
                                 style="width:100%;"
                                 value="http://buy.jerus.city/{{product.promoLink}}">
@@ -200,9 +196,10 @@
                 </div>
                 <div class="row d-flex justify-content-center">
                         <div class="col-12">
+                                <p style="margin-bottom: 0">Buy link:</p>
                                 <input type="text" disabled
                                 style="width:100%;"
-                                value="{{buyLinkPresent}}">
+                                value="{{product.buyLink}}">
                         </div>
                 </div>
                 <div class="row">

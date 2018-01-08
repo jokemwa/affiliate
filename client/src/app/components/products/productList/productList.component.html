@@ -4,23 +4,26 @@
         <div class="card bg-transparent border-0 text-right"
         style="height:100%">
             <div class="card-header border-0 text-left bg-transparent" style="padding: 0; padding-bottom: 0.2rem">
-                <h4 style="margin-bottom: 0rem;">
+                <h5 style="margin-bottom: 0.3rem;">
                     <span *ngFor="let badge of item.product.badges"
                     class="badge badge-pill {{badge.color}}">
                         {{badge.text}}
                     </span>
-                    <span *ngIf="item.product.badges.length === 0">
+                    <span *ngIf="item.product.badges.length === 0" class="badge badge-pill bg-transparent">
                         &nbsp;
                     </span>
-                </h4>
+                </h5>
             </div>
-            <img class="card-img-top border border-bottom-0 border-secondary rounded-top bg-light"
-            src="{{apiUrl}}/images/{{item.product.frontImage.hiRes}}"
-            alt="{{item.product.title}}"
-            (click)="onClickProduct(item.product.promoLink)"
-            style="
-            cursor: pointer;
-            ">
+            <div class="wrapper border border-bottom-0 border-secondary rounded-top bg-light">
+                <img class="card-img-top"
+                src="{{apiUrl}}/images/{{item.product.frontImage.hiRes}}"
+                alt="{{item.product.title}}"
+                (click)="onClickProduct(item.product.promoLink)"
+                style="
+                cursor: pointer;
+                padding: 0.5rem;
+                ">
+            </div>
             <div class="card-body border border-secondary rounded-bottom bg-light">
                 <h5 class="card-title" dir="rtl"
                 (click)="onClickProduct(item.product.promoLink)"

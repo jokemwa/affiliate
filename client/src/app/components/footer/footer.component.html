@@ -1,4 +1,95 @@
-<footer class="navbar bg-dark text-light text-right">
+<footer *ngIf="isDataReady" class="navbar bg-dark text-light text-right">
+    <div class="row" style="width: 100%">
+        <div class="col-12 col-sm-6 col-md-4 text-secondary">
+                <div class="row">
+                        <div class="col-0 col-sm-1 col-md-2 col-lg-3 col-xl-4"></div>
+                        <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8">
+                                <h4>
+                                        <a href="#" (click)="clickCategories($event)"
+                                        class="text-secondary"
+                                        >
+                                        {{translation.topNavigation.categoriesLink.toUpperCase()}}
+                                        </a>
+                                    
+                                </h4>
+                                <ul class="list-unstyled" style="padding-right:0">
+                                    <li *ngFor="let category of categories | orderBy: 'name' | slice:0:show">
+                                        <a
+                                        class="text-secondary"
+                                        href="/category/{{category._id}}" (click)="onClickCategory($event, category._id)">
+                                            {{category.name}}
+                                        </a>
+                                    </li>
+                                    <li *ngIf="categories.length >= show">
+                                            <a href="#" (click)="clickCategories($event)"
+                                            class="text-secondary"
+                                            >
+                                            {{translation.startPage.browseAll}}
+                                            </a>
+                                    </li>
+                                </ul>
+                        </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 text-secondary">
+                <div class="row">
+                        <div class="col-0 col-sm-1 col-md-2 col-lg-3 col-xl-4"></div>
+                        <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8">
+                                <h4>
+                                    <a href="#" (click)="clickBrands($event)"
+                                    class="text-secondary"
+                                    >
+                                    {{translation.topNavigation.brandsLink.toUpperCase()}}
+                                    </a>
+                                </h4>
+                                <ul class="list-unstyled" style="padding-right:0">
+                                    <li *ngFor="let item of brands.items | orderBy: 'order' | slice:0:show">
+                                        <a
+                                        class="text-secondary"
+                                        href="/brand/{{item.brand._id}}" (click)="onClickBrand($event, item.brand._id)">
+                                        {{item.brand.name}}
+                                        </a>
+                                    </li>
+                                    <li *ngIf="brands.length >= show">
+                                        <a href="#" (click)="clickBrands($event)"
+                                        class="text-secondary"
+                                        >
+                                            {{translation.startPage.browseAll}}
+                                        </a>
+                                    </li>
+                                </ul>
+                        </div>
+                </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 text-secondary">
+                <div class="row">
+                        <div class="col-0 col-sm-1 col-md-2 col-lg-3 col-xl-4"></div>
+                        <div class="col-12 col-sm-11 col-md-10 col-lg-9 col-xl-8">
+                            <h4>                                    
+                                <a href="#" (click)="clickShops($event)"
+                                class="text-secondary">
+                                {{translation.topNavigation.shopsLink.toUpperCase()}}
+                                </a>
+                            </h4>
+                            <ul class="list-unstyled" style="padding-right:0">
+                                <li *ngFor="let shopGroup of shopGroups | orderBy: 'name' | slice:0:show">
+                                    <a
+                                    class="text-secondary"
+                                    href="/shop-group/{{shopGroup._id}}" (click)="onClickShopGroup($event, shopGroup._id)">
+                                    {{shopGroup.name}}
+                                    </a>
+                                </li>
+                                <li *ngIf="shopGroups.length >= show" >
+                                    <a href="#" (click)="clickShops($event)"
+                                    class="text-secondary">
+                                        {{translation.startPage.browseAll}}
+                                    </a>
+                                </li>
+                            </ul>
+                    </div>
+                </div>
+        </div>
+    </div>
         <div class="row" style="width: 100%">
             <div class="col-12 col-md-3 d-flex align-items-center justify-content-start">
                 <h6>

@@ -136,7 +136,7 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'brokenlinks',
+    path: 'broken-links',
     component: BrokenLinksComponent,
     canActivate: [AuthGuard]
   },

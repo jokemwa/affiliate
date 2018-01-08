@@ -58,7 +58,6 @@ var prepareURL = function (URL){
 
 exports.preparePromoLink = function (title){
         
-        return new Promise(function(resolve, reject){
         for (let i = 0; i < title.length; i++){
             if(title[i] != " " && title[i] != "\n" && title[i] != "\t"){
                 title = title.substring(i);
@@ -75,13 +74,13 @@ exports.preparePromoLink = function (title){
         if(title.length > 128){title = title.substring(0, 128);}
     
         title = title.toLowerCase();
-        title = title.replace(/\W/g, '_');
+        //title = title.replace(/\W/g, '-');
+        title = encodeURI(title);
+        title = title.replace(new RegExp('%20', 'g'), '-');
 
-        title = title + Math.round((Math.random()*Math.pow(10, 10)));
+        title = title + '_' + Math.round((Math.random()*Math.pow(10, 10)));
 
-        resolve(title);
-
-        });
+        return title;
 };
 
     

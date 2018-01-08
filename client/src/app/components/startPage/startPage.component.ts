@@ -1,16 +1,12 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 import { RESTService } from '../../services/rest.service';
 import { TrackingService } from '../../services/tracking.service';
 import { TranslationService } from '../../services/translation.service';
-
-import { ProductPreviewComponent } from '../products/productPreview/productPreview.component';
 
 import { Settings } from '../../settings';
 
@@ -31,7 +27,6 @@ export class StartPageComponent implements OnInit, AfterViewInit {
   message: any;
 
     constructor(
-      private modalService: NgbModal,
       private restService: RESTService,
       private translationService: TranslationService,
       private trackingService: TrackingService,
@@ -69,9 +64,8 @@ export class StartPageComponent implements OnInit, AfterViewInit {
       this.trackingService.trackAction('startPage', 'Loaded', '');
     }
 
-    showProductDetail(id: string) {
-      const modalRef = this.modalService.open(ProductPreviewComponent, {size: 'lg'});
-      modalRef.componentInstance.id = id;
+    showProductDetail(promoLink: string) {
+      this.router.navigate(['/product/' + promoLink]);
     }
 
     showTagResults(tag_id: string) {

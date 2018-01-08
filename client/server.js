@@ -7,6 +7,8 @@ var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var pug = require('pug');
+var fs = require('fs');
+
 
 var mongoose = require('mongoose');
 
@@ -18,6 +20,9 @@ db.once('open', function () {
 });
 
 var app = express();
+app.use(logger('common', {
+  stream: fs.createWriteStream('./logs/access.log', {flags: 'a'})
+}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
