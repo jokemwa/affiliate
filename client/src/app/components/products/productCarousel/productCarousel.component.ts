@@ -122,21 +122,33 @@ export class ProductCarouselComponent implements OnInit {
       for (let i = 0; i < this.items.length; i++) {
         if (i >= this.viewIndex.xl && i < (this.viewIndex.xl + this.viewSize.xl)) {
           this.items[i].xl = 'd-xl-flex';
+          if (i === (this.viewIndex.xl + this.viewSize.xl - 1)) {
+            this.items[i].xl += ' show-xl';
+          }
         } else {
           this.items[i].xl = 'd-xl-none';
         }
         if (i >= this.viewIndex.lg && i < (this.viewIndex.lg + this.viewSize.lg)) {
           this.items[i].lg = 'd-lg-flex';
+          if (i === (this.viewIndex.lg + this.viewSize.lg - 1)) {
+            this.items[i].lg += ' show-lg';
+          }
         } else {
           this.items[i].lg = 'd-lg-none';
         }
         if (i >= this.viewIndex.md && i < (this.viewIndex.md + this.viewSize.md)) {
           this.items[i].md = 'd-md-flex';
+          if (i === (this.viewIndex.md + this.viewSize.md - 1)) {
+            this.items[i].md += ' show-md';
+          }
         } else {
           this.items[i].md = 'd-md-none';
         }
         if (i >= this.viewIndex.sm && i < (this.viewIndex.sm + this.viewSize.sm)) {
           this.items[i].sm = 'd-sm-flex';
+          if (i === (this.viewIndex.sm + this.viewSize.sm - 1)) {
+            this.items[i].sm += ' show-sm';
+          }
         } else {
           this.items[i].sm = 'd-sm-none';
         }
@@ -193,21 +205,33 @@ export class ProductCarouselComponent implements OnInit {
       for (let i = 0; i < this.items.length; i++) {
         if (i >= this.viewIndex.xl && i < (this.viewIndex.xl + this.viewSize.xl)) {
           this.items[i].xl = 'd-xl-flex';
+          if (i === this.viewIndex.xl) {
+            this.items[i].xl += ' show-xl';
+          }
         } else {
           this.items[i].xl = 'd-xl-none';
         }
         if (i >= this.viewIndex.lg && i < (this.viewIndex.lg + this.viewSize.lg)) {
           this.items[i].lg = 'd-lg-flex';
+          if (i === this.viewIndex.lg) {
+            this.items[i].lg += ' show-lg';
+          }
         } else {
           this.items[i].lg = 'd-lg-none';
         }
         if (i >= this.viewIndex.md && i < (this.viewIndex.md + this.viewSize.md)) {
           this.items[i].md = 'd-md-flex';
+          if (i === this.viewIndex.md) {
+            this.items[i].md += ' show-md';
+          }
         } else {
           this.items[i].md = 'd-md-none';
         }
         if (i >= this.viewIndex.sm && i < (this.viewIndex.sm + this.viewSize.sm)) {
           this.items[i].sm = 'd-sm-flex';
+          if (i === this.viewIndex.sm) {
+            this.items[i].sm += ' show-sm';
+          }
         } else {
           this.items[i].sm = 'd-sm-none';
         }

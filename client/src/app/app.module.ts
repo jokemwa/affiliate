@@ -29,9 +29,6 @@ import { ProductListComponent } from './components/products/productList/productL
 import { SelectBrandComponent } from './components/topNavigation/childs/selectBrand/selectBrand.component';
 import { SelectShopGroupComponent } from './components/topNavigation/childs/selectShopGroup/selectShopGroup.component';
 import { SubscribeResultComponent } from './components/footer/childs/subscribeResult/subscribeResult.component';
-import { contentSlider, SafeHtmlPipe, printSlide, slideAjaxDiv } from './components/slider/index';
-import { ImageShowComponent } from './components/sliderDemo/index';
-
 
 import { OrderByPipe } from './pipes/orderBy.pipe';
 
@@ -63,10 +60,6 @@ const appRoutes: Routes = [
   {
     path: 'search/:text',
     component: SearchResultsComponent
-  },
-  {
-    path: 'test',
-    component: ImageShowComponent
   },
   {
     path: '**',
@@ -101,11 +94,6 @@ export function initTranslation(translation: TranslationService) {
     SelectShopGroupComponent,
     ShopGroupViewComponent,
     SubscribeResultComponent,
-    contentSlider,
-    ImageShowComponent,
-    SafeHtmlPipe,
-    printSlide,
-    slideAjaxDiv,
 
     OrderByPipe
   ],
