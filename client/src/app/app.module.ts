@@ -34,8 +34,6 @@ import { ImageShowComponent } from './components/sliderDemo/index';
 
 
 import { OrderByPipe } from './pipes/orderBy.pipe';
-import { promise } from 'selenium-webdriver';
-import { transition } from '@angular/core/src/animation/dsl';
 
 const appRoutes: Routes = [
   {

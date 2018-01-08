@@ -11,8 +11,6 @@ import { TranslationService } from '../../../services/translation.service';
 
 import { Settings } from '../../../settings';
 
-import { ProductPreviewComponent } from '../productPreview/productPreview.component';
-
 
 @Component({
   selector: 'app-product-view',
@@ -102,12 +100,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   showProductDetail(promoLink: string) {
-    for (let i = 0; i < this.similar.length; i++) {
-      if (this.similar[i].product.promoLink === promoLink) {
-        const modalRef = this.modalService.open(ProductPreviewComponent, {size: 'lg'});
-        modalRef.componentInstance.id = this.similar[i].product._id;
-      }
-    }
+    this.router.navigate(['/product/' + promoLink]);
   }
 
   showTagResults(tag_id: string) {
