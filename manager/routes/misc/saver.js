@@ -74,9 +74,9 @@ exports.preparePromoLink = function (title){
         if(title.length > 128){title = title.substring(0, 128);}
     
         title = title.toLowerCase();
-        //title = title.replace(/\W/g, '-');
-        title = encodeURI(title);
-        title = title.replace(new RegExp('%20', 'g'), '-');
+        title = title.replace(/\W/g, '-');
+        //title = encodeURI(title);
+        //title = title.replace(new RegExp('%20', 'g'), '-');
 
         title = title + '_' + Math.round((Math.random()*Math.pow(10, 10)));
 
