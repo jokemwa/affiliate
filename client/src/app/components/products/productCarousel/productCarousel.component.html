@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" (window:resize)="onResize($event)">
     <div class="col-xl-1 d-none d-sm-none d-md-none d-lg-none d-xl-block">
         <div class="row"
         style="height:100%">
@@ -44,10 +44,13 @@
             </div>
     </div>
     <div class="col-12 col-sm-10">
-        <div class="card-deck">
+        <div class="row">
                 <div *ngFor="let item of items"
-                class="card border-0 mx-2 text-right bg-transparent
-                {{item.xl}} {{item.lg}} {{item.md}} {{item.sm}}">
+                class="col-12 col-sm-{{12 / viewSize.sm}} col-md-{{12 / viewSize.md}} col-lg-{{12 / viewSize.lg}} col-xl-{{12 / viewSize.xl}} {{item.xl}} {{item.lg}} {{item.md}} {{item.sm}}">
+                    <div class="card bg-transparent border-0 text-right {{marker}}"
+                    style="width: 100%;"
+                    [style.minHeight.px]="maxHeight"
+                    >
                         <div class="card-header border-0 text-left bg-transparent" style="padding: 0;">
                             <h5 style="margin-bottom: 0.3rem;">
                                 <span *ngFor="let badge of item.product.badges"
@@ -84,6 +87,7 @@
                                     </span>
                                 </small>
                         </div>
+                    </div>
                 </div>
         </div>
     </div>

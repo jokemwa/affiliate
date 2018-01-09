@@ -79,7 +79,7 @@
                         </div>
                 </div>            
         </div>
-        <div class="row mt-4 mb-2">
+        <div *ngIf="similar.length !== 0" class="row mt-4 mb-2">
                 <div class="col-12 d-flex justify-content-center">
                         <h4>
                                 {{translation.productView.interestedIn}}

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { orderBy } from 'lodash';
+import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { orderBy, max } from 'lodash';
 
 import { Settings } from '../../../settings';
 
@@ -8,7 +8,7 @@ import { Settings } from '../../../settings';
   templateUrl: './productCarousel.component.html',
   styleUrls: ['./productCarousel.component.css']
 })
-export class ProductCarouselComponent implements OnInit {
+export class ProductCarouselComponent implements OnInit, AfterViewInit {
 
   apiUrl = Settings.apiUrl;
 
@@ -34,15 +34,13 @@ export class ProductCarouselComponent implements OnInit {
     xl: 0
   };
 
-    constructor() {}
+  maxHeight = 0;
 
-    ngOnInit () {
-      this.viewSize.sm = parseInt(this.sm, 10);
-      this.viewSize.md = parseInt(this.md, 10);
-      this.viewSize.lg = parseInt(this.lg, 10);
-      this.viewSize.xl = parseInt(this.xl, 10);
+  marker = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 
-      this.items = orderBy(this.items, 'order', 'asc');
+    constructor(private cdr: ChangeDetectorRef) {}
+
+    mapCards() {
       for (let i = 0; i < this.items.length; i++) {
         if (i >= this.viewIndex.xl && i < (this.viewIndex.xl + this.viewSize.xl)) {
           this.items[i].xl = 'd-xl-flex';
@@ -69,6 +67,114 @@ export class ProductCarouselComponent implements OnInit {
         }
 
         this.items[i].xs = 'd-block';
+      }
+
+      this.cdr.detectChanges();
+    }
+
+    calcHeights() {
+      this.maxHeight = 0;
+      const height = [0, 0, 0, 0];
+      // Max xl height
+      for (let j = 0; j < this.items.length - this.viewSize.xl; j++) {
+        for (let i = 0; i < this.items.length; i++) {
+          if (i >= j && i < (j + this.viewSize.xl)) {
+            this.items[i].xl = 'd-xl-flex';
+          } else {
+            this.items[i].xl = 'd-xl-none';
+          }
+          this.cdr.detectChanges();
+          const elements = document.getElementsByClassName(this.marker);
+          for (let k = 0; k < elements.length; k++) {
+            if (elements[k].clientHeight >= height[0]) {
+              height[0] = elements[k].clientHeight;
+            }
+          }
+        }
+      }
+      // console.log('xl', height[0]);
+
+      // Max md height
+      for (let j = 0; j < this.items.length - this.viewSize.md; j++) {
+        for (let i = 0; i < this.items.length; i++) {
+          if (i >= j && i < (j + this.viewSize.md)) {
+            this.items[i].md = 'd-md-flex';
+          } else {
+            this.items[i].md = 'd-md-none';
+          }
+          this.cdr.detectChanges();
+          const elements = document.getElementsByClassName(this.marker);
+          for (let k = 0; k < elements.length; k++) {
+            if (elements[k].clientHeight >= height[1]) {
+              height[1] = elements[k].clientHeight;
+            }
+          }
+        }
+      }
+      // console.log('md', height[1]);
+
+      // Max lg height
+      for (let j = 0; j < this.items.length - this.viewSize.lg; j++) {
+        for (let i = 0; i < this.items.length; i++) {
+          if (i >= j && i < (j + this.viewSize.lg)) {
+            this.items[i].lg = 'd-lg-flex';
+          } else {
+            this.items[i].lg = 'd-lg-none';
+          }
+          this.cdr.detectChanges();
+          const elements = document.getElementsByClassName(this.marker);
+          for (let k = 0; k < elements.length; k++) {
+            if (elements[k].clientHeight >= height[2]) {
+              height[2] = elements[k].clientHeight;
+            }
+          }
+        }
+      }
+      // console.log('lg', height[2]);
+
+      // Max sm height
+      for (let j = 0; j < this.items.length - this.viewSize.sm; j++) {
+        for (let i = 0; i < this.items.length; i++) {
+          if (i >= j && i < (j + this.viewSize.sm)) {
+            this.items[i].sm = 'd-sm-flex';
+          } else {
+            this.items[i].sm = 'd-sm-none';
+          }
+          this.cdr.detectChanges();
+          const elements = document.getElementsByClassName(this.marker);
+          for (let k = 0; k < elements.length; k++) {
+            if (elements[k].clientHeight >= height[3]) {
+              height[3] = elements[k].clientHeight;
+            }
+          }
+        }
+      }
+      // console.log('sm', height[3]);
+      this.maxHeight =  max(height);
+
+      this.mapCards();
+    }
+
+    onResize(e) {
+      this.calcHeights();
+    }
+
+    ngAfterViewInit () {
+      this.calcHeights();
+      this.mapCards();
+    }
+
+    ngOnInit () {
+      this.items = orderBy(this.items, 'order', 'asc');
+      this.viewSize.sm = parseInt(this.sm, 10);
+      this.viewSize.md = parseInt(this.md, 10);
+      this.viewSize.lg = parseInt(this.lg, 10);
+      this.viewSize.xl = parseInt(this.xl, 10);
+      for (let i = 0; i < this.items.length; i++) {
+        this.items[i].xl = '';
+        this.items[i].lg = '';
+        this.items[i].md = '';
+        this.items[i].sm = '';
       }
     }
 
