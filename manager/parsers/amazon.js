@@ -56,31 +56,36 @@ exports.parse = function (page, extLink){
             } else {
                 // Images
                 var imageJSONs = [];
-                for (let i = 0; i < results[0].ImageSets[0].ImageSet.length; i++) {
+                if (results[0].ImageSets) {
+                    for (let i = 0; i < results[0].ImageSets[0].ImageSet.length; i++) {
 
-                    let imageJSON = {
-                        "hiRes": '',
-                        "thumb": ''
-                    }; 
-    
-                    if(results[0].ImageSets[0].ImageSet[i].HiResImage) {
-                        imageJSON.hiRes = results[0].ImageSets[0].ImageSet[i].HiResImage[0].URL[0];
-                    } else {
-                        if(results[0].ImageSets[0].ImageSet[i].LargeImage) {
-                            imageJSON.hiRes = results[0].ImageSets[0].ImageSet[i].LargeImage[0].URL[0];
+                        let imageJSON = {
+                            "hiRes": '',
+                            "thumb": ''
+                        }; 
+        
+                        if(results[0].ImageSets[0].ImageSet[i].HiResImage) {
+                            imageJSON.hiRes = results[0].ImageSets[0].ImageSet[i].HiResImage[0].URL[0];
+                        } else {
+                            if(results[0].ImageSets[0].ImageSet[i].LargeImage) {
+                                imageJSON.hiRes = results[0].ImageSets[0].ImageSet[i].LargeImage[0].URL[0];
+                            } else {
+                                reject('Parser error');
+                            }
+                        }
+        
+                        if(results[0].ImageSets[0].ImageSet[i].ThumbnailImage) {
+                            imageJSON.thumb = results[0].ImageSets[0].ImageSet[i].ThumbnailImage[0].URL[0];
                         } else {
                             reject('Parser error');
                         }
+        
+                        imageJSONs.push(imageJSON);
                     }
-    
-                    if(results[0].ImageSets[0].ImageSet[i].ThumbnailImage) {
-                        imageJSON.thumb = results[0].ImageSets[0].ImageSet[i].ThumbnailImage[0].URL[0];
-                    } else {
-                        reject('Parser error');
-                    }
-    
-                    imageJSONs.push(imageJSON);
+                } else {
+                    reject('Images unavailable');
                 }
+
 
                 // Title
                 let title;

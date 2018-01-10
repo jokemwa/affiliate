@@ -18,7 +18,7 @@
     </div>
     <app-product-carousel
         [items]="tops.items"
-        [sm]="2" [md]="2" [lg]="3" [xl]="4" 
+        [sm]="1" [md]="2" [lg]="3" [xl]="4" 
         (onProductClick)="showProductDetail($event)"
         (onTagClick)="showTagResults($event)">
     </app-product-carousel>
@@ -35,7 +35,7 @@
         </div>
         <app-product-carousel
             [items]="item.category.items"
-            [sm]="2" [md]="2" [lg]="3" [xl]="3" 
+            [sm]="1" [md]="2" [lg]="3" [xl]="4" 
             (onProductClick)="showProductDetail($event)"
             (onTagClick)="showTagResults($event)">
         </app-product-carousel>

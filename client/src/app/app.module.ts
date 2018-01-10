@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxCarouselModule } from 'ngx-carousel';
 
 import { RESTService } from './services/rest.service';
 import { TrackingService } from './services/tracking.service';
@@ -102,6 +103,7 @@ export function initTranslation(translation: TranslationService) {
     FormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
+    NgxCarouselModule,
     RouterModule.forRoot(
       appRoutes
     )
