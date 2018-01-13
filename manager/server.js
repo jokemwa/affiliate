@@ -82,6 +82,8 @@ var subscribe = require('./routes/newsletterSubscribers');
 app.use('/api/subscribe', subscribe);
 var brokenLinks = require('./routes/brokenLinks');
 app.use('/api/broken-links', brokenLinks);
+var tracking = require('./routes/tracking');
+app.use('/api/tracking', tracking);
 
 // Images
 app.use('/img', express.static(path.join(__dirname, 'img')));

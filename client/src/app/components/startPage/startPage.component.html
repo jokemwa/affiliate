@@ -19,8 +19,8 @@
     <app-product-carousel
         [items]="tops.items"
         [sm]="1" [md]="2" [lg]="3" [xl]="4" 
-        (onProductClick)="showProductDetail($event)"
-        (onTagClick)="showTagResults($event)">
+        (onProductClick)="topProductsShowProductDetail($event)"
+        (onTagClick)="topProductsShowTagResults($event)">
     </app-product-carousel>
     <div class="mt-5"></div>
     <div *ngFor="let item of topCategories.items | orderBy: 'order'">
@@ -36,8 +36,8 @@
         <app-product-carousel
             [items]="item.category.items"
             [sm]="1" [md]="2" [lg]="3" [xl]="4" 
-            (onProductClick)="showProductDetail($event)"
-            (onTagClick)="showTagResults($event)">
+            (onProductClick)="topCategoriesShowProductDetail($event)"
+            (onTagClick)="topCategoriesShowTagResults($event)">
         </app-product-carousel>
         <div class="row d-flex justify-content-end">
                 <h3 class="mt-2 mb-5">

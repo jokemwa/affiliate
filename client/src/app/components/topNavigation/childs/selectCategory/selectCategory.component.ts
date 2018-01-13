@@ -6,6 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { orderBy } from 'lodash';
 
 import { TranslationService } from '../../../../services/translation.service';
+import { TrackingService } from '../../../../services/tracking.service';
 
 @Component({
   selector: 'app-select-category',
@@ -23,11 +24,29 @@ export class SelectCategoryComponent  implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private translationService: TranslationService,
+    private trackingService: TrackingService,
     private router: Router) {}
 
   ngOnInit(): void {
     this.translation = this.translationService.translation;
-
+    const action = {
+      action: 'load',
+      area: {
+        name: 'selectCategory',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: '',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.categories = orderBy(this.categories, 'name', 'asc');
     for (let i = 0; i < this.categories.length; i++) {
       if (this.list.length === 0) {
@@ -75,12 +94,48 @@ export class SelectCategoryComponent  implements OnInit {
   clickCategory(e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'selectCategory',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'categoryLink',
+        context: {
+          type: 'Category',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/category/' + _id]);
     this.activeModal.close();
   }
 
 
   cancel() {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'selectCategory',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'cancel',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.activeModal.dismiss();
   }
 

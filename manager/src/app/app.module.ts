@@ -67,6 +67,8 @@ import { ListProductsComponent } from './components/startPage/childs/listProduct
 import { SelectCategoryComponent } from './components/categories/childs/selectCategory/selectCategory.component';
 import { SelectBrandComponent } from './components/brands/childs/selectBrand/selectBrand.component';
 import { SubscribeListComponent } from './components/subscribeList/subscribeList.component';
+import { ViewDeviceComponent } from './components/tracking/childs/viewDevice/viewDevice.component';
+import { ViewSessionComponent } from './components/tracking/childs/viewSession/viewSession.component';
 
 
 
@@ -128,6 +130,11 @@ const appRoutes: Routes = [
   {
     path: 'stats',
     component: StatsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'tracking/:_id',
+    component: ViewDeviceComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -303,6 +310,8 @@ const appRoutes: Routes = [
     SelectCategoryComponent,
     SelectBrandComponent,
     SubscribeListComponent,
+    ViewDeviceComponent,
+    ViewSessionComponent,
 
     OrderByPipe
   ],
@@ -339,7 +348,8 @@ const appRoutes: Routes = [
     EditShopGroupComponent,
     SelectShopComponent,
     SelectCategoryComponent,
-    SelectBrandComponent
+    SelectBrandComponent,
+    ViewSessionComponent
   ],
   providers: [
     RESTService,

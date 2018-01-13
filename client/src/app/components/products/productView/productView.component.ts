@@ -8,6 +8,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { RESTService } from '../../../services/rest.service';
 import { TranslationService } from '../../../services/translation.service';
+import { TrackingService } from '../../../services/tracking.service';
 
 import { Settings } from '../../../settings';
 
@@ -33,6 +34,7 @@ export class ProductViewComponent implements OnInit {
     private modalService: NgbModal,
     private restService: RESTService,
     private translationService: TranslationService,
+    private trackingService: TrackingService,
     private location: Location,
     private route: ActivatedRoute,
     private router: Router) {}
@@ -45,6 +47,24 @@ export class ProductViewComponent implements OnInit {
       .subscribe(response => {
         this.product = response;
         this.activeImage = this.product.frontImage;
+         const action = {
+          action: 'load',
+          area: {
+            name: 'productView',
+            context: {
+              type: 'Product',
+              value: this.product._id
+            }
+          },
+          element: {
+            name: '',
+            context: {
+              type: '',
+              value: ''
+            }
+          }
+        };
+        this.trackingService.trackAction(action);
         this.restService.getSimilarProducts(this.product._id)
         .subscribe(resp => {
           this.similar = resp;
@@ -71,39 +91,165 @@ export class ProductViewComponent implements OnInit {
   }
 
   clickBuyButton () {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'productView',
+        context: {
+          type: 'Product',
+          value: this.product._id
+        }
+      },
+      element: {
+        name: 'buyButton',
+        context: {
+          type: 'Product',
+          value: this.product._id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     window.open(this.product.buyLink, '_blank');
   }
 
   clickTag (e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'productView',
+        context: {
+          type: 'Product',
+          value: this.product._id
+        }
+      },
+      element: {
+        name: 'productDescription',
+        context: {
+          type: 'Tag',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/tag/' + _id]);
   }
 
   clickShop (e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'productView',
+        context: {
+          type: 'Product',
+          value: this.product._id
+        }
+      },
+      element: {
+        name: 'productDescription',
+        context: {
+          type: 'Shop',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/shop/' + _id]);
   }
 
   clickCategory (e, _id) {
     e.stopPropagation();
     e.preventDefault();
-    window.alert('here');
+    const action = {
+      action: 'click',
+      area: {
+        name: 'productView',
+        context: {
+          type: 'Product',
+          value: this.product._id
+        }
+      },
+      element: {
+        name: 'productDescription',
+        context: {
+          type: 'Category',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/category/' + _id]);
   }
 
   clickBrand (e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'productView',
+        context: {
+          type: 'Product',
+          value: this.product._id
+        }
+      },
+      element: {
+        name: 'productDescription',
+        context: {
+          type: 'Brand',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/brand/' + _id]);
   }
 
-  showProductDetail(promoLink: string) {
-    this.router.navigate(['/product/' + promoLink]);
+  showProductDetail(product: any) {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'productView',
+        context: {
+          type: 'Product',
+          value: this.product._id
+        }
+      },
+      element: {
+        name: 'productsList',
+        context: {
+          type: 'Product',
+          value: product._id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
+    this.router.navigate(['/product/' + product.promoLink]);
   }
 
   showTagResults(tag_id: string) {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'productView',
+        context: {
+          type: 'Product',
+          value: this.product._id
+        }
+      },
+      element: {
+        name: 'productsList',
+        context: {
+          type: 'Tag',
+          value: tag_id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/tag/' + tag_id]);
   }
+
 }

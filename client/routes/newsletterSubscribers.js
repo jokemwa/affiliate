@@ -9,7 +9,7 @@ var newsletterSubscribersRouter = express.Router();
 newsletterSubscribersRouter.use(bodyParser.json());
 
 newsletterSubscribersRouter.route('/')
-    .post(function (req, res, next) {
+    .post(Verify.verifyClient, function (req, res, next) {
         NewsletterSubscribers.findOne(req.body,
         function (err, result) {
             if(err){
@@ -27,7 +27,7 @@ newsletterSubscribersRouter.route('/')
                         err.status = 500;
                         return next(err);
                     }
-                    console.log(result);
+                    //console.log(result);
                     res.json({message: 'success'});
                 });
             }

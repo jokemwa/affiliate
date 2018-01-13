@@ -8,6 +8,7 @@ import { orderBy } from 'lodash';
 
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
+import { TrackingService } from '../../services/tracking.service';
 
 import { Settings } from '../../settings';
 
@@ -29,6 +30,7 @@ export class SearchResultsComponent implements OnInit {
   constructor(
     private restService: RESTService,
     private translationService: TranslationService,
+    private trackingService: TrackingService,
     private location: Location,
     private route: ActivatedRoute,
     private router: Router) {}
@@ -48,6 +50,24 @@ export class SearchResultsComponent implements OnInit {
         this.results.shops = orderBy(this.results.shops, 'name', 'asc');
         this.text = this.route.snapshot.params['text'];
         this.isDataReady = true;
+        const action = {
+          action: 'load',
+          area: {
+            name: 'searchResults',
+            context: {
+              type: 'SearchText',
+              value: this.text
+            }
+          },
+          element: {
+            name: '',
+            context: {
+              type: '',
+              value: ''
+            }
+          }
+        };
+        this.trackingService.trackAction(action);
       },
       err => {
         this.router.navigate(['/']);
@@ -56,27 +76,99 @@ export class SearchResultsComponent implements OnInit {
     );
   }
 
-  clickProduct(e, promoLink) {
+  clickProduct(e, promoLink, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'searchResults',
+        context: {
+          type: 'SearchText',
+          value: this.text
+        }
+      },
+      element: {
+        name: 'productsList',
+        context: {
+          type: 'Product',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/product/' + promoLink]);
   }
 
   clickCategory(e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'searchResults',
+        context: {
+          type: 'SearchText',
+          value: this.text
+        }
+      },
+      element: {
+        name: 'categoriesList',
+        context: {
+          type: 'Category',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/category/' + _id]);
   }
 
   clickBrand(e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'searchResults',
+        context: {
+          type: 'SearchText',
+          value: this.text
+        }
+      },
+      element: {
+        name: 'brandsList',
+        context: {
+          type: 'Brand',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/brand/' + _id]);
   }
 
   clickShop(e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'searchResults',
+        context: {
+          type: 'SearchText',
+          value: this.text
+        }
+      },
+      element: {
+        name: 'shopsList',
+        context: {
+          type: 'Shop',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/shop/' + _id]);
   }
 

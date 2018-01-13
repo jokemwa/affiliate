@@ -49,14 +49,9 @@ export class TrackingService {
             });
     }
 
-    trackAction(location, actionType, target) {
-        const body = {
-            location: location,
-            actionType: actionType,
-            target: target
-        };
+    trackAction(action: any) {
         this.http.post(this.apiUrl + '/api/client/action',
-                body,
+                action,
                 {
                     headers: new HttpHeaders().set('Content-Type', 'application/json')
                     .append('x-device-id', this.deviceId)

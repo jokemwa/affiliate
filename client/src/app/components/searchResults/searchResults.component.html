@@ -22,7 +22,7 @@
                 <li *ngFor="let product of results.products"
                 class="text-right">
                         <a class="text-dark" href="/product/{{product.promoLink}}"
-                        (click)="clickProduct($event, product.promoLink)">
+                        (click)="clickProduct($event, product.promoLink, product._id)">
                         {{product.title}}
                         </a>
                 </li>

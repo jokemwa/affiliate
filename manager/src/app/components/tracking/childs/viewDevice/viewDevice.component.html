@@ -1,0 +1,42 @@
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+        <a class="navbar-brand" routerLink="/">Manage Panel</a>
+        <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+                <li class="breadcrumb-item"><a routerLink="/">Main Menu</a></li>
+                <li class="breadcrumb-item"><a routerLink="/tracking">Activity Tracking</a></li>
+                <li class="breadcrumb-item active">Device</li>
+        </ol>
+</nav>
+<div *ngIf="isDataReady" class="container mt-5">
+                <div class="row">
+                    <h3 class="mb-3">Device: {{device._id}}</h3>
+                </div>
+                <div class="row">
+                        <h5>Sessions:</h5>
+                        <table class="table table-hover mt-3">
+                                <thead>
+                                    <tr>
+                                        <th>Started</th>
+                                        <th>Id</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let session of device.sessions | orderBy: 'createdAt':'desc'">
+                                        <td>
+                                            <small>{{session.createdAt}}</small>
+                                        </td>
+                                        <td>
+                                            <small>{{session._id}}</small>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-info"
+                                            (click)="viewSession(session._id)">
+                                                View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                </div>
+</div>

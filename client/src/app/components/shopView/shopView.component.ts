@@ -10,6 +10,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
+import { TrackingService } from '../../services/tracking.service';
 
 import { Settings } from '../../settings';
 
@@ -30,6 +31,7 @@ export class ShopViewComponent implements OnInit {
     private translationService: TranslationService,
     private location: Location,
     private route: ActivatedRoute,
+    private trackingService: TrackingService,
     private router: Router) {}
 
     ngOnInit(): void {
@@ -43,6 +45,24 @@ export class ShopViewComponent implements OnInit {
               this.shop = response;
               this.shop.items = orderBy(this.shop.items, 'order', 'asc');
               this.isDataReady = true;
+              const action = {
+                action: 'load',
+                area: {
+                  name: 'shopView',
+                  context: {
+                    type: 'Shop',
+                    value: this.shop._id
+                  }
+                },
+                element: {
+                  name: '',
+                  context: {
+                    type: '',
+                    value: ''
+                  }
+                }
+              };
+              this.trackingService.trackAction(action);
             },
             err => {
               this.router.navigate(['/']);
@@ -51,12 +71,48 @@ export class ShopViewComponent implements OnInit {
           );
         }
 
-    showProductDetail(promoLink: string) {
-      this.router.navigate(['/product/' + promoLink]);
-    }
+        showProductDetail(product: any) {
+          const action = {
+            action: 'click',
+            area: {
+              name: 'shopView',
+              context: {
+                type: 'Shop',
+                value: this.shop._id
+              }
+            },
+            element: {
+              name: 'productsList',
+              context: {
+                type: 'Product',
+                value: product._id
+              }
+            }
+          };
+          this.trackingService.trackAction(action);
+          this.router.navigate(['/product/' + product.promoLink]);
+        }
 
-    showTagResults(tag_id: string) {
-      this.router.navigate(['/tag/' + tag_id]);
-    }
+        showTagResults(tag_id: string) {
+          const action = {
+            action: 'click',
+            area: {
+              name: 'shopView',
+              context: {
+                type: 'Shop',
+                value: this.shop._id
+              }
+            },
+            element: {
+              name: 'productsList',
+              context: {
+                type: 'Tag',
+                value: tag_id
+              }
+            }
+          };
+          this.trackingService.trackAction(action);
+          this.router.navigate(['/tag/' + tag_id]);
+        }
 
 }

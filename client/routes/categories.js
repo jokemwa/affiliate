@@ -5,25 +5,27 @@ var Categories = require('../models/categories');
 
 var products = require('./misc/products');
 
+var Verify = require('./verify');
+
 var categoriesRouter = express.Router();
 
 categoriesRouter.route('/')
 // List of categories
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         Categories.find({}, function (err, results) {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-            console.log(results);
+            //console.log(results);
             res.json(results);
         });
 });
 
 categoriesRouter.route('/:id')
 // Get products list of category {product, order}
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         Categories.findById(req.params.id)
         .populate('items.product')
         .populate({
@@ -52,7 +54,7 @@ categoriesRouter.route('/:id')
     
                 Promise.all(promises)
                 .then(() => {
-                    console.log(result);
+                    //console.log(result);
                     res.json(result);
                 },
                 (err) => {
@@ -61,7 +63,7 @@ categoriesRouter.route('/:id')
                     return next(err);
                 });
             } else {
-                console.log(result);
+                //console.log(result);
                 res.json(result);
             }
             

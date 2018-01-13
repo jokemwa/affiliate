@@ -1033,4 +1033,48 @@ public updateTopCategory(category: any): Observable<any> {
             });
     }
 
+/* Activity tracking */
+
+    public getSessions(): Observable<any> {
+        const url = `/api/tracking/sessions`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+    public getSession(_id: string): Observable<any> {
+        const url = `/api/tracking/sessions/${_id}`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+    public getDevices(): Observable<any> {
+        const url = `/api/tracking/devices`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
+    public getDevice(_id: string): Observable<any> {
+        const url = `/api/tracking/devices/${_id}`;
+        return this.http
+        .get(url,
+            {
+                headers: new HttpHeaders()
+                .set('x-access-token', this.token)
+            });
+    }
+
 }
+
+

@@ -43,7 +43,7 @@
                         *ngIf="searchHints"
                         [style.display]="searchHints ? 'block' : 'none'">
                             <li *ngFor="let product of searchHints.products"
-                            (click)="clickProductHint(product.promoLink)">
+                            (click)="clickProductHint(product.promoLink, product._id)">
                                 <small>
                                     {{product.title}}
                                     <span class="text-muted">{{translation.topNavigation.searchboxDropdown.inProducts}}</span>

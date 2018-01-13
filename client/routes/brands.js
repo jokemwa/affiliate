@@ -5,19 +5,20 @@ var Brands = require('../models/brands');
 
 var products = require('./misc/products');
 
+var Verify = require('./verify');
 
 var brandsRouter = express.Router();
 
 brandsRouter.route('/')
 // List of categories
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         Brands.find({}, function (err, result) {
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-            console.log(result);
+            //console.log(result);
             res.json(result);
         });
 });
@@ -25,7 +26,7 @@ brandsRouter.route('/')
 
 brandsRouter.route('/:id')
 // Get products of brand
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         Brands.findById(req.params.id)
         .populate('items.product')
         .populate({
@@ -54,7 +55,7 @@ brandsRouter.route('/:id')
     
                 Promise.all(promises)
                 .then(() => {
-                    console.log(result);
+                    //console.log(result);
                     res.json(result);
                 },
                 (err) => {
@@ -63,7 +64,7 @@ brandsRouter.route('/:id')
                     return next(err);
                 });
             } else {
-                console.log(result);
+                //console.log(result);
                 res.json(result);
             }
         });

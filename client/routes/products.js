@@ -4,9 +4,11 @@ var mongoose = require('mongoose');
 var Products = require('../models/products');
 var products = require('./misc/products');
 
+var Verify = require('./verify');
+
 var productsRouter = express.Router();
 
-productsRouter.route('/preview/:id')
+/*productsRouter.route('/preview/:id')
 // Get selected product by id
 .get(function (req, res, next) {
     Products.findById(req.params.id)
@@ -73,11 +75,11 @@ productsRouter.route('/preview/:id')
             return next(err);
         });
     });
-});
+});*/
 
 productsRouter.route('/:promoLink')
 // Get selected product by promoLink
-.get(function (req, res, next) {
+.get(Verify.verifyClient, function (req, res, next) {
     console.log(req.params.promoLink);
     Products.findOne({'promoLink': req.params.promoLink})
     .populate('badges')
@@ -134,7 +136,7 @@ productsRouter.route('/:promoLink')
         
         Promise.all(promises)
         .then(() => {
-            console.log(result);
+            //console.log(result);
             res.json(result);
         },
         (err) => {
@@ -143,7 +145,7 @@ productsRouter.route('/:promoLink')
             return next(err);
         });
         } else {
-            console.log(result);
+            //console.log(result);
             res.json(result);
         }
         

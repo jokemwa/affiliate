@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 
 var Shops = require('../models/shops');
+var Verify = require('./verify');
 
 var products = require('./misc/products');
 
@@ -9,7 +10,7 @@ var shopsRouter = express.Router();
 
 shopsRouter.route('/:id')
 // Get products list of shop
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         Shops.findById(req.params.id)
         .populate('items.product')
         .populate({
@@ -38,7 +39,7 @@ shopsRouter.route('/:id')
     
                 Promise.all(promises)
                 .then(() => {
-                    console.log(result);
+                    //console.log(result);
                     res.json(result);
                 },
                 (err) => {
@@ -47,7 +48,7 @@ shopsRouter.route('/:id')
                     return next(err);
                 });
             } else {
-                console.log(result);
+                //console.log(result);
                 res.json(result);
             }
         });

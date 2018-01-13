@@ -16,6 +16,7 @@ declare var $: any;
 
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
+import { TrackingService } from '../../services/tracking.service';
 
 import { SelectCategoryComponent } from './childs/selectCategory/selectCategory.component';
 import { SelectBrandComponent } from './childs/selectBrand/selectBrand.component';
@@ -37,6 +38,7 @@ export class TopNavigationComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private translationService: TranslationService,
+    private trackingService: TrackingService,
     private restService: RESTService,
     private router: Router
 
@@ -86,6 +88,24 @@ export class TopNavigationComponent implements OnInit {
     e.stopPropagation();
     e.preventDefault();
     $('.navbar-collapse').collapse('hide');
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'Logo',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/']);
   }
 
@@ -93,6 +113,24 @@ export class TopNavigationComponent implements OnInit {
     e.stopPropagation();
     e.preventDefault();
     $('.navbar-collapse').collapse('hide');
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'facebookLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     window.open(this.translation.topNavigation.facebookLink, '_blank');
   }
 
@@ -100,30 +138,123 @@ export class TopNavigationComponent implements OnInit {
     e.stopPropagation();
     e.preventDefault();
     $('.navbar-collapse').collapse('hide');
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'youtubeLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     window.open(this.translation.topNavigation.youtubeLink, '_blank');
   }
 
   clickSearch() {
     $('.navbar-collapse').collapse('hide');
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'searchButton',
+        context: {
+          type: 'SearchText',
+          value: this.searchInput.nativeElement.value
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/search/' + this.searchInput.nativeElement.value]);
     this.searchHints = undefined;
     this.searchInput.nativeElement.value = '';
     this.searchInputField = undefined;
   }
 
-  clickProductHint(promoLink: string) {
+  clickProductHint(promoLink: string, product_id: string) {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'searchProductHint',
+        context: {
+          type: 'Product',
+          value: product_id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
+
     this.router.navigate(['/product/' + promoLink]);
     this.searchHints = undefined;
     this.searchInput.nativeElement.value = '';
   }
 
   clickCategoryHint(_id: string) {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'searchCategoryHint',
+        context: {
+          type: 'Category',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
+
     this.router.navigate(['/category/' + _id]);
     this.searchHints = undefined;
     this.searchInput.nativeElement.value = '';
   }
 
   clickBrandHint(_id: string) {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'searchBrandHint',
+        context: {
+          type: 'Brand',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
+
     this.router.navigate(['/brand/' + _id]);
     this.searchHints = undefined;
     this.searchInput.nativeElement.value = '';
@@ -131,6 +262,25 @@ export class TopNavigationComponent implements OnInit {
   }
 
   clickShopHint(_id: string) {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'searchShopHint',
+        context: {
+          type: 'Shop',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
+
     this.router.navigate(['/shop/' + _id]);
     this.searchHints = undefined;
     this.searchInput.nativeElement.value = '';
@@ -140,11 +290,47 @@ export class TopNavigationComponent implements OnInit {
     e.stopPropagation();
     e.preventDefault();
     $('.navbar-collapse').collapse('hide');
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'couponsLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
   }
 
   clickShops(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'shopsLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.restService.getShopGroups().subscribe(
       response => {
         $('.navbar-collapse').collapse('hide');
@@ -159,6 +345,24 @@ export class TopNavigationComponent implements OnInit {
   clickBrands(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'brandsLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.restService.getBrands().subscribe(
       response => {
         $('.navbar-collapse').collapse('hide');
@@ -171,6 +375,24 @@ export class TopNavigationComponent implements OnInit {
   }
 
   clickHelp(e) {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'helpLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     e.stopPropagation();
     e.preventDefault();
     $('.navbar-collapse').collapse('hide');
@@ -179,6 +401,24 @@ export class TopNavigationComponent implements OnInit {
   clickCategories(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'categoriesLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.restService.getCategories().subscribe(
       response => {
         $('.navbar-collapse').collapse('hide');
@@ -193,6 +433,24 @@ export class TopNavigationComponent implements OnInit {
   clickHome(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'topNavigation',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'homeLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     $('.navbar-collapse').collapse('hide');
     this.router.navigate(['/']);
   }

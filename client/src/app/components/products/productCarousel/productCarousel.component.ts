@@ -18,7 +18,7 @@ export class ProductCarouselComponent implements OnInit, AfterViewInit {
   @Input() lg: string;
   @Input() xl: string;
 
-  @Output() onProductClick = new EventEmitter<string>();
+  @Output() onProductClick = new EventEmitter<any>();
   @Output() onTagClick = new EventEmitter<string>();
 
   public carouselTile: NgxCarousel;
@@ -75,7 +75,7 @@ export class ProductCarouselComponent implements OnInit, AfterViewInit {
       }
     }
     this.maxHeight = height;
-    console.log(this.marker, this.maxHeight);
+    // console.log(this.marker, this.maxHeight);
     this.cdr.detectChanges();
   }
 
@@ -83,8 +83,8 @@ export class ProductCarouselComponent implements OnInit, AfterViewInit {
     this.calcHeights();
   }
 
-  onClickProduct(product_promoLink) {
-    this.onProductClick.emit(product_promoLink);
+  onClickProduct(promoLink, _id) {
+    this.onProductClick.emit({promoLink: promoLink, _id: _id});
   }
 
   onClickTag(e, tag_id) {

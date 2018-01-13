@@ -8,12 +8,13 @@ var Badges = require('../models/badges');
 var StartPageMarketingMessages = require('../models/startPage/startPageMarketingMessages');
 
 var products = require('./misc/products');
+var Verify = require('./verify');
 
 var startPageRouter = express.Router();
 
 startPageRouter.route('/categories-list')
 // Get start page's categories list
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         StartPageCategoriesLists.findOne({"version": 0})
         .populate({
             path:     'items.category',			
@@ -31,14 +32,14 @@ startPageRouter.route('/categories-list')
                 err.status = 500;
                 return next(err);
             }
-            console.log(result);
+            //console.log(result);
             res.json(result);
         });
     });
 
 startPageRouter.route('/tops')
     // Get start page's top products list
-        .get(function (req, res, next) {
+        .get(Verify.verifyClient, function (req, res, next) {
             StartPageTops.findOne({"version": 0})
             .populate("items.product")
             .populate({
@@ -68,7 +69,7 @@ startPageRouter.route('/tops')
 
                     Promise.all(promises)
                     .then(() => {
-                        console.log(result);
+                        //console.log(result);
                         res.json(result);
                     },
                     (err) => {
@@ -77,7 +78,7 @@ startPageRouter.route('/tops')
                         return next(err);
                     });
                 } else {
-                    console.log(result);
+                    //console.log(result);
                     res.json(result);
                 }
             });
@@ -85,7 +86,7 @@ startPageRouter.route('/tops')
 
 startPageRouter.route('/marketing-message')
 // Get start page's top products list
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         StartPageMarketingMessages.findOne({"version": 0})
         .exec(function(err, result){
             if(err){
@@ -93,7 +94,7 @@ startPageRouter.route('/marketing-message')
                 err.status = 500;
                 return next(err);
             }
-            console.log(result);
+            //console.log(result);
             res.json(result);
         });
 });

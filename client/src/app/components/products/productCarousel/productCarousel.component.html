@@ -22,7 +22,7 @@
                             <img class="card-img-top"
                             src="{{apiUrl}}/images/{{item.product.frontImage.hiRes}}"
                             alt="{{item.product.title}}"
-                            (click)="onClickProduct(item.product.promoLink)"
+                            (click)="onClickProduct(item.product.promoLink, item.product._id)"
                             style="
                             cursor: pointer;
                             padding: 0.5rem;
@@ -30,7 +30,7 @@
                         </div>
                         <div class="card-body bg-light">
                                 <p class="card-text" dir="rtl"
-                                (click)="onClickProduct(item.product.promoLink)"
+                                (click)="onClickProduct(item.product.promoLink, item.product._id)"
                                 style="
                                 cursor: pointer;
                                 ">

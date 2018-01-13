@@ -11,12 +11,14 @@ var Shops = require('../models/shops');
 var products = require('./misc/products');
 var tags = require('./misc/tags');
 
+var Verify = require('./verify');
+
 var similarRouter = express.Router();
 
 
 similarRouter.route('/:id')
 // Get simiilar products
-.get(function (req, res, next) {
+.get(Verify.verifyClient, function (req, res, next) {
     var similar = [];
     var tasks = [];
     tasks.push(
@@ -228,7 +230,7 @@ similarRouter.route('/:id')
         let reduce = [];
 
         for (let i = 0; i < similar.length; i++) {
-            console.log('step', i);
+            // console.log('step', i);
             let existed = false;
             for (let j = 0; j < reduce.length; j++) {
                 if (reduce[j].product._id.toString() === similar[i]._id.toString()) {
@@ -251,7 +253,7 @@ similarRouter.route('/:id')
             reduce[i].order = i;
             delete reduce[i].rating;
         }
-        console.log(reduce);
+        //console.log(reduce);
         res.json(reduce);
     });
 });

@@ -12,7 +12,7 @@ export class ProductListComponent implements OnInit {
   apiUrl = Settings.apiUrl;
 
   @Input() items: any;
-  @Output() onProductClick = new EventEmitter<string>();
+  @Output() onProductClick = new EventEmitter<any>();
   @Output() onTagClick = new EventEmitter<string>();
 
   showed = 12;
@@ -22,8 +22,8 @@ export class ProductListComponent implements OnInit {
     ngOnInit () {
     }
 
-    onClickProduct(product_promoLink) {
-      this.onProductClick.emit(product_promoLink);
+    onClickProduct(promoLink, _id) {
+      this.onProductClick.emit({promoLink: promoLink, _id: _id});
     }
 
     onClickTag(e, tag_id) {

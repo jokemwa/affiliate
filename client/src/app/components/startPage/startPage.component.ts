@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -15,7 +15,7 @@ import { Settings } from '../../settings';
   templateUrl: './startPage.component.html',
   styleUrls: []
 })
-export class StartPageComponent implements OnInit, AfterViewInit {
+export class StartPageComponent implements OnInit {
 
   apiUrl = Settings.apiUrl;
 
@@ -35,6 +35,24 @@ export class StartPageComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
       this.translation = this.translationService.translation;
+      const action = {
+        action: 'load',
+        area: {
+          name: 'startPage',
+          context: {
+            type: '',
+            value: ''
+          }
+        },
+        element: {
+          name: '',
+          context: {
+            type: '',
+            value: ''
+          }
+        }
+      };
+      this.trackingService.trackAction(action);
       const observables = [];
       observables.push(this.restService.getTopCategories());
       observables.push(this.restService.getTops());
@@ -60,21 +78,115 @@ export class StartPageComponent implements OnInit, AfterViewInit {
       );
     }
 
-    ngAfterViewInit(): void {
-      this.trackingService.trackAction('startPage', 'Loaded', '');
+    topProductsShowProductDetail(product: any) {
+      const action = {
+        action: 'click',
+        area: {
+          name: 'startPage',
+          context: {
+            type: '',
+            value: ''
+          }
+        },
+        element: {
+          name: 'topProductsList',
+          context: {
+            type: 'Product',
+            value: product._id
+          }
+        }
+      };
+      this.trackingService.trackAction(action);
+      this.router.navigate(['/product/' + product.promoLink]);
     }
 
-    showProductDetail(promoLink: string) {
-      this.router.navigate(['/product/' + promoLink]);
+    topProductsShowTagResults(tag_id: string) {
+      const action = {
+        action: 'click',
+        area: {
+          name: 'startPage',
+          context: {
+            type: '',
+            value: ''
+          }
+        },
+        element: {
+          name: 'topProductsList',
+          context: {
+            type: 'Tag',
+            value: tag_id
+          }
+        }
+      };
+      this.trackingService.trackAction(action);
+      this.router.navigate(['/tag/' + tag_id]);
     }
 
-    showTagResults(tag_id: string) {
+    topCategoriesShowProductDetail(product: any) {
+      const action = {
+        action: 'click',
+        area: {
+          name: 'startPage',
+          context: {
+            type: '',
+            value: ''
+          }
+        },
+        element: {
+          name: 'topCategoriesProductsList',
+          context: {
+            type: 'Product',
+            value: product._id
+          }
+        }
+      };
+      this.trackingService.trackAction(action);
+      this.router.navigate(['/product/' + product.promoLink]);
+    }
+
+    topCategoriesShowTagResults(tag_id: string) {
+      const action = {
+        action: 'click',
+        area: {
+          name: 'startPage',
+          context: {
+            type: '',
+            value: ''
+          }
+        },
+        element: {
+          name: 'topCategoriesProductsList',
+          context: {
+            type: 'Tag',
+            value: tag_id
+          }
+        }
+      };
+      this.trackingService.trackAction(action);
       this.router.navigate(['/tag/' + tag_id]);
     }
 
     browseAllCategory(e, category_id) {
       e.stopPropagation();
       e.preventDefault();
+      const action = {
+        action: 'click',
+        area: {
+          name: 'startPage',
+          context: {
+            type: '',
+            value: ''
+          }
+        },
+        element: {
+          name: 'topCategoriesProductsList',
+          context: {
+            type: 'Category',
+            value: category_id
+          }
+        }
+      };
+      this.trackingService.trackAction(action);
       this.router.navigate(['/category/' + category_id]);
     }
 

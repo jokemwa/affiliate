@@ -14,6 +14,7 @@ import { SelectShopGroupComponent } from '../topNavigation/childs/selectShopGrou
 
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
+import { TrackingService } from '../../services/tracking.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class FooterComponent implements OnInit {
     private modalService: NgbModal,
     private translationService: TranslationService,
     private restService: RESTService,
+    private trackingService: TrackingService,
     private router: Router
 
   ) {}
@@ -67,22 +69,94 @@ export class FooterComponent implements OnInit {
   clickFacebook(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'facebookLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     window.open(this.translation.topNavigation.facebookLink, '_blank');
   }
 
   clickYoutube(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'youtubeLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     window.open(this.translation.topNavigation.youtubeLink, '_blank');
   }
 
   clickEmail(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'emailLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     window.open('mailto:' + this.translation.footer.contactEmail, '_blank');
   }
 
   clickSubscribe() {
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'subscribeButton',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.restService.subscribeEmail(this.subscribeEmail).subscribe(
       response => {
         const modalRef = this.modalService.open(SubscribeResultComponent, {size: 'sm'});
@@ -96,6 +170,24 @@ export class FooterComponent implements OnInit {
   clickCategories(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'categoriesLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.restService.getCategories().subscribe(
       response => {
         const modalRef = this.modalService.open(SelectCategoryComponent, {size: 'lg'});
@@ -109,6 +201,24 @@ export class FooterComponent implements OnInit {
   clickBrands(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'brandsLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.restService.getBrands().subscribe(
       response => {
         const modalRef = this.modalService.open(SelectBrandComponent, {size: 'lg'});
@@ -122,6 +232,24 @@ export class FooterComponent implements OnInit {
   clickShops(e) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'shopsLink',
+        context: {
+          type: '',
+          value: ''
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.restService.getShopGroups().subscribe(
       response => {
         const modalRef = this.modalService.open(SelectShopGroupComponent, {size: 'sm'});
@@ -135,18 +263,72 @@ export class FooterComponent implements OnInit {
   onClickCategory(e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'categoryLink',
+        context: {
+          type: 'Category',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/category/' + _id]);
   }
 
   onClickBrand(e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'brandLink',
+        context: {
+          type: 'Brand',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/brand/' + _id]);
   }
 
   onClickShopGroup(e, _id) {
     e.stopPropagation();
     e.preventDefault();
+    const action = {
+      action: 'click',
+      area: {
+        name: 'footer',
+        context: {
+          type: '',
+          value: ''
+        }
+      },
+      element: {
+        name: 'shopGroupsLink',
+        context: {
+          type: 'ShopGroup',
+          value: _id
+        }
+      }
+    };
+    this.trackingService.trackAction(action);
     this.router.navigate(['/shop-group/' + _id]);
   }
 }

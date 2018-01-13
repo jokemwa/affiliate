@@ -10,6 +10,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { RESTService } from '../../services/rest.service';
 import { TranslationService } from '../../services/translation.service';
+import { TrackingService } from '../../services/tracking.service';
 
 import { Settings } from '../../settings';
 
@@ -29,6 +30,7 @@ export class TagViewComponent implements OnInit {
   constructor(private restService: RESTService,
     private translationService: TranslationService,
     private location: Location,
+    private trackingService: TrackingService,
     private route: ActivatedRoute,
     private router: Router) {}
 
@@ -43,6 +45,24 @@ export class TagViewComponent implements OnInit {
               this.tag = response;
               this.tag.items = orderBy(this.tag.items, 'product.title', 'asc');
               this.isDataReady = true;
+              const action = {
+                action: 'load',
+                area: {
+                  name: 'tagView',
+                  context: {
+                    type: 'Tag',
+                    value: this.tag._id
+                  }
+                },
+                element: {
+                  name: '',
+                  context: {
+                    type: '',
+                    value: ''
+                  }
+                }
+              };
+              this.trackingService.trackAction(action);
             },
             err => {
               this.router.navigate(['/']);
@@ -51,11 +71,47 @@ export class TagViewComponent implements OnInit {
           );
         }
 
-    showProductDetail(promoLink: string) {
-      this.router.navigate(['/product/' + promoLink]);
+    showProductDetail(product: any) {
+      const action = {
+        action: 'click',
+        area: {
+          name: 'tagView',
+          context: {
+            type: 'Tag',
+            value: this.tag._id
+          }
+        },
+        element: {
+          name: 'productsList',
+          context: {
+            type: 'Product',
+            value: product._id
+          }
+        }
+      };
+      this.trackingService.trackAction(action);
+      this.router.navigate(['/product/' + product.promoLink]);
     }
 
     showTagResults(tag_id: string) {
+      const action = {
+        action: 'click',
+        area: {
+          name: 'tagView',
+          context: {
+            type: 'Tag',
+            value: this.tag._id
+          }
+        },
+        element: {
+          name: 'productsList',
+          context: {
+            type: 'Tag',
+            value: tag_id
+          }
+        }
+      };
+      this.trackingService.trackAction(action);
       this.router.navigate(['/tag/' + tag_id]);
     }
 

@@ -7,17 +7,19 @@ var Categories = require('../models/categories');
 var Brands = require('../models/brands');
 var Shops = require('../models/shops');
 
+var Verify = require('./verify');
+
 var searchRouter = express.Router();
 
 searchRouter.route('/')
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         res.json(null);
     });
 
 
 searchRouter.route('/:text')
 // Searching
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         let searchResult = {
             products: [],
             categories: [],
@@ -163,7 +165,7 @@ searchRouter.route('/:text')
                 err.status = 500;
                 return next(err);
             }
-            console.log(searchResult);
+            //console.log(searchResult);
             res.json(searchResult);
         });
 });

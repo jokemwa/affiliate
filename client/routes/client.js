@@ -42,6 +42,7 @@ clientRouter.route('/')
                                 err.status = 500;
                                 return next(err);
                             }
+                            console.log('NEW CLIENT');
                             console.log(client);
                             res.json(client);
                         });
@@ -72,6 +73,7 @@ clientRouter.route('/')
                                     err.status = 500;
                                     return next(err);
                                 }
+                                console.log('NEW SESSION');
                                 console.log(client);
                                 res.json(client);
                             });
@@ -100,6 +102,7 @@ clientRouter.route('/')
                                         err.status = 500;
                                         return next(err);
                                     }
+                                    console.log('WRONG DEV ID, CREATE NEW');
                                     console.log(client);
                                     res.json(client);
                                 });
@@ -119,16 +122,18 @@ clientRouter.route('/action')
                 res.json(null);
             }
             if (result) {
-                let actionId = result._id;
+                let eventId = result._id;
+                console.log(result);
                 clientSessions.findByIdAndUpdate(sessionId,
-                    {$push: {'actions': actionId}},
+                    {$push: {'events': eventId}},
+                    {'new': true},
                     (err, result) => {
                         if(err){
                             console.log(err);
                             res.json(null);
                         }
                         if (result) {
-                            console.log(result);
+                            //console.log(result);
                             res.json(null);
                         }
                     });

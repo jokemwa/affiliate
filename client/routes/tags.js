@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 
 var Tags = require('../models/tags');
+var Verify = require('./verify');
 
 var products = require('./misc/products');
 
@@ -9,7 +10,7 @@ var tagsRouter = express.Router();
 
 tagsRouter.route('/:id')
 // Get products list of tag {product, order}
-    .get(function (req, res, next) {
+    .get(Verify.verifyClient, function (req, res, next) {
         Tags.findById(req.params.id)
         .populate('items.product')
         .populate({
@@ -47,7 +48,7 @@ tagsRouter.route('/:id')
                     return next(err);
                 });
             } else {
-                console.log(result);
+                //console.log(result);
                 res.json(result);
             }
         });

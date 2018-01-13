@@ -1,5 +1,74 @@
-<li *ngFor="let marketplace of marketplaces | orderBy: 'searchTag'">
-    <span>{{marketplace.name}}</span>
-    <span>{{marketplace.menuVisible}}</span>
-    <span>{{marketplace.menuOrder}}</span> 
-</li>
+<nav *ngIf="isDataReady" class="navbar navbar-expand sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" routerLink="/">Manage Panel</a>
+    <ol class="breadcrumb" style="margin-bottom: 0; padding:0.3rem">
+            <li class="breadcrumb-item"><a routerLink="/">Main Menu</a></li>
+            <li class="breadcrumb-item active">Activity Tracking</li>
+    </ol>
+</nav>
+
+<div *ngIf="isDataReady" class="container mt-5">
+    <ngb-tabset>
+        <ngb-tab title="Sessions">
+            <ng-template ngbTabContent>
+                <table class="table table-hover mt-3">
+                    <thead>
+                        <tr>
+                            <th>Started</th>
+                            <th>Id</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let session of sessions | orderBy: 'createdAt':'desc'">
+                            <td>
+                                <small>{{session.createdAt}}</small>
+                            </td>
+                            <td>
+                                <small>{{session._id}}</small>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info"
+                                (click)="viewSession(session._id)">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Devices">
+            <ng-template ngbTabContent>
+                <table class="table table-hover mt-3">
+                    <thead>
+                        <tr>
+                            <th>Last active</th>
+                            <th>Id</th>
+                            <th>Sessions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let device of devices | orderBy: 'updatedAt':'desc'">
+                            <td>
+                                <small>{{device.updatedAt}}</small>
+                            </td>
+                            <td>
+                                <small>{{device._id}}</small>
+                            </td>
+                            <td>
+                                <small>{{device.sessions.length}}</small>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info"
+                                (click)="viewDevice(device._id)">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>
