@@ -13,7 +13,7 @@ function standartAnswer (callback) {
     .exec(function(err, result){
         if (result) {
             const title = result.text;
-            const image = siteUrl + result.image;
+            const image = siteUrl + 'images/' + result.image;
     
             Translations.findOne({lang: 'hebrew'}, function (err, result) {
                 if (result) {
@@ -28,7 +28,7 @@ function standartAnswer (callback) {
                     <title>${site_name}</title>
                     <meta property="og:url" content="${siteUrl}"/>
                     <meta property="og:title" content="${title}"/>
-                    <meta property="og:image" content="${image}"/>            
+                    <meta property="og:image" content="${image.toString()}"/>            
                     <meta property="og:site_name" content="${site_name}"/>
                     </head>
                     <body>
@@ -73,9 +73,9 @@ exports.facebookAnswer = function (userAgent, url, callback) {
                                 <meta http-equiv="content-type" content="text/html; charset=utf-8">
                                 <meta charset="utf-8">
                                 <title>${site_name}</title>
-                                <meta property="og:url" content="http://${config.hostname}/${product.promoLink}"/>
+                                <meta property="og:url" content="http://${config.hostname}/product/${product.promoLink}"/>
                                 <meta property="og:title" content="${product.title}"/>
-                                <meta property="og:image" content="http://${config.hostname}/${product.frontImage.hiRes}"/>
+                                <meta property="og:image" content="http://${config.hostname}/images/${product.frontImage.hiRes.toString()}"/>
                                 <meta property="og:site_name" content="${site_name}"/>
                                 </head>
                                 <body>
