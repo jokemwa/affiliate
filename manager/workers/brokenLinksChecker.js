@@ -36,7 +36,7 @@ exports.checkProducts = function() {
                                     if (err) {
                                         console.log(err);
                                     }
-                                    console.log(result._id + 'Broken link check: ' + reuslt.brokenLinkCheck);
+                                    console.log(result._id + 'Broken link check: ' + result.brokenLinkCheck);
                                 });
                         },
                         err => {

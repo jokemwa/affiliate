@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var pug = require('pug');
 var fs = require('fs');
 
+var fbHelper = require('./helpers/facebookAnswerBuilder');
 
 var mongoose = require('mongoose');
 
@@ -71,11 +72,29 @@ var similar = require('./routes/similar');
 app.use('/api/similar', similar);
 
 
-// Angular4 client
+// Facebook crawler case
+app.get('*', (req, res, next) => {
+//
+  let url = req.protocol + '://' + req.get('host') + req.originalUrl;
+  let userAgent = req.headers['user-agent'];
+  fbHelper.facebookAnswer(userAgent, url, (err, result) => {
+    if (err) {
+      next(err);
+    }
+    if (result) {
+      res.end(result);
+    } else {
+      next();
+    }
+  });
+});
+
+// Angular client
 app.use(express.static(path.join(__dirname, 'dist')));
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
-  });
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
+
 
 
 // Error cases
