@@ -34,7 +34,6 @@ function standartAnswer (callback) {
                     <title>${site_name}</title>
                     <meta property="og:image" content="${image}"/>
                     <meta property="og:url" content="${siteUrl}"/>
-                    <meta property="og:site_name" content="${site_name}"/>
                     <meta property="og:title" content="${title}"/>         
                     </head>
                     <body>
@@ -88,7 +87,6 @@ exports.facebookAnswer = function (userAgent, url, callback) {
                                 <title>${site_name}</title>
                                 <meta property="og:image" content="${image}"/>
                                 <meta property="og:url" content="${site_url}"/>
-                                <meta property="og:site_name" content="${site_name}"/>
                                 <meta property="og:title" content="${title}"/>
                                 </head>
                                 <body>
