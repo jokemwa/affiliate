@@ -20,21 +20,21 @@ function standartAnswer (callback) {
                     const site_name = result.topNavigation.logoTitle;
     
                     const answer = `
-                    <!DOCTYPE html>
-                    <html lang="en" dir="rtl">
-                    <head>
-                    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-                    <meta charset="utf-8">
-                    <title>${site_name}</title>
-                    <meta property="og:url" content="${siteUrl}"/>
-                    <meta property="og:title" content="${title}"/>
-                    <meta property="og:image" content="${image.toString()}"/>            
-                    <meta property="og:site_name" content="${site_name}"/>
-                    </head>
-                    <body>
-                    </body>
-                    <html>
-                    `;
+<!DOCTYPE html>
+<html lang='he' dir='rtl'>
+<head>
+<meta http-equiv='content-type' content='text/html; charset=utf-8'>
+<meta charset='utf-8'>
+<title>${site_name}</title>
+<meta property='og:url' content='${siteUrl}'/>
+<meta property='og:title' content='${title}'/>
+<meta property='og:image' content='${image}'/>            
+<meta property='og:site_name' content='${site_name}'/>
+</head>
+<body>
+</body>
+<html>
+`;
                     callback (null, answer);
                 } else {
                     console.log(err);
@@ -67,21 +67,21 @@ exports.facebookAnswer = function (userAgent, url, callback) {
                             if (result) {
                                 const site_name = result.topNavigation.logoTitle;
                                 let answer = `
-                                <!DOCTYPE html>
-                                <html lang="en" dir="rtl">
-                                <head>
-                                <meta http-equiv="content-type" content="text/html; charset=utf-8">
-                                <meta charset="utf-8">
-                                <title>${site_name}</title>
-                                <meta property="og:url" content="http://${config.hostname}/product/${product.promoLink}"/>
-                                <meta property="og:title" content="${product.title}"/>
-                                <meta property="og:image" content="http://${config.hostname}/images/${product.frontImage.hiRes.toString()}"/>
-                                <meta property="og:site_name" content="${site_name}"/>
-                                </head>
-                                <body>
-                                </body>
-                                <html>
-                                `;
+<!DOCTYPE html>
+<html lang='he' dir='rtl'>
+<head>
+<meta http-equiv='content-type' content='text/html; charset=utf-8'>
+<meta charset='utf-8'>
+<title>${site_name}</title>
+<meta property='og:url' content='http://${config.hostname}/product/${product.promoLink}'>
+<meta property='og:title' content="${product.title}"/>
+<meta property='og:image' content='http://${config.hostname}/images/${product.frontImage.hiRes}'/>
+<meta property='og:site_name' content='${site_name}'/>
+</head>
+<body>
+</body>
+<html>
+`;
                                 callback (null, answer);
         
                             } else {
