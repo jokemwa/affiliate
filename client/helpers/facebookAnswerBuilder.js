@@ -8,19 +8,19 @@ const fbIndents = [ 'facebookexternalhit', 'Facebot'];
 //const fbIndents = [ 'facebookexternalhit', 'Facebot', 'moz'];
 
 function standartAnswer (callback) {
-    const siteUrl = 'http://' + config.hostname;
+    let siteUrl = 'http://' + config.hostname;
     siteUrl = encodeURI(siteUrl);
     StartPageMarketingMessages.findOne({"version": 0})
     .exec(function(err, result){
         if (result) {
-            const title = result.text;
+            let title = result.text;
             title = encodeURI(title);
-            const image = siteUrl + 'images/' + result.image;
+            let image = siteUrl + 'images/' + result.image;
             image = encodeURI(image);
     
             Translations.findOne({lang: 'hebrew'}, function (err, result) {
                 if (result) {
-                    const site_name = result.topNavigation.logoTitle;
+                    let site_name = result.topNavigation.logoTitle;
                     site_name = encodeURI(site_name);
     
                     const answer = `
@@ -69,11 +69,11 @@ exports.facebookAnswer = function (userAgent, url, callback) {
                         const product = result;
                         Translations.findOne({lang: 'hebrew'}, function (err, result) {
                             if (result) {
-                                const site_name = result.topNavigation.logoTitle;
+                                let site_name = result.topNavigation.logoTitle;
                                 site_name = encodeURI(site_name);
-                                site_url = encodeURI('http://' + config.hostname + '/product/' + product.promoLink);
-                                title = encodeURI(product.title)
-                                image - encodeURI('http://' + config.hostname + '/images/' + product.frontImage.hiRes);
+                                let site_url = encodeURI('http://' + config.hostname + '/product/' + product.promoLink);
+                                let title = encodeURI(product.title)
+                                let image - encodeURI('http://' + config.hostname + '/images/' + product.frontImage.hiRes);
                                 let answer = `
                                 <!DOCTYPE html>
                                 <html lang="he" dir="rtl">
