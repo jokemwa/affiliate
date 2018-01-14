@@ -14,14 +14,16 @@ function standartAnswer (callback) {
     .exec(function(err, result){
         if (result) {
             let title = result.text;
-            title = encodeURI(title);
+            title = title.replace(/"/g, ' ');
+            title = title.replace(/'/g, ' ');
             let image = siteUrl + 'images/' + result.image;
             image = encodeURI(image);
     
             Translations.findOne({lang: 'hebrew'}, function (err, result) {
                 if (result) {
                     let site_name = result.topNavigation.logoTitle;
-                    site_name = encodeURI(site_name);
+                    site_name = site_name.replace(/"/g, ' ');
+                    site_name = site_name.replace(/'/g, ' ');
     
                     const answer = `
                     <!DOCTYPE html>
@@ -70,9 +72,12 @@ exports.facebookAnswer = function (userAgent, url, callback) {
                         Translations.findOne({lang: 'hebrew'}, function (err, result) {
                             if (result) {
                                 let site_name = result.topNavigation.logoTitle;
-                                site_name = encodeURI(site_name);
+                                site_name = site_name.replace(/"/g, ' ');
+                                site_name = site_name.replace(/'/g, ' ');
                                 let site_url = encodeURI('http://' + config.hostname + '/product/' + product.promoLink);
-                                let title = encodeURI(product.title)
+                                let title = product.title;
+                                title = title.replace(/"/g, ' ');
+                                title = title.replace(/'/g, ' ');
                                 let image = encodeURI('http://' + config.hostname + '/images/' + product.frontImage.hiRes);
                                 let answer = `
                                 <!DOCTYPE html>
