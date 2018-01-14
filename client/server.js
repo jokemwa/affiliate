@@ -82,6 +82,7 @@ app.get('*', (req, res, next) => {
       next(err);
     }
     if (result) {
+      console.log(result);
       res.end(result);
     } else {
       next();

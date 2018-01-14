@@ -8,33 +8,37 @@ const fbIndents = [ 'facebookexternalhit', 'Facebot'];
 //const fbIndents = [ 'facebookexternalhit', 'Facebot', 'moz'];
 
 function standartAnswer (callback) {
-    const siteUrl = 'http://' + config.hostname + '/';
+    const siteUrl = 'http://' + config.hostname;
+    siteUrl = encodeURI(siteUrl);
     StartPageMarketingMessages.findOne({"version": 0})
     .exec(function(err, result){
         if (result) {
             const title = result.text;
+            title = encodeURI(title);
             const image = siteUrl + 'images/' + result.image;
+            image = encodeURI(image);
     
             Translations.findOne({lang: 'hebrew'}, function (err, result) {
                 if (result) {
                     const site_name = result.topNavigation.logoTitle;
+                    site_name = encodeURI(site_name);
     
                     const answer = `
-<!DOCTYPE html>
-<html lang='he' dir='rtl'>
-<head>
-<meta http-equiv='content-type' content='text/html; charset=utf-8'>
-<meta charset='utf-8'>
-<title>${site_name}</title>
-<meta property='og:url' content='${siteUrl}'/>
-<meta property='og:title' content='${title}'/>
-<meta property='og:image' content='${image}'/>            
-<meta property='og:site_name' content='${site_name}'/>
-</head>
-<body>
-</body>
-<html>
-`;
+                    <!DOCTYPE html>
+                    <html lang="he" dir="rtl">
+                    <head>
+                    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+                    <meta charset="utf-8">
+                    <title>${site_name}</title>
+                    <meta property="og:url" content="${siteUrl}"/>
+                    <meta property="og:title" content="${title}"/>
+                    <meta property="og:image" content="${image}"/>            
+                    <meta property="og:site_name" content="${site_name}"/>
+                    </head>
+                    <body>
+                    </body>
+                    <html>
+                    `;
                     callback (null, answer);
                 } else {
                     console.log(err);
@@ -66,22 +70,26 @@ exports.facebookAnswer = function (userAgent, url, callback) {
                         Translations.findOne({lang: 'hebrew'}, function (err, result) {
                             if (result) {
                                 const site_name = result.topNavigation.logoTitle;
+                                site_name = encodeURI(site_name);
+                                site_url = encodeURI('http://' + config.hostname + '/product/' + product.promoLink);
+                                title = encodeURI(product.title)
+                                image - encodeURI('http://' + config.hostname + '/images/' + product.frontImage.hiRes);
                                 let answer = `
-<!DOCTYPE html>
-<html lang='he' dir='rtl'>
-<head>
-<meta http-equiv='content-type' content='text/html; charset=utf-8'>
-<meta charset='utf-8'>
-<title>${site_name}</title>
-<meta property='og:url' content='http://${config.hostname}/product/${product.promoLink}'>
-<meta property='og:title' content="${product.title}"/>
-<meta property='og:image' content='http://${config.hostname}/images/${product.frontImage.hiRes}'/>
-<meta property='og:site_name' content='${site_name}'/>
-</head>
-<body>
-</body>
-<html>
-`;
+                                <!DOCTYPE html>
+                                <html lang="he" dir="rtl">
+                                <head>
+                                <meta http-equiv="content-type" content="text/html; charset=utf-8">
+                                <meta charset="utf-8">
+                                <title>${site_name}</title>
+                                <meta property="og:url" content="${site_url}"/>
+                                <meta property="og:title" content="${title}"/>
+                                <meta property="og:image" content="${image}"/>
+                                <meta property="og:site_name" content="${site_name}"/>
+                                </head>
+                                <body>
+                                </body>
+                                <html>
+                                `;
                                 callback (null, answer);
         
                             } else {
