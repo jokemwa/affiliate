@@ -11,6 +11,14 @@ var imagesRouter = express.Router();
 
 imagesRouter.route('/:id')
 .get(function (req, res, next) {
+    let imageId;
+        try {
+            imageId = new ObjectId(req.params.id);
+        } catch (err) {
+            console.log(err);
+            err.status = 500;
+            return next(err);
+        }
     mongodb.MongoClient.connect(config.mongoUrl, function(err, db) {
         if(err){
             console.log(err);
@@ -20,7 +28,7 @@ imagesRouter.route('/:id')
         var bucket = new mongodb.GridFSBucket(db, {
             bucketName: 'images'
           });
-        var output = bucket.openDownloadStream(new ObjectId(req.params.id));
+        var output = bucket.openDownloadStream(imageId);
 
         output.on("error", function(err){
             console.log(err);
