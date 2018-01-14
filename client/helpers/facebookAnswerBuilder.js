@@ -73,7 +73,7 @@ exports.facebookAnswer = function (userAgent, url, callback) {
                                 site_name = encodeURI(site_name);
                                 let site_url = encodeURI('http://' + config.hostname + '/product/' + product.promoLink);
                                 let title = encodeURI(product.title)
-                                let image - encodeURI('http://' + config.hostname + '/images/' + product.frontImage.hiRes);
+                                let image = encodeURI('http://' + config.hostname + '/images/' + product.frontImage.hiRes);
                                 let answer = `
                                 <!DOCTYPE html>
                                 <html lang="he" dir="rtl">
