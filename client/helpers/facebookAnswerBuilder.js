@@ -32,10 +32,10 @@ function standartAnswer (callback) {
                     <meta http-equiv="content-type" content="text/html; charset=utf-8">
                     <meta charset="utf-8">
                     <title>${site_name}</title>
+                    <meta property="og:image" content="${image}"/>
                     <meta property="og:url" content="${siteUrl}"/>
-                    <meta property="og:title" content="${title}"/>
-                    <meta property="og:image" content="${image}"/>            
                     <meta property="og:site_name" content="${site_name}"/>
+                    <meta property="og:title" content="${title}"/>         
                     </head>
                     <body>
                     </body>
@@ -88,8 +88,8 @@ exports.facebookAnswer = function (userAgent, url, callback) {
                                 <title>${site_name}</title>
                                 <meta property="og:image" content="${image}"/>
                                 <meta property="og:url" content="${site_url}"/>
-                                <meta property="og:title" content="${title}"/>
                                 <meta property="og:site_name" content="${site_name}"/>
+                                <meta property="og:title" content="${title}"/>
                                 </head>
                                 <body>
                                 </body>
