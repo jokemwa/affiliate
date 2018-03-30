@@ -93,3 +93,14 @@ exports.parseBuyLink = function(extLink){
     });
 };
 
+exports.hasAPI - false;
+exports.parsePrice = function(extLink, page) {
+    return new Promise(function(resolve, reject){
+        var $=cheerio.load(page);
+        resolve({
+            priceString: $('div#price').text(),
+            discString: $('section#product-msrp > div.row > div.price').text()
+        });
+    });
+}
+

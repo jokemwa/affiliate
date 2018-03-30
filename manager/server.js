@@ -1,4 +1,4 @@
-var config = require('./config');
+var config = require('../config');
 
 var https = require('https');
 var fs = require('fs');
@@ -24,10 +24,6 @@ db.once('open', function () {
 });
 
 var app = express();
-app.use(logger('common', {
-  stream: fs.createWriteStream('./logs/access.log', {flags: 'a'})
-}));
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -42,7 +38,7 @@ passport.deserializeUser(User.deserializeUser());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.set('port', config.port);
+app.set('port', config.portManager);
 app.set('mode', 'development');
 
 // REST Routes
@@ -133,9 +129,9 @@ function onError(error) {
       throw error;
     }
   
-    var bind = typeof config.port === 'string'
-      ? 'Pipe ' + config.port
-      : 'Port ' + config.port;
+    var bind = typeof app.get('port') === 'string'
+      ? 'Pipe ' + app.get('port')
+      : 'Port ' + app.get('port');
   
     // handle specific listen errors with friendly messages
     switch (error.code) {
@@ -161,8 +157,8 @@ function onError(error) {
   }
 
   // Broken Links Checker
-  brokenLinksChecker.checkProducts();
+  /*brokenLinksChecker.checkProducts();
   const interval = 24 * 3600 * 1000;
   setInterval(() => {
     brokenLinksChecker.checkProducts();
-  }, interval);
+  }, interval);*/

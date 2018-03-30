@@ -55,7 +55,6 @@ exports.parse = function (page, extLink){
     });
 }
 
-
 exports.parseImages = function (page, extLink){
     return new Promise(function(resolve, reject){
         var imageJSONs = [];
@@ -122,3 +121,18 @@ exports.parseBuyLink = function(extLink){
     });
 };
 
+exports.hasAPI - false;
+exports.parsePrice = function(extLink, page) {
+    return new Promise(function(resolve, reject){
+        $ = cheerio.load(page);
+        let part1 = $('[itemprop=price]');
+        let part2 = $('[itemprop=priceCurrency]');
+        let part3 = $('.old-price');
+        console.log(part3.text());
+  
+        resolve({
+            priceString: part1.text() + part2.text(),
+            discString: part3.text()
+        });
+    });
+};

@@ -199,6 +199,18 @@ export class RESTService {
             });
     }
 
+/* Prices */
+
+public getPrice(_id: string): Observable<any> {
+    const url = this.apiUrl + `/api/prices/` + _id;
+    return this.http
+    .get(url,
+        {
+        headers: new HttpHeaders().set('x-device-id', this.tracking.deviceId)
+        .append('x-session-id', this.tracking.sessionId)
+    });
+}
+
 }
 
 

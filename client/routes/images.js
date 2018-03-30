@@ -3,7 +3,7 @@ var mongodb = require('mongodb');
 var ObjectId = require('mongodb').ObjectID;
 
 
-var config = require('../config');
+var config = require('../../config');
 
 var imagesRouter = express.Router();
 
@@ -11,7 +11,7 @@ var imagesRouter = express.Router();
 
 imagesRouter.route('/:id')
 .get(function (req, res, next) {
-    let imageId;
+    var imageId;
         try {
             imageId = new ObjectId(req.params.id);
         } catch (err) {

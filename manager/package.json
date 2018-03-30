@@ -65,5 +65,11 @@
     "ts-node": "~3.2.0",
     "tslint": "^5.8.0",
     "typescript": ">=2.4.2 <2.5.0"
-  }
+  },
+  "eslintConfig": {
+        "env": {
+            "node": true,
+            "es6": true
+        }
+    }
 }

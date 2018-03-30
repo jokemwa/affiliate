@@ -10,11 +10,11 @@ var translationSchema = new Schema({
     topNavigation: {
         logoTitle: {
             type: String,
-            default: 'FutureBuy'
+            default: 'JerusalemBuy'
         },
         facebookLink: {
             type: String,
-            default: 'http://facebook.com/'
+            default: 'https://www.facebook.com/groups/1592170434330768/about/'
         },
         youtubeLink: {
             type: String,
@@ -22,147 +22,159 @@ var translationSchema = new Schema({
         },
         searchGoButtion: {
             type: String,
-            default: 'Go!'
+            default: 'חיפוש'
         },
         searchboxPlaceholder: {
             type: String,
-            default: 'Search for...'
+            default: 'התחל להקליד'
         },
         searchboxDropdown: {
             inProducts: {
                 type: String,
-                default: 'in Products'
+                default: 'במוצרים'
             },
             inCategories: {
                 type: String,
-                default: 'in Categories'
+                default: 'קטגוריות'
             },
             inBrands: {
                 type: String,
-                default: 'in Brands'
+                default: 'במותגים'
             },
             inShops: {
                 type: String,
-                default: 'in Shops'
+                default: 'בחנויות'
             }
         },
         selectTitle: {
             type: String,
-            default: 'What are you searching for?'
+            default: 'מה אתה מחפש?'
         },
         couponsLink: {
             type: String,
-            default: 'Coupons'
+            default: 'לקבלת קופון'
         },
         shopsLink: {
             type: String,
-            default: 'Shops'
+            default: 'חנויות'
         },
         brandsLink: {
             type: String,
-            default: 'Brands'
+            default: 'מותגים'
         },
         helpLink: {
             type: String,
-            default: 'Help'
+            default: 'לקבלת עזרה'
         },
         categoriesLink: {
             type: String,
-            default: 'Categories'
+            default: 'קטגוריות'
         },
         homeLink: {
             type: String,
-            default: 'Home'
+            default: 'דף הבית'
         },
       },
       footer: {
         year: {
             type: String,
-            default: '2017'
+            default: '2017-2018'
         },
         followUs: {
             type: String,
-            default: 'Follow Us'
+            default: 'עקבו אחרינו'
         },
         contactEmail: {
             type: String,
-            default: 'contact@futurebuy.il'
+            default: '‫jerus.city@gmail.com'
         },
         subscribeLabel: {
             type: String,
-            default: 'Our Newsletter'
+            default: 'הניוזלטר שלנו'
         },
         subscribeFieldPlaceholder: {
             type: String,
-            default: 'Your e-mail'
+            default: 'האימייל שלך'
         },
         subscribeButton: {
             type: String,
-            default: 'Subscribe!'
+            default: 'הירשם!'
+        },
+        terms: {
+            type: String,
+            default: 'תנאי שימוש ומדיניות פרטיות'
         }
       },
       subscribeResult: {
         success: {
             type: String,
-            default: 'Thank you!'
+            default: 'תודה!'
         },
         alreadySubscribed: {
             type: String,
-            default: 'You have already subscribed!'
+            default: 'כבר נרשמת!'
         },
         closeButton: {
             type: String,
-            default: 'Close'
+            default: 'סיום'
         },
     },
       startPage: {
           topRated: {
             type: String,
-            default: 'Top Rated Offers'
+            default: 'הצעות מובילות'
         },
           whatsNew: {
             type: String,
-            default: 'What\'s New In '
+            default: 'מה חדש'
         },
           browseAll: {
             type: String,
-            default: 'Browse All..'
+            default: 'פתח את כל ההצעות'
         },
       },
     productPreview: {
           viewMore: {
             type: String,
-            default: 'View More'
+            default: 'הראה עוד הצעות'
         },
     },
     tagView: {
         tagResults: {
             type: String,
-            default: 'Search results for tag:'
+            default: 'תוצאות חיפוש עבור תווית:'
         }
     },
     searchView: {
         searchResults: {
             type: String,
-            default: 'Search results for:'
+            default: 'תוצאות חיפוש עבור:'
         },
         productsResults: {
             type: String,
-            default: 'Products'
+            default: 'מוצרים'
         },
         numberOfResults: {
             type: String,
-            default: ' founded.'
+            default: 'תוצאות'
         }
     },
     productView: {
         buyButton: {
           type: String,
-          default: 'Buy'
+          default: 'לרכישה'
         },
         interestedIn: {
             type: String,
-            default: 'You may be interested in:'
+            default: 'אתה עשוי להתעניין גם ב:'
+        },
+        priceAround: {
+            type: String,
+            default: 'בערך'
+        },
+        gettingPrice: {
+            type: String,
+            default: 'מקבל מחיר'
         }
     }
 

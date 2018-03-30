@@ -99,6 +99,10 @@ var translationSchema = new Schema({
         subscribeButton: {
             type: String,
             default: 'Subscribe!'
+        },
+        terms: {
+            type: String,
+            default: 'Terms of Use and Privacy Policy'
         }
       },
       subscribeResult: {
@@ -163,6 +167,14 @@ var translationSchema = new Schema({
         interestedIn: {
             type: String,
             default: 'You may be interested in:'
+        },
+        priceAround: {
+            type: String,
+            default: 'Around'
+        },
+        gettingPrice: {
+            type: String,
+            default: 'Getting price'
         }
     }
 

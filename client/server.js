@@ -1,4 +1,4 @@
-var config = require('./config');
+var config = require('../config');
 
 var http = require('http');
 var debug = require('debug')('server:server');
@@ -21,10 +21,6 @@ db.once('open', function () {
 });
 
 var app = express();
-app.use(logger('common', {
-  stream: fs.createWriteStream('./logs/access.log', {flags: 'a'})
-}));
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -32,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.set('port', config.port);
+app.set('port', config.portClient);
 app.set('mode', 'development');
 
 app.use(function(req, res, next) {
@@ -70,6 +66,8 @@ var subscribe = require('./routes/newsletterSubscribers');
 app.use('/api/subscribe', subscribe);
 var similar = require('./routes/similar');
 app.use('/api/similar', similar);
+var prices = require('./routes/prices');
+app.use('/api/prices', prices);
 
 
 // Facebook crawler case
@@ -77,17 +75,19 @@ app.get('*', (req, res, next) => {
 //
   let url = req.protocol + '://' + req.get('host') + req.originalUrl;
   let userAgent = req.headers['user-agent'];
-  fbHelper.facebookAnswer(userAgent, url, (err, result) => {
-    if (err) {
-      next(err);
-    }
-    if (result) {
-      console.log(result);
-      res.end(result);
-    } else {
-      next();
-    }
-  });
+  if (userAgent) {
+    fbHelper.facebookAnswer(userAgent, url, (err, result) => {
+      if (err) {
+        next(err);
+      }
+      if (result) {
+        console.log(result);
+        res.end(result);
+      } else {
+        next();
+      }
+    });
+  } else next();
 });
 
 // Angular client
@@ -130,9 +130,9 @@ function onError(error) {
       throw error;
     }
   
-    var bind = typeof config.port === 'string'
-      ? 'Pipe ' + config.port
-      : 'Port ' + config.port;
+    var bind = typeof app.get('port') === 'string'
+      ? 'Pipe ' + app.get('port')
+      : 'Port ' + app.get('port');
   
     // handle specific listen errors with friendly messages
     switch (error.code) {

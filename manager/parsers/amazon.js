@@ -109,3 +109,43 @@ exports.parse = function (page, extLink){
         });
     });
 }
+
+exports.hasAPI - true;
+exports.parsePrice = function (extLink){
+    return new Promise(function(resolve, reject){
+        var endpoint = getApiEndpoint(extLink);
+        if (endpoint === null) reject('Wrong link');
+
+        var client = amazon.createClient({
+            awsId: secrets.AMAZON.ACCESS_KEY,
+            awsSecret: secrets.AMAZON.SECRET_KEY,
+            awsTag: endpoint.assocTag
+        });
+
+        let product_id = cutProductId(extLink);
+
+        client.itemLookup({
+            itemId: product_id,
+            responseGroup: 'ItemAttributes,OfferSummary',
+            domain: endpoint.url
+          }, function(err, results, response) {
+            if (err) {
+                reject(err);
+            } else {
+                let priceString;
+                if (results[0].OfferSummary[0].LowestNewPrice) {
+                    priceString = results[0].OfferSummary[0].LowestNewPrice[0].FormattedPrice[0];
+                }
+                let discString;
+                if (results[0].ItemAttributes[0].ListPrice) {
+                    discString = results[0].ItemAttributes[0].ListPrice[0].FormattedPrice[0];
+                }
+                if (discString === priceString) discString = undefined;
+                resolve({
+                    priceString: priceString,
+                    discString: discString
+                });
+            }
+        });
+    });
+}

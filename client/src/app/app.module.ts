@@ -2,7 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, RouteReuseStrategy } from '@angular/router';
+
+import {CustomReuseStrategy} from './reuse-strategy';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxCarouselModule } from 'ngx-carousel';
@@ -30,13 +32,17 @@ import { ProductListComponent } from './components/products/productList/productL
 import { SelectBrandComponent } from './components/topNavigation/childs/selectBrand/selectBrand.component';
 import { SelectShopGroupComponent } from './components/topNavigation/childs/selectShopGroup/selectShopGroup.component';
 import { SubscribeResultComponent } from './components/footer/childs/subscribeResult/subscribeResult.component';
+import { ProductPriceComponent } from './components/products/productPrice/productPrice.component';
+import { TermsComponent } from './components/terms/terms.component';
+
 
 import { OrderByPipe } from './pipes/orderBy.pipe';
+import { CurrencyPipe } from '@angular/common';
 
 const appRoutes: Routes = [
   {
     path: 'product/:link',
-    component: ProductViewComponent
+    component: ProductViewComponent, data: { shouldReuseRoute: false}
   },
   {
     path: 'category/:_id',
@@ -61,6 +67,10 @@ const appRoutes: Routes = [
   {
     path: 'search/:text',
     component: SearchResultsComponent
+  },
+  {
+    path: 'terms',
+    component: TermsComponent
   },
   {
     path: '**',
@@ -95,6 +105,8 @@ export function initTranslation(translation: TranslationService) {
     SelectShopGroupComponent,
     ShopGroupViewComponent,
     SubscribeResultComponent,
+    ProductPriceComponent,
+    TermsComponent,
 
     OrderByPipe
   ],
@@ -127,6 +139,7 @@ export function initTranslation(translation: TranslationService) {
       'deps': [TranslationService],
       'multi': true
     },
+    {provide: RouteReuseStrategy, useClass: CustomReuseStrategy},
     TrackingService,
     TranslationService,
     RESTService

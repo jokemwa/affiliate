@@ -13,11 +13,11 @@ exports.parse = function (page, extLink){
         let part = cheerio.load($('.good_photo_min').html());
         part('a').each(function(i, elem) {
             var imageJSON = {
-                "hiRes": $(this).attr('big'),
+                "hiRes": 'http://' + $(this).attr('big').substring(2),
                 "thumb": ""
             };
             let part2 = cheerio.load($(this).html());
-            imageJSON.thumb = part2('img').attr('src');
+            imageJSON.thumb = 'http://' + part2('img').attr('src').substring(2);
             //console.log(imageJSON);
             
             imageJSONs.push(imageJSON);
@@ -48,6 +48,7 @@ exports.parse = function (page, extLink){
     });
 }
 
+/*
 exports.parseImages = function (page, extLink){
     return new Promise(function(resolve, reject){
         var imageJSONs = [];
@@ -76,6 +77,7 @@ exports.parseImages = function (page, extLink){
     });
 
 };
+*/
 
 exports.parseTitle = function(page, extLink){
     return new Promise(function(resolve, reject){
@@ -105,3 +107,18 @@ exports.parseBuyLink = function(extLink){
     });
 };
 
+exports.hasAPI - false;
+exports.parsePrice = function(extLink, page) {
+    return new Promise(function(resolve, reject){
+        $ = cheerio.load(page);
+        let part1 = $('div.price > div.item_con > div.now');
+        let part2 = $('div.price > div.item_con > div.old');
+
+        let answer = {
+            priceString: part1.attr('oriprice') + '$',
+            discString: part2.attr('oriprice') + '$'
+        };
+        console.log(answer);
+        resolve(answer);
+    });
+}

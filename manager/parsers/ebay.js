@@ -132,3 +132,35 @@ exports.parseBuyLink = function(extLink){
 
 };
 
+exports.hasAPI - true;
+exports.parsePrice = function(extLink) {
+    return new Promise(function(resolve, reject){
+        let product_id = extLink.substring(extLink.lastIndexOf("/")+1);
+        if (product_id.indexOf('?') > 0) {
+            product_id = product_id.substring(0, product_id.indexOf('?'));
+        }
+        let options = {
+            uri: 'http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid='
+            + secrets.EBAY.APP_KEY
+            + '&siteid=0&version=967&ItemID='+ product_id
+            + '&trackingid=' + secrets.EBAY.trackingId+ '&trackingpartnercode=' + secrets.EBAY.trackingPartnerCode,
+            method:'GET',
+        };
+        request(options, function (err, result, response) {
+            if (err) {
+                reject(err);
+            }
+            let answer = JSON.parse(response);
+            if (answer) {
+                console.log(answer);
+                resolve({
+                    priceString: answer.Item.ConvertedCurrentPrice.Value + answer.Item.ConvertedCurrentPrice.CurrencyID,
+                    discString: answer.Item.DiscountPriceInfo && answer.Item.DiscountPriceInfo.OriginalRetailPrice ? answer.Item.DiscountPriceInfo.OriginalRetailPrice.Value + answer.Item.DiscountPriceInfo.OriginalRetailPrice.CurrencyID : null
+                });
+            } else {
+                reject("Parser error. Couldn't get rover link");
+            }
+        });
+    });
+}
+

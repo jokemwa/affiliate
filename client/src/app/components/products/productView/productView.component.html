@@ -59,6 +59,9 @@
                                 </h4>
                         </div>
                         <div class="row mx-2 mt-3 d-flex justify-content-center">
+                                <app-product-price [id]="product._id"></app-product-price>
+                        </div>
+                        <div class="row mx-2 mt-1 d-flex justify-content-center">
                                 <button class="btn btn-lg btn-outline-warning"
                                 (click)="clickBuyButton()" style="
                                 cursor: pointer;
@@ -79,14 +82,14 @@
                         </div>
                 </div>            
         </div>
-        <div *ngIf="similar.length !== 0" class="row mt-4 mb-2">
+        <div *ngIf="similar && similar.length !== 0" class="row mt-4 mb-2">
                 <div class="col-12 d-flex justify-content-center">
                         <h4>
                                 {{translation.productView.interestedIn}}
                         </h4>
                 </div>
         </div>
-        <app-product-list
+        <app-product-list *ngIf="similar"
         [items]="similar"
         (onProductClick)="showProductDetail($event)"
         (onTagClick)="showTagResults($event)">

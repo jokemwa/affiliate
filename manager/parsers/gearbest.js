@@ -107,3 +107,14 @@ exports.parseBuyLink = function(extLink){
     });
 };
 
+exports.hasAPI - false;
+exports.parsePrice = function(extLink, page) {
+    return new Promise(function(resolve, reject){
+        var $=cheerio.load(page);
+        resolve({
+            priceString: $('b.my_shop_price').attr('data-orgp') +'$',
+            discString: $('b.my_shop_price').attr('data-shopprice') +'$'
+        });
+    });
+}
+

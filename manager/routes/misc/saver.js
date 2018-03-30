@@ -3,7 +3,7 @@ var mongodb = require('mongodb');
 var mongoose = require('mongoose');
 var fs = require('fs');
 
-var config = require('../../config');
+var config = require('../../../config');
 
 var Products = require('../../models/products');
 
@@ -22,7 +22,8 @@ exports.download = function (link){
                 uri: link,
                 method:'GET',
                 headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
+                    'Accept-Language': 'en-US,en;q=0.9'
                 }
         };
 
@@ -82,6 +83,22 @@ exports.preparePromoLink = function (title){
 
         return title;
 };
+
+exports.prepareText = function (string) {
+        for (let i = 0; i < string.length; i++){
+                if(string[i] != " " && string[i] != "\n" && string[i] != "\t"){
+                        string = string.substring(i);
+                    break;
+                }
+            }
+        for (let i = (string.length-1); i >= 0; i--){
+                if(string[i] != " " && string[i] != "\n" && string[i] != "\t"){
+                        string = string.substring(0, i+1);
+                    break;
+                }
+        }
+        return string;
+}
 
     
 exports.saveImage = function(imageURL){

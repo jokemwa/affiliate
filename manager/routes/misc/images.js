@@ -1,7 +1,7 @@
 var mongodb = require('mongodb');
 var ObjectId = require('mongodb').ObjectID;
 var async = require('async');
-var config = require('../../config');
+var config = require('../../../config');
 
 
 exports.deleteProductImages = function (images, callback) {

@@ -346,6 +346,21 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-1">
+                <div class="col-3">
+                    <label for="year">Terms of Use and Privcay</label>
+                </div>
+                <div class="col-9">
+                    <input [(ngModel)] = "translation.footer.terms"
+                    name="terms"
+                    #terms="ngModel"
+                    type="text" class="form-control form-control-sm" dir="rtl" required>
+                    <div class="alert alert-danger" *ngIf="terms.touched &&
+                    terms?.errors?.required">
+                    This field is required.
+                    </div>
+                </div>
+        </div>
 
 
 
@@ -447,24 +462,6 @@
             </div>
         </div>
         <div class="row">
-                <h2 class="mb-3">Product Preview Window</h2>
-        </div>              
-        <div class="row mb-1">
-            <div class="col-3">
-                <label for="viewMore">View More Button</label>
-            </div>
-            <div class="col-9">
-                <input [(ngModel)] = "translation.productPreview.viewMore"
-                name="viewMore"
-                #viewMore="ngModel"
-                type="text" class="form-control form-control-sm" dir="rtl" required>
-                <div class="alert alert-danger" *ngIf="viewMore.touched &&
-                viewMore?.errors?.required">
-                This field is required.
-                </div>
-            </div>
-        </div>
-        <div class="row">
                 <h2 class="mb-3">Tag View</h2>
         </div>              
         <div class="row mb-1">
@@ -545,6 +542,36 @@
                 type="text" class="form-control form-control-sm" dir="rtl" required>
                 <div class="alert alert-danger" *ngIf="buyButton.touched &&
                 buyButton?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="priceAround">Price Around</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.productView.priceAround"
+                name="priceAround"
+                #priceAround="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="priceAround.touched &&
+                priceAround?.errors?.required">
+                This field is required.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-3">
+                <label for="gettingPrice">Getting price</label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)] = "translation.productView.gettingPrice"
+                name="gettingPrice"
+                #gettingPrice="ngModel"
+                type="text" class="form-control form-control-sm" dir="rtl" required>
+                <div class="alert alert-danger" *ngIf="gettingPrice.touched &&
+                gettingPrice?.errors?.required">
                 This field is required.
                 </div>
             </div>

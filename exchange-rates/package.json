@@ -1,0 +1,23 @@
+{
+  "name": "buy-jerus-exchange-rates",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "request": "^2.85.0",
+    "xml-js": "^1.6.2"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "es6": true
+    }
+  }
+}

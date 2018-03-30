@@ -2,7 +2,7 @@ var Products = require('../models/products');
 var Translations = require('../models/translations');
 var StartPageMarketingMessages = require('../models/startPage/startPageMarketingMessages');
 
-var config = require('../config');
+var config = require('../../config');
 
 const fbIndents = [ 'facebookexternalhit', 'Facebot'];
 //const fbIndents = [ 'facebookexternalhit', 'Facebot', 'moz'];

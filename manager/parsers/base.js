@@ -145,3 +145,17 @@ exports.parseBuyLink = function(extLink){
     });
 };
 
+exports.hasAPI - false;
+exports.parsePrice = function(extLink, page) {
+    return new Promise(function(resolve, reject){
+        $ = cheerio.load(page);
+        let part1 = $('#main_frame > div.product-main-detail.product-main > div > div:nth-child(3) > div > span.price');
+        let part2 = $('#main_frame > div.product-main-detail.product-main > div > div:nth-child(3) > div > p > strike');
+  
+        resolve({
+            priceString: part1.text(),
+            discString: part2.text()
+        });
+    });
+};
+

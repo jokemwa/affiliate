@@ -24,6 +24,7 @@ export class ProductViewComponent implements OnInit {
 
   product: any;
   similar: any;
+  price = undefined;
 
   activeImage: any;
   translation: any;
@@ -47,7 +48,8 @@ export class ProductViewComponent implements OnInit {
       .subscribe(response => {
         this.product = response;
         this.activeImage = this.product.frontImage;
-         const action = {
+        this.isDataReady = true;
+        const action = {
           action: 'load',
           area: {
             name: 'productView',
@@ -68,7 +70,16 @@ export class ProductViewComponent implements OnInit {
         this.restService.getSimilarProducts(this.product._id)
         .subscribe(resp => {
           this.similar = resp;
-          this.isDataReady = true;
+        },
+          err => {
+            console.log(JSON.stringify(err));
+            }
+        );
+        console.log(this.price);
+        this.restService.getPrice(this.product._id)
+        .subscribe(resp => {
+          this.price = resp;
+          console.log(this.price);
         },
           err => {
             console.log(JSON.stringify(err));

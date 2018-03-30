@@ -3,7 +3,7 @@ var multiparty = require('multiparty');
 var mongodb = require('mongodb');
 var fs = require('fs');
 
-var config = require('../config');
+var config = require('../../config');
 
 var Verify = require('./verify');
 

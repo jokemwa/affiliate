@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var mongodb = require('mongodb');
 var ObjectId = require('mongodb').ObjectID;
 
-var config = require('../config');
+var config = require('../../config');
 
 var images = require('./misc/images');
 

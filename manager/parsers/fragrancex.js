@@ -142,3 +142,27 @@ exports.parseBuyLink = function(extLink){
     });
 };
 
+exports.hasAPI - false;
+exports.parsePrice = function(extLink, page) {
+    return new Promise(function(resolve, reject){
+        var $=cheerio.load(page);
+        let minPrice = {
+            val: Number.MAX_VALUE,
+            string: null
+        };
+        $('p.new-price').each(function(i, elem) {
+            let val = parseFloat($(this).text().match(/[-]?[0-9]+([.]?[,]?[0-9]+)?/gi)[0].replace(/,/g, '.'), 10);
+            if (val <= minPrice.val) {
+                minPrice = {
+                    val: val,
+                    string: $(this).text()
+                };
+            }
+        });
+        resolve({
+            priceString: minPrice.string,
+            discString: null
+        });
+    });
+}
+

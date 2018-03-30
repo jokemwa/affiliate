@@ -117,7 +117,7 @@ productsRouter.route('/')
                     product.marketplace = results[i]._id;
                     console.log("Marketplace: ", product.marketplace);
                     
-                    let parser = require(results[i].parser);
+                    let parser = require('../parsers/' + results[i].parser);
 
                     saver.download(req.body.link)
                     .then(page => {
