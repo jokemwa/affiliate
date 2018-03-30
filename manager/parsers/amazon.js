@@ -134,6 +134,7 @@ exports.parsePrice = function (extLink){
             } else {
                 let priceString;
                 if (results[0].OfferSummary[0].LowestNewPrice) {
+                    //console.log(results[0]);
                     priceString = results[0].OfferSummary[0].LowestNewPrice[0].FormattedPrice[0];
                 }
                 let discString;

@@ -1,12 +1,12 @@
 var saver = require('../../manager/routes/misc/saver');
 
-let link = 'https://www.gearbest.com/tablet-pcs/pp_719209.html?utm_source=aw&affi_id=460206&awc=6607_1522404823_a8b0f276515927f808cb9dba92634ddf';
+let link = 'https://www.amazon.com/Microsoft-Surface-Precision-Mouse-Light/dp/B076KRHJ7B?SubscriptionId=AKIAJ4UAIYQ6B6R7FGZA&tag=electroni0310-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B076KRHJ7B';
 
 
 saver.download(link)
 .then(page => {
     console.log(page);
-    const parser = require('../../manager/parsers/gearbest');
+    const parser = require('../../manager/parsers/amazon');
     parser.parsePrice(link, page)
     .then(result => {
         console.log(result);
