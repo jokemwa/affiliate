@@ -111,9 +111,13 @@ exports.hasAPI - false;
 exports.parsePrice = function(extLink, page) {
     return new Promise(function(resolve, reject){
         var $=cheerio.load(page);
+        let priceString = $('b.my_shop_price').attr('data-orgp');
+        if (!priceString) priceString = $('span.new_shop_price').attr('data-orgp');
+        let discString = $('b.my_shop_price').attr('data-shopprice');
+        if (!discString) discString = $('span.new_shop_price').attr('data-shopprice');
         resolve({
-            priceString: $('b.my_shop_price').attr('data-orgp') +'$',
-            discString: $('b.my_shop_price').attr('data-shopprice') +'$'
+            priceString: priceString +'$',
+            discString: discString +'$'
         });
     });
 }

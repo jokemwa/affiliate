@@ -1,12 +1,12 @@
 var saver = require('../../manager/routes/misc/saver');
 
-let link = 'https://www.iwantoneofthose.com/gift-travel/light-up-globe/11716058.html?widget_id=932419';
+let link = 'https://www.gearbest.com/tablet-pcs/pp_719209.html?utm_source=aw&affi_id=460206&awc=6607_1522404823_a8b0f276515927f808cb9dba92634ddf';
 
 
 saver.download(link)
 .then(page => {
-    //console.log(page);
-    const parser = require('../../manager/parsers/iwoot');
+    console.log(page);
+    const parser = require('../../manager/parsers/gearbest');
     parser.parsePrice(link, page)
     .then(result => {
         console.log(result);
