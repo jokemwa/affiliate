@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 
 var Products = require('../models/products');
+var Marketplaces = require('../models/marketplaces');
 var products = require('./misc/products');
 
 var Verify = require('./verify');
@@ -83,6 +84,7 @@ productsRouter.route('/:promoLink')
     console.log(req.params.promoLink);
     Products.findOne({'promoLink': req.params.promoLink})
     .populate('badges')
+    .populate('marketplace')
     .lean()
     .exec(function (err, result) {
         if (err) {

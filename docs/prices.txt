@@ -1,0 +1,7 @@
+Add additional functionality to my web service written with MEAN stack:
+1. Add the displaying of prices of the goods in each position 
+2. Prices must be displayed for all 12 shops 
+3. Prices must show live-time values
++ 4. Prices must be displayed at national currency
+5. Prices must be displayed with effective price and current discount for customer if it's presented.
+6. aliExpress link generator

@@ -2,6 +2,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 
 var Shops = require('../models/shops');
+var Marketplaces = require('../models/marketplaces');
+
 var Verify = require('./verify');
 
 var products = require('./misc/products');
@@ -16,6 +18,10 @@ shopsRouter.route('/:id')
         .populate({
             path:     'items.product',			
             populate: { path:  'badges'}
+        })
+        .populate({
+            path:     'items.product',			
+            populate: { path:  'marketplace'}
         })
         .lean()
         .exec(function (err, result) {

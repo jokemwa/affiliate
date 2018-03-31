@@ -7,6 +7,8 @@ var Categories = require('../models/categories');
 var Brands = require('../models/brands');
 var Tags = require('../models/tags');
 var Shops = require('../models/shops');
+var Marketplaces = require('../models/marketplaces');
+
 
 var products = require('./misc/products');
 var tags = require('./misc/tags');
@@ -31,6 +33,10 @@ similarRouter.route('/:id')
                     path:     'items.product',			
                     populate: { path:  'badges'}
                   })
+                .populate({
+                    path:     'items.product',			
+                    populate: { path:  'marketplace'}
+                })
                 .lean()
                 .exec((err, category) => {
                     if(err){

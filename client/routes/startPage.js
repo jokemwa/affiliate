@@ -5,6 +5,7 @@ var StartPageCategoriesLists = require('../models/startPage/startPageCategoriesL
 var StartPageCategories = require('../models/startPage/startPageCategories');
 var StartPageTops = require('../models/startPage/startPageTops');
 var Badges = require('../models/badges');
+var Marketplaces = require('../models/marketplaces');
 var StartPageMarketingMessages = require('../models/startPage/startPageMarketingMessages');
 
 var products = require('./misc/products');
@@ -26,13 +27,19 @@ startPageRouter.route('/categories-list')
                         populate: { path:  'badges' }
                     }
           })
+        .populate({
+            path:     'items.category',			
+            populate: { path:  'items.product',
+                        populate: { path:  'marketplace' }
+                    }
+          })
         .exec(function(err, result){
             if(err){
                 console.log(err);
                 err.status = 500;
                 return next(err);
             }
-            //console.log(result);
+            console.log(result);
             res.json(result);
         });
     });
@@ -47,6 +54,10 @@ startPageRouter.route('/tops')
                 populate: { path:  'badges' } 
               })
             .lean()
+            .populate({
+                path:  'items.product',
+                populate: { path:  'marketplace' }
+              })
             .exec(function(err, result){
                 if(err){
                     console.log(err);

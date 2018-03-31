@@ -29,7 +29,8 @@
                             ">
                         </div>
                         <div class="card-body bg-light">
-                                <app-product-price [id]="item.product._id"></app-product-price>
+                                <small>{{item.product.marketplace.name}}</small>
+                                <app-product-price [product]="item.product"></app-product-price>
                                 <p class="card-text" dir="rtl"
                                 (click)="onClickProduct(item.product.promoLink, item.product._id)"
                                 style="

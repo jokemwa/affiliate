@@ -10,7 +10,7 @@ import { TranslationService } from '../../../services/translation.service';
 })
 export class ProductPriceComponent implements OnInit {
 
-    @Input() id: any;
+    @Input() product: any;
 
     translation: any;
     price: any;
@@ -24,7 +24,7 @@ export class ProductPriceComponent implements OnInit {
 
     ngOnInit () {
       this.translation = this.translationService.translation;
-      this.restService.getPrice(this.id)
+      this.restService.getPrice(this.product._id)
       .subscribe(
         response => {
           if (!response) {
