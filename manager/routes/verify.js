@@ -1,6 +1,6 @@
 var User = require('../models/user');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
-var config = require('../_secrets');
+var config = require('../../_secrets');
 
 exports.getToken = function (user) {
     return jwt.sign(user, config.secretKey, {
