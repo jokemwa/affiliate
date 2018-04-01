@@ -42,10 +42,9 @@ var getRate = function(curr) {
                 }
                 try {
                     let rate = convert.xml2js(data);
-
-                    if (rate.elements[0].elements[0].elements[0].text) {
-                        actualRate.updated = new Date(rate.elements[0].elements[0].elements[0].text);
-                    } else reject('Unrecognized bank response.');
+                    let now = new Date();
+                    now.setHours(0,0,0,0);
+                    actualRate.updated = now;
 
                     if (rate.elements[0].elements[1].elements[4].elements[0].text) {
                         actualRate.value = parseFloat(rate.elements[0].elements[1].elements[4].elements[0].text, 10);
@@ -73,6 +72,8 @@ exchangeRouter.route('/:curr')
             let now = new Date();
             now.setHours(0,0,0,0);
             now.setDate(now.getDate() - 1);
+            console.log(ACTUAL_RATES[curr].updated);
+            console.log(now);
             if (!ACTUAL_RATES[curr].updated || now > ACTUAL_RATES[curr].updated) {
                 console.log('Got from server');
                 getRate(curr)

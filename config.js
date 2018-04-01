@@ -6,5 +6,6 @@ module.exports = {
     'portManager': 4201,
     'portClient': 4202,
     'portPriceChecker': 4203,
-    'portExchangeRate': 4204
+    'portExchangeRate': 4204,
+    'portAliLinkGen': 4205
 }
