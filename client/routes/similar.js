@@ -91,6 +91,10 @@ similarRouter.route('/:id')
                     path:     'items.product',			
                     populate: { path:  'badges'}
                   })
+                .populate({
+                    path:     'items.product',			
+                    populate: { path:  'marketplace'}
+                })
                 .lean()
                 .exec((err, shop) => {
                     if(err){
@@ -145,6 +149,10 @@ similarRouter.route('/:id')
                     path:     'items.product',			
                     populate: { path:  'badges'}
                   })
+                .populate({
+                    path:     'items.product',			
+                    populate: { path:  'marketplace'}
+                })
                 .lean()
                 .exec((err, brand) => {
                     if(err){

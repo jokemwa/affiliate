@@ -1,4 +1,5 @@
 var Tags = require ('../../models/tags');
+var Marketplaces = require('../models/marketplaces');
 
 var products = require('./products');
 
@@ -10,6 +11,10 @@ exports.getTagProducts = function (tag_id) {
             path:     'items.product',			
             populate: { path:  'badges'}
           })
+        .populate({
+            path:     'items.product',			
+            populate: { path:  'marketplace'}
+        })
         .lean()
         .exec(function (err, result) {
             if(err){
