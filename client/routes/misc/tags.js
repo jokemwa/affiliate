@@ -1,5 +1,5 @@
 var Tags = require ('../../models/tags');
-var Marketplaces = require('../models/marketplaces');
+var Marketplaces = require('../../models/marketplaces');
 
 var products = require('./products');
 
