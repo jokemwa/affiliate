@@ -76,6 +76,8 @@
                 ">
             </div>
             <div class="card-body border border-secondary rounded-bottom bg-light">
+                    <small>{{item.product.marketplace.name}}</small>
+                    <app-product-price [product]="item.product"></app-product-price>
                     <h5 class="card-text" dir="rtl"
                     (click)="onClickProduct(item.product.promoLink)"
                     style="

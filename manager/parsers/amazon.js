@@ -3,7 +3,7 @@ var amazon = require('amazon-product-api');
 
 var saver = require('../routes/misc/saver');
 
-var secrets = require('../_secrets');
+var secrets = require('../../_secrets');
 
 function cutProductId(extLink) {
     let product_id = '';

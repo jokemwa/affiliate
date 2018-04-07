@@ -1,5 +1,5 @@
 // 365games parser
-var secrets = require('../_secrets');
+var secrets = require('../../_secrets');
 
 var cheerio = require('cheerio');
 
