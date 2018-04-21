@@ -82,6 +82,9 @@ exchangeRouter.route('/:curr')
                     let result = ACTUAL_RATES[curr];
                     console.log(result);
                     res.json(result);
+                })
+                .catch (err => {
+                    return next(err);
                 });
             } else {
                 console.log('Got from cache');
