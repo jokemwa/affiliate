@@ -36,7 +36,7 @@ var getRate = function(curr) {
         };
         if (!currCodes.hasOwnProperty(curr)) reject('Currency code not supported.')
         else {
-            request.get(bank + currCodes[curr], {maxRedirects: 20, followAllRedirects: true}, (err, resp, data) => {
+            request.get(bank + currCodes[curr], {maxRedirects: 7, followAllRedirects: true}, (err, resp, data) => {
                 if (err) {
                     console.log(err);
                     reject('Request to bank failed.');
