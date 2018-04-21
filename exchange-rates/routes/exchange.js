@@ -36,24 +36,25 @@ var getRate = function(curr) {
         };
         if (!currCodes.hasOwnProperty(curr)) reject('Currency code not supported.')
         else {
-            request.get(bank + currCodes[curr], {maxRedirects: 99, followAllRedirects: true}, (err, resp, data) => {
+            request.get(bank + currCodes[curr], {maxRedirects: 5, followAllRedirects: true}, (err, resp, data) => {
                 if (err) {
+                    console.log(err);
                     reject('Request to bank failed.');
-                }
-                try {
-                    let rate = convert.xml2js(data);
-                    let now = new Date();
-                    now.setHours(0,0,0,0);
-                    actualRate.updated = now;
-
-                    if (rate.elements[0].elements[1].elements[4].elements[0].text) {
-                        actualRate.value = parseFloat(rate.elements[0].elements[1].elements[4].elements[0].text, 10);
-                    } else reject('Unrecognized bank response.');
-
-                    resolve(actualRate);
-
-                } catch (err) {
-                    reject('Unrecognized bank response.');
+                } else {
+                    try {
+                        let rate = convert.xml2js(data);
+                        let now = new Date();
+                        now.setHours(0,0,0,0);
+                        actualRate.updated = now;
+    
+                        if (rate.elements[0].elements[1].elements[4].elements[0].text) {
+                            actualRate.value = parseFloat(rate.elements[0].elements[1].elements[4].elements[0].text, 10);
+                        } else reject('Unrecognized bank response.');
+    
+                        resolve(actualRate);
+                    } catch (err) {
+                        reject('Unrecognized bank response.');
+                    }
                 }
             });
         }
@@ -75,17 +76,20 @@ exchangeRouter.route('/:curr')
             console.log(ACTUAL_RATES[curr].updated);
             console.log(now);
             if (!ACTUAL_RATES[curr].updated || now > ACTUAL_RATES[curr].updated) {
-                console.log('Got from server');
                 getRate(curr)
-                .then((rate) => {
+                .then(
+                    rate => {
                     ACTUAL_RATES[curr] = rate;
                     let result = ACTUAL_RATES[curr];
+                    console.log('Got from server');
                     console.log(result);
                     res.json(result);
-                })
-                .catch (err => {
+                    },
+                    err => {
+                    console.log('Server error');
                     return next(err);
-                });
+                    }
+                )
             } else {
                 console.log('Got from cache');
                 let result = ACTUAL_RATES[curr];
